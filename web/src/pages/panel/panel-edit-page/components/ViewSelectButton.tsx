@@ -22,7 +22,7 @@ export const ViewSelectButton: React.FC<ViewSelectButtonProps> = ({
       <button
         className={cn(
           'rounded-full border p-4',
-          selectedView === value && 'border-none bg-blue-500 text-zinc-50',
+          selectedView === value && 'bg-blue-500 text-zinc-50',
         )}
         onClick={() =>
           setSelectedView((prevState) => {
