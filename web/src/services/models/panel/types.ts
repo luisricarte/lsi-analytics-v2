@@ -22,6 +22,11 @@ export type ViewType =
   | 'PIECHART'
   | 'BARCHART'
   | 'LINECHART'
+  | 'DONUTCHART'
+  | 'HORIZONTALBARCHART'
+  | 'CASCATECHART'
+  | 'KPICHART'
+  | 'MAPCHART' 
   | 'NUMBERVIEW'
   | 'SELECTFILTER';
 

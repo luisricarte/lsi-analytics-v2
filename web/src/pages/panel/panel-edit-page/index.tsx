@@ -190,40 +190,6 @@ export const PanelEditPage: React.FC = () => {
     }
   };
 
-  /* const getViewData = (v: { queryResult: SQLResult; view: ViewModel }) => {
-    switch (v.view.type) {
-      case PANEL.VIEW.BARCHART:
-      case PANEL.VIEW.PIECHART:
-      case PANEL.VIEW.LINECHART:
-        return EchartAdapter.queryToData({
-          queryResult: v.queryResult,
-          type: v.view.type,
-          core: v.view.core as GraphTypeCore,
-        });
-
-      case PANEL.VIEW.NUMBERVIEW: {
-        const core = v.view.core as NumberView;
-        const number = getNumberViewValue({
-          queryData: v.queryResult,
-          category: core.labelColumn,
-        });
-        const numData: NumberViewPresentation = {
-          formattedValue: numberViewFormattedValue({
-            number,
-            numberOfDecimalPlaces: core.numberOfDecimalPlaces,
-            isPercentage: core.isPercentage,
-          }),
-          subTitle: core.subTitle,
-        };
-
-        return numData;
-      }
-
-      default:
-        return null;
-    }
-  }; */
-
   const render = () => {
     if (data && hasFilledLayoutWithResponse) {
       return (

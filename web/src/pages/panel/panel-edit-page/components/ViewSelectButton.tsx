@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { PANEL } from '@/services/models/panel/constants';
 import { ViewType } from '@/services/models/panel/types';
@@ -7,7 +7,7 @@ import { cn } from '@/utils';
 import { usePanelEditContext } from '../../hooks/usePanelEditContext';
 
 interface ViewSelectButtonProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode | ReactElement<HTMLElement>;
   value: ViewType;
 }
 

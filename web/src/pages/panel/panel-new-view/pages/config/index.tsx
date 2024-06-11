@@ -120,7 +120,7 @@ export const PanelNewViewConfig: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value={PANEL.VIEW.PIECHART}>
-                        Gráfico de torta
+                        Gráfico de Pizza
                       </SelectItem>
                       <SelectItem value={PANEL.VIEW.BARCHART}>
                         Gráfico de barra

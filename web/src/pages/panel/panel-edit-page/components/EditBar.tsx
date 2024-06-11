@@ -5,6 +5,10 @@ import {
   List,
   PieChart,
   Plus,
+  LifeBuoy,
+  BarChartHorizontal,
+  Map,
+  BarChart,
 } from 'lucide-react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -91,7 +95,7 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
             <AccordionItem value="item-1">
               <AccordionTrigger>Gráficos</AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-4 flex-wrap gap-4 px-4">
+                <div className="grid grid-cols-2 flex-wrap gap-4 px-4">
                   <ViewSelectButton value={PANEL.VIEW.PIECHART}>
                     <PieChart />
                   </ViewSelectButton>
@@ -102,6 +106,26 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
 
                   <ViewSelectButton value={PANEL.VIEW.LINECHART}>
                     <LineChart />
+                  </ViewSelectButton>
+
+                  <ViewSelectButton value={PANEL.VIEW.DONUTCHART}>
+                    <LifeBuoy />
+                  </ViewSelectButton>
+
+                  <ViewSelectButton value={PANEL.VIEW.HORIZONTALBARCHART}>
+                    <BarChartHorizontal />
+                  </ViewSelectButton>
+
+                  <ViewSelectButton value={PANEL.VIEW.KPICHART}>
+                    <span>KPI</span>
+                  </ViewSelectButton>
+
+                  <ViewSelectButton value={PANEL.VIEW.CASCATECHART}>
+                    <BarChart className='rotate-180' />
+                  </ViewSelectButton>
+
+                  <ViewSelectButton value={PANEL.VIEW.MAPCHART}>
+                    <Map />
                   </ViewSelectButton>
                 </div>
               </AccordionContent>
