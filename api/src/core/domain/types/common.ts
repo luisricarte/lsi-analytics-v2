@@ -18,8 +18,11 @@ export type ViewType =
   | 'BARCHART'
   | 'LINECHART'
   | 'NUMBERVIEW'
-  | 'SELECTFILTER';
-// AJUSTE - EVOLUIR AS VIEWS TYPES;
+  | 'SELECTFILTER'
+  | 'DONUTCHART'
+  | 'HORIZONTALBARCHART'
+  | 'CASCATECHART'
+  | 'KPICHART';
 
 export type ViewContentUpdate = 'STATIC' | 'DYNAMIC';
 // AJUSTE - provavelmente será removido a parte do dynamic

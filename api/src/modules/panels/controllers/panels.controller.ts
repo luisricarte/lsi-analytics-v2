@@ -36,6 +36,10 @@ import { CoreViewsMapper } from '../../views/mappers/core-views.mapper';
 import { ApplyFilterError } from '../errors/apply-filter.error';
 import { ViewsRepository } from 'src/modules/views/repositories/abstract/views.repository';
 import { FilterNotFoundError } from '../errors/filter-not-found.error';
+import { CreateKPIChartDto } from '../dtos/create-kpi-chart.dto';
+import { CreateCascateChartDto } from '../dtos/create-cascate-chart.dto';
+import { CreateHorizontalBarChartDto } from '../dtos/create-horizontal-bar-chart.dto';
+import { CreateDonutChartDto } from '../dtos/create-donut-chart.dto';
 
 @Controller('/panels')
 export class PanelsController {
@@ -218,6 +222,78 @@ export class PanelsController {
                   panelId: param.id,
                   datafontId,
                   selectFilter: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'DONUTCHART': {
+              const _core = core as CreateDonutChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  donutChart: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'HORIZONTALBARCHART': {
+              const _core = core as CreateHorizontalBarChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  horizontalBarChar: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'CASCATECHART': {
+              const _core = core as CreateCascateChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  cascateChart: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'KPICHART': {
+              const _core = core as CreateKPIChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  kpiChart: {
                     create: _core,
                   },
                 },
