@@ -69,6 +69,10 @@ enum ViewType {
   PIECHART
   BARCHART
   LINECHART
+  DONUTCHART
+  HORIZONTALBARCHART
+  CASCATECHART
+  KPICHART
   NUMBERVIEW
   SELECTFILTER
 }
@@ -87,6 +91,10 @@ model View {
   pieChart PieChart?
   barChart BarChart?
   lineChart LineChart?
+  donutChart DonutChart?
+  cascateChart CascateChart?
+  kpiChart KPIChart?
+  horizontalBarChar HorizontalBarChart?
   numberView NumberView?
   selectFilter SelectFilter?
   panel Panel @relation(fields: [panelId], references: [id], onDelete: Cascade)
@@ -184,4 +192,48 @@ model FavoriteQuery {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("FAVORITE_QUERIES")
+}
+
+model DonutChart {
+  id String @default(nanoid()) @id
+  labelColumn String
+  valueColumns String[]
+  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("DONUT_CHART")
+}
+
+model HorizontalBarChart {
+  id String @default(nanoid()) @id
+  labelColumn String
+  valueColumns String[]
+  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("HORIZONTAL_BAR_CHART")
+}
+
+model CascateChart {
+  id String @default(nanoid()) @id
+  labelColumn String
+  valueColumns String[]
+  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("CASCATE_CHART")
+}
+
+model KPIChart {
+  id String @default(nanoid()) @id
+  labelColumn String
+  valueColumns String[]
+  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("KPI_CHART")
 }
