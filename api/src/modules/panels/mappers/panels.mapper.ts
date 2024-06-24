@@ -6,6 +6,10 @@ import {
   PieChart as PrismaPieChart,
   SelectFilter as PrismaSelectFilter,
   View as PrismaView,
+  DonutChart as PrismaDonutChart,
+  HorizontalBarChart as PrismaHorizontalBarChart,
+  CascateChart as PrismaCascateChart,
+  KPIChart as PrismaKPIChart,
 } from '@prisma/client';
 import { Panel } from '../entities/panel.entity';
 
@@ -20,6 +24,10 @@ export class PanelsMapper {
         lineChart?: PrismaLineChart | null;
         numberView?: PrismaNumberView | null;
         selectFilter?: PrismaSelectFilter | null;
+        donutChart?: PrismaDonutChart | null;
+        horizontalBarChart?: PrismaHorizontalBarChart | null;
+        cascateChart?: PrismaCascateChart | null;
+        kpiChart?: PrismaKPIChart | null;
       })[];
     },
   ) {

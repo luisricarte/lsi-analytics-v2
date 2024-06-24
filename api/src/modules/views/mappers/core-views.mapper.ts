@@ -5,13 +5,21 @@ import {
   PieChart as PrismaPieChart,
   SelectFilter as PrismaSelectFilter,
   View as PrismaView,
+  DonutChart as PrismaDonutChart,
+  HorizontalBarChart as PrismaHorizontalBarChart,
+  CascateChart as PrismaCascateChart,
+  KPIChart as PrismaKPIChart,
 } from '@prisma/client';
 import { BarChart } from '../entities/bar-chart.entity';
 import { LineChart } from '../entities/line-chart.entity';
 import { NumberView } from '../entities/number-view.entity';
 import { PieChart } from '../entities/pie-chart.entity';
 import { SelectFilter } from '../entities/select-filter';
+import { DonutChart } from '../entities/donut-chart.entity';
+import { CascateChart } from '../entities/cascate-chart.entity';
+import { KPIChart } from '../entities/kpi-chart.entity';
 import { View } from '../entities/view.entity';
+import { HorizontalBarChart } from './../entities/horizontal-bar-chart.entity';
 import { ItWasNotPossibleToCreateViewInstanceError } from '../../panels/errors/it-was-not-possible-to-create-view-instance.error';
 
 export type FullRelationView = PrismaView & {
@@ -20,6 +28,10 @@ export type FullRelationView = PrismaView & {
   lineChart?: PrismaLineChart | null;
   numberView?: PrismaNumberView | null;
   selectFilter?: PrismaSelectFilter | null;
+  donutChart?: PrismaDonutChart | null;
+  horizontalBarChart?: PrismaHorizontalBarChart | null;
+  cascateChart?: PrismaCascateChart | null;
+  kpiChart?: PrismaKPIChart | null;
 };
 
 export class CoreViewsMapper {
@@ -188,6 +200,62 @@ export class CoreViewsMapper {
       }
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();
+
+      case 'DONUTCHART':
+        if (!view.donutChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const donutCore = view.donutChart;
+        return new DonutChart({
+          id: donutCore.id,
+          labelColumn: donutCore.labelColumn,
+          valueColumn: donutCore.valueColumn,
+          viewId: donutCore.viewId,
+          createdAt: donutCore.createdAt,
+          updatedAt: donutCore.updatedAt,
+        });
+
+      case 'HORIZONTALBARCHART':
+        if (!view.horizontalBarChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const horizontalBarCore = view.horizontalBarChart;
+        return new HorizontalBarChart({
+          id: horizontalBarCore.id,
+          labelColumn: horizontalBarCore.labelColumn,
+          valueColumns: horizontalBarCore.valueColumns,
+          viewId: horizontalBarCore.viewId,
+          createdAt: horizontalBarCore.createdAt,
+          updatedAt: horizontalBarCore.updatedAt,
+        });
+
+      case 'KPICHART':
+        if (!view.kpiChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const kpiCore = view.kpiChart;
+        return new KPIChart({
+          id: kpiCore.id,
+          labelColumn: kpiCore.labelColumn,
+          valueColumns: kpiCore.valueColumns,
+          viewId: kpiCore.viewId,
+          createdAt: kpiCore.createdAt,
+          updatedAt: kpiCore.updatedAt,
+        });
+
+      case 'CASCATECHART':
+        if (!view.cascateChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const cascateCore = view.cascateChart;
+        return new CascateChart({
+          id: cascateCore.id,
+          labelColumn: cascateCore.labelColumn,
+          valueColumns: cascateCore.valueColumns,
+          viewId: cascateCore.viewId,
+          createdAt: cascateCore.createdAt,
+          updatedAt: cascateCore.updatedAt,
+        });
     }
   }
 }

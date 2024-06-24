@@ -5,12 +5,26 @@ import { LineChart } from './line-chart.entity';
 import { NumberView } from './number-view.entity';
 import { PieChart } from './pie-chart.entity';
 import { SelectFilter } from './select-filter';
+import { DonutChart } from './donut-chart.entity';
+import { CascateChart } from './cascate-chart.entity';
+import { HorizontalBarChart } from './horizontal-bar-chart.entity';
+import { KPIChart } from './kpi-chart.entity';
 
 export interface ViewProps {
   type: ViewType;
   contentUpdate: ViewContentUpdate;
   sql?: string | null;
-  core?: PieChart | BarChart | LineChart | NumberView | SelectFilter | null;
+  core?:
+    | PieChart
+    | BarChart
+    | LineChart
+    | NumberView
+    | SelectFilter
+    | DonutChart
+    | CascateChart
+    | HorizontalBarChart
+    | KPIChart
+    | null;
   datafontId: string;
   panelId: string;
   name: string;

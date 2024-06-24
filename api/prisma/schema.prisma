@@ -11,32 +11,34 @@ datasource db {
 }
 
 model User {
-  id String @default(nanoid()) @id
-  name String
-  email String @unique
-  password String
-  birthDay DateTime
-  imageURL String?
-  panels Panel[]
-  dataFonts DataFont[]
-  feedbacks Feedback[]
+  id              String          @id @default(nanoid())
+  name            String
+  email           String          @unique
+  password        String
+  birthDay        DateTime
+  imageURL        String?
+  panels          Panel[]
+  dataFonts       DataFont[]
+  feedbacks       Feedback[]
   favoriteQueries FavoriteQuery[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
   @@map("USERS")
 }
 
 model Panel {
-  id String @default(nanoid()) @id
-  name String
+  id          String   @id @default(nanoid())
+  name        String
   description String?
-  imageURL String?
-  layout Json?
-  user   User @relation(fields: [userId], references: [id])
-  userId String
-  views View[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  imageURL    String?
+  layout      Json?
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  views       View[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@map("PANELS")
 }
 
@@ -51,17 +53,18 @@ enum DataProvider {
 }
 
 model DataFont {
-  id String @default(nanoid()) @id
-  name String
-  typeOfStorage TypeOfStorage
-  provider DataProvider
-  accessKey String?
-  user   User @relation(fields: [userId], references: [id])
-  userId String
-  views View[]
+  id              String          @id @default(nanoid())
+  name            String
+  typeOfStorage   TypeOfStorage
+  provider        DataProvider
+  accessKey       String?
+  user            User            @relation(fields: [userId], references: [id])
+  userId          String
+  views           View[]
   favoriteQueries FavoriteQuery[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
   @@map("DATAFONTS")
 }
 
@@ -83,83 +86,89 @@ enum ViewContentUpdate {
 }
 
 model View {
-  id String @default(nanoid()) @id
-  name String
-  type ViewType
-  contentUpdate ViewContentUpdate
-  sql String?
-  pieChart PieChart?
-  barChart BarChart?
-  lineChart LineChart?
-  donutChart DonutChart?
-  cascateChart CascateChart?
-  kpiChart KPIChart?
+  id                String              @id @default(nanoid())
+  name              String
+  type              ViewType
+  contentUpdate     ViewContentUpdate
+  sql               String?
+  pieChart          PieChart?
+  barChart          BarChart?
+  lineChart         LineChart?
+  donutChart        DonutChart?
+  cascateChart      CascateChart?
+  kpiChart          KPIChart?
   horizontalBarChar HorizontalBarChart?
-  numberView NumberView?
-  selectFilter SelectFilter?
-  panel Panel @relation(fields: [panelId], references: [id], onDelete: Cascade)
-  panelId String
-  datafont DataFont @relation(fields: [datafontId], references: [id])
-  datafontId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  numberView        NumberView?
+  selectFilter      SelectFilter?
+  panel             Panel               @relation(fields: [panelId], references: [id], onDelete: Cascade)
+  panelId           String
+  datafont          DataFont            @relation(fields: [datafontId], references: [id])
+  datafontId        String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
   @@map("VIEWS")
 }
 
 model PieChart {
-  id String @default(nanoid()) @id
+  id          String   @id @default(nanoid())
   labelColumn String
   valueColumn String
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view        View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@map("PIE_CHART")
 }
 
 model BarChart {
-  id String @default(nanoid()) @id
-  labelColumn String
+  id           String   @id @default(nanoid())
+  labelColumn  String
   valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   @@map("BAR_CHART")
 }
 
 model LineChart {
-  id String @default(nanoid()) @id
-  labelColumn String
+  id           String   @id @default(nanoid())
+  labelColumn  String
   valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   @@map("LINE_CHART")
 }
 
 model NumberView {
-  id String @default(nanoid()) @id
-  labelColumn String
-  subTitle String?
-  isPercentage Boolean
+  id                    String   @id @default(nanoid())
+  labelColumn           String
+  subTitle              String?
+  isPercentage          Boolean
   numberOfDecimalPlaces Int?
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view                  View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId                String   @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
   @@map("NUMBER_VIEW")
 }
 
 model SelectFilter {
-  id String @default(nanoid()) @id
+  id          String   @id @default(nanoid())
   labelColumn String
   filterViews String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view        View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@map("SELECT_FILTER")
 }
 
@@ -170,70 +179,76 @@ enum FeedbackType {
 }
 
 model Feedback {
-  id String @default(nanoid()) @id
-  text String
-  type FeedbackType
-  imageURL String?
-  user   User @relation(fields: [userId], references: [id])
-  userId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String       @id @default(nanoid())
+  text      String
+  type      FeedbackType
+  imageURL  String?
+  user      User         @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
   @@map("FEEDBACKS")
 }
 
 model FavoriteQuery {
-  id String @default(nanoid()) @id
-  sql String
-  name String
-  datafont DataFont @relation(fields: [datafontId], references: [id])
+  id         String   @id @default(nanoid())
+  sql        String
+  name       String
+  datafont   DataFont @relation(fields: [datafontId], references: [id])
   datafontId String
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
   @@map("FAVORITE_QUERIES")
 }
 
 model DonutChart {
-  id String @default(nanoid()) @id
+  id          String   @id @default(nanoid())
   labelColumn String
-  valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  valueColumn String
+  view        View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   @@map("DONUT_CHART")
 }
 
 model HorizontalBarChart {
-  id String @default(nanoid()) @id
-  labelColumn String
+  id           String   @id @default(nanoid())
+  labelColumn  String
   valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   @@map("HORIZONTAL_BAR_CHART")
 }
 
 model CascateChart {
-  id String @default(nanoid()) @id
-  labelColumn String
+  id           String   @id @default(nanoid())
+  labelColumn  String
   valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   @@map("CASCATE_CHART")
 }
 
 model KPIChart {
-  id String @default(nanoid()) @id
-  labelColumn String
+  id           String   @id @default(nanoid())
+  labelColumn  String
   valueColumns String[]
-  view View @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   @@map("KPI_CHART")
 }
