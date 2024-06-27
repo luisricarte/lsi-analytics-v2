@@ -130,6 +130,46 @@ export class CoreViewsMapper {
           createdAt: selectFilterCore.createdAt,
           updatedAt: selectFilterCore.updatedAt,
         };
+      case 'DONUTCHART':
+        const donutCore = view.props.core as DonutChart;
+        return new DonutChart({
+          id: donutCore.id,
+          labelColumn: donutCore.props.labelColumn,
+          valueColumn: donutCore.props.valueColumn,
+          viewId: donutCore.props.viewId,
+          createdAt: donutCore.createdAt,
+          updatedAt: donutCore.updatedAt,
+        });
+      case 'HORIZONTALBARCHART':
+        const horizontalBarCore = view.props.core as HorizontalBarChart;
+        return new HorizontalBarChart({
+          id: horizontalBarCore.id,
+          labelColumn: horizontalBarCore.props.labelColumn,
+          valueColumns: horizontalBarCore.props.valueColumns,
+          viewId: horizontalBarCore.props.viewId,
+          createdAt: horizontalBarCore.createdAt,
+          updatedAt: horizontalBarCore.updatedAt,
+        });
+      case 'KPICHART':
+        const kpiCore = view.props.core as KPIChart;
+        return new KPIChart({
+          id: kpiCore.id,
+          labelColumn: kpiCore.props.labelColumn,
+          valueColumns: kpiCore.props.valueColumns,
+          viewId: kpiCore.props.viewId,
+          createdAt: kpiCore.createdAt,
+          updatedAt: kpiCore.updatedAt,
+        });
+      case 'CASCATECHART':
+        const cascateCore = view.props.core as CascateChart;
+        return new CascateChart({
+          id: cascateCore.id,
+          labelColumn: cascateCore.props.labelColumn,
+          valueColumns: cascateCore.props.valueColumns,
+          viewId: cascateCore.props.viewId,
+          createdAt: cascateCore.createdAt,
+          updatedAt: cascateCore.updatedAt,
+        });
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();
     }
@@ -198,9 +238,6 @@ export class CoreViewsMapper {
         const selectFilterCore = view.selectFilter;
         return this.selectFilterToDomain(selectFilterCore);
       }
-      default:
-        throw new ItWasNotPossibleToCreateViewInstanceError();
-
       case 'DONUTCHART':
         if (!view.donutChart) {
           throw new ItWasNotPossibleToCreateViewInstanceError();
@@ -256,6 +293,8 @@ export class CoreViewsMapper {
           createdAt: cascateCore.createdAt,
           updatedAt: cascateCore.updatedAt,
         });
+      default:
+        throw new ItWasNotPossibleToCreateViewInstanceError();
     }
   }
 }
