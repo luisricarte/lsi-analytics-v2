@@ -5,11 +5,13 @@ import { SQLResult } from '@/services/models/datafont/types';
 import { PANEL } from '@/services/models/panel/constants';
 import {
   BarChartProps,
+  DonutChartProps,
   GraphTypeCore,
   LineChartProps,
   PieChartProps,
-  ViewType,
+  ViewType
 } from '@/services/models/panel/types';
+// ADICONAR - NOVAS VISUALIZAÇÕES
 
 export class EchartAdapter {
   public static queryToData({
@@ -24,6 +26,7 @@ export class EchartAdapter {
     };
   }) {
     switch (type) {
+      // ADICIONAR - NOVAS VISUALIZAÇÕES
       case PANEL.VIEW.PIECHART: {
         const _core = core as PieChartProps & { [key: string]: unknown };
         return this.pieChartQueryToData(queryResult, _core);
@@ -36,11 +39,38 @@ export class EchartAdapter {
         const _core = core as LineChartProps & { [key: string]: unknown };
         return this.lineChartQueryToData(queryResult, _core);
       }
+      case PANEL.VIEW.DONUTCHART: {
+        // AJUSTAR
+        const _core = core as DonutChartProps & { [key: string]: unknown };
+        return this.pieChartQueryToData(queryResult, _core);
+      }
+      case PANEL.VIEW.HORIZONTALBARCHART: {
+        // AJUSTAR
+        const _core = core as PieChartProps & { [key: string]: unknown };
+        return this.pieChartQueryToData(queryResult, _core);
+      }
+      case PANEL.VIEW.CASCATECHART: {
+        // AJUSTAR
+        const _core = core as PieChartProps & { [key: string]: unknown };
+        return this.pieChartQueryToData(queryResult, _core);
+      }
+      case PANEL.VIEW.MAPCHART: {
+        // AJUSTAR
+        const _core = core as PieChartProps & { [key: string]: unknown };
+        return this.pieChartQueryToData(queryResult, _core);
+      }
+      case PANEL.VIEW.KPICHART: {
+        // AJUSTAR
+        const _core = core as PieChartProps & { [key: string]: unknown };
+        return this.pieChartQueryToData(queryResult, _core);
+      }
       default:
         return null;
     }
   }
 
+
+ // ADICIONAR - novas funções para encaixar nos gráficos
   private static pieChartQueryToData(
     queryResult: SQLResult,
     core: PieChartProps & { [key: string]: unknown },

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { BarChart3, Binary, Folder, LineChart, PieChart } from 'lucide-react';
+import { BarChart3, Binary, Folder, LineChart, PieChart, LifeBuoy, BarChartHorizontal, Map, BarChart, Ban } from 'lucide-react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -110,6 +110,22 @@ export const EditBar: React.FC = () => {
         if (!ILLEGAL_VIEW_TYPES_TO_APPLY_FILTER.includes(v.type)) {
           let Icon = Folder;
           switch (v.type) {
+            // adicionar - novas visualizações |  icones
+            case PANEL.VIEW.DONUTCHART:
+              Icon = LifeBuoy;
+              break;
+            case PANEL.VIEW.KPICHART:
+              Icon = Ban;
+              break;
+            case PANEL.VIEW.CASCATECHART:
+              Icon = BarChart;
+              break;
+            case PANEL.VIEW.HORIZONTALBARCHART:
+              Icon = BarChartHorizontal;
+              break;
+            case PANEL.VIEW.MAPCHART:
+              Icon = Map;
+              break;
             case PANEL.VIEW.PIECHART:
               Icon = PieChart;
               break;
@@ -139,7 +155,7 @@ export const EditBar: React.FC = () => {
             >
               <div className="flex items-center justify-center gap-4">
                 <div className="rounded border p-4">
-                  <Icon />
+                  {Icon === Ban ? <Icon /> : 'KPI'}
                 </div>
                 <div className="flex flex-col items-start text-left">
                   <span className="text-sm font-semibold">{v.name}</span>

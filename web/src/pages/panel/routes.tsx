@@ -63,6 +63,8 @@ export const PanelRoutes: React.FC = () => (
           path=":id/novo/visualizacao/studio/select"
           element={<PanelViewStudioSelectFilterPage />}
         />
+        {// ADICIONAR - NOVAS ROTAS
+        }
       </Route>
     </Route>
   </Routes>

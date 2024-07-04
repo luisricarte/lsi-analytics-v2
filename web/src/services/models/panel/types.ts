@@ -48,6 +48,39 @@ export type PieChart = {
   updatedAt: Date;
 };
 
+export type DonutChart = {
+  id: string;
+  labelColumn: string;
+  valueColumn: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type HorizontalBarChart = {
+  id: string;
+  labelColumn: string;
+  valueColumns: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type CascateChart = {
+  id: string;
+  labelColumn: string;
+  valueColumns: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type KPIChart = {
+  id: string;
+  labelColumn: string;
+  valueColumns: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+
 export type LineChart = {
   id: string;
   labelColumn: string;
@@ -96,6 +129,26 @@ export type PieChartProps = {
   valueColumn: string;
 };
 
+export type DonutChartProps = {
+  labelColumn: string;
+  valueColumn: string;
+};
+
+export type HorizontalBarChartProps = {
+  labelColumn: string;
+  valueColumns: string[];
+};
+
+export type CascateChartProps = {
+  labelColumn: string;
+  valueColumns: string[];
+};
+
+export type KPIChartProps = {
+  labelColumn: string;
+  valueColumns: string[];
+};
+
 export type BarChartProps = {
   labelColumn: string;
   valueColumns: string[];
@@ -106,9 +159,14 @@ export type CoreType =
   | BarChart
   | LineChart
   | NumberView
-  | SelectFilter;
+  | SelectFilter
+  | HorizontalBarChart
+  | DonutChart
+  | KPIChart
+  | CascateChart;
 
-export type GraphTypeCore = PieChart | BarChart | LineChart;
+
+export type GraphTypeCore = PieChart | BarChart | LineChart | CascateChart | DonutChart | HorizontalBarChart | KPIChart;
 
 export type ViewModel = {
   id: string;
@@ -124,5 +182,13 @@ export type ViewModel = {
 };
 
 export type ViewProps = Omit<ViewModel, 'createdAt' | 'updatedAt' | 'core'> & {
-  core: PieChartProps | BarChartProps | LineChartProps | NumberViewProps;
+  core: 
+    PieChartProps
+  | BarChartProps 
+  | LineChartProps 
+  | NumberViewProps 
+  | HorizontalBarChartProps 
+  | CascateChartProps 
+  | DonutChartProps 
+  | KPIChartProps;
 };

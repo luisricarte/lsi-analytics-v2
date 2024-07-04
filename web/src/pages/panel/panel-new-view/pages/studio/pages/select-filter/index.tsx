@@ -97,20 +97,6 @@ export const PanelViewStudioSelectFilterPage: React.FC = () => {
           </ListBoxOptions>
         </ListBox>
       );
-      /* return (
-        <Select>
-          <SelectTrigger className="w-1/2">
-            <SelectValue placeholder="Categoria" />
-          </SelectTrigger>
-          <SelectContent>
-            {selectData.map((option, index) => (
-              <SelectItem key={`${option}-${index}`} value={option.toString()}>
-                {option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      ); */
     }
 
     if (error || !id) {

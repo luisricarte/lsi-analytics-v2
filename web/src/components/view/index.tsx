@@ -18,6 +18,7 @@ import { SelectFilterView } from './SelectFilterView';
 
 interface ViewProps {
   data:
+   // ADICIONAR - NOVAS VISUALIZAÇÕES private static visualizações
     | EPieChartData[]
     | EBarChartData
     | ELineChartData
@@ -39,6 +40,7 @@ export const View: React.FC<ViewProps> = ({
   let ViewComponent = null;
 
   switch (type) {
+     // ADICIONAR - NOVAS VISUALIZAÇÕES private static visualizações
     case PANEL.VIEW.PIECHART: {
       const _data = data as EPieChartData[];
       ViewComponent = <PieChartView data={_data} />;
@@ -54,6 +56,37 @@ export const View: React.FC<ViewProps> = ({
     case PANEL.VIEW.LINECHART: {
       const _data = data as ELineChartData;
       ViewComponent = <LineChartView data={_data} />;
+      break;
+    }
+
+    case PANEL.VIEW.DONUTCHART: {
+      // AJUSTAR 
+      const _data = data as EPieChartData[];
+      ViewComponent = <PieChartView data={_data} />;
+      break;
+    }
+    case PANEL.VIEW.CASCATECHART: {
+      // AJUSTAR 
+      const _data = data as EPieChartData[];
+      ViewComponent = <PieChartView data={_data} />;
+      break;
+    }
+    case PANEL.VIEW.MAPCHART: {
+      // AJUSTAR 
+      const _data = data as EPieChartData[];
+      ViewComponent = <PieChartView data={_data} />;
+      break;
+    }
+    case PANEL.VIEW.HORIZONTALBARCHART: {
+      // AJUSTAR 
+      const _data = data as EPieChartData[];
+      ViewComponent = <PieChartView data={_data} />;
+      break;
+    }
+    case PANEL.VIEW.KPICHART: {
+      // AJUSTAR 
+      const _data = data as EPieChartData[];
+      ViewComponent = <PieChartView data={_data} />;
       break;
     }
 

@@ -120,13 +120,25 @@ export const PanelNewViewConfig: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value={PANEL.VIEW.PIECHART}>
-                        Gráfico de Pizza
+                        Gráfico de pizza
+                      </SelectItem>
+                      <SelectItem value={PANEL.VIEW.DONUTCHART}>
+                        Gráfico de rosca
                       </SelectItem>
                       <SelectItem value={PANEL.VIEW.BARCHART}>
                         Gráfico de barra
                       </SelectItem>
+                      <SelectItem value={PANEL.VIEW.HORIZONTALBARCHART}>
+                        Gráfico de barra horizontal
+                      </SelectItem>
                       <SelectItem value={PANEL.VIEW.LINECHART}>
                         Gráfico de linha
+                      </SelectItem>
+                      <SelectItem value={PANEL.VIEW.CASCATECHART}>
+                        Gráfico de cascata
+                      </SelectItem>
+                      <SelectItem value={PANEL.VIEW.MAPCHART}>
+                        Gráfico de mapa
                       </SelectItem>
                       <SelectItem value={PANEL.VIEW.NUMBERVIEW}>
                         Visualização de número
