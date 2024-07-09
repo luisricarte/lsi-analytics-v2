@@ -93,7 +93,7 @@ export const DataFontsNewPage: React.FC = () => {
       }
       className="layout-page flex flex-col gap-4"
     >
-      <Card className="w-[768px]">
+      <Card className="w-[1200px]">
         <CardHeader>
           <CardTitle>Nova fonte de dados</CardTitle>
           <CardDescription>Preencha para criar</CardDescription>

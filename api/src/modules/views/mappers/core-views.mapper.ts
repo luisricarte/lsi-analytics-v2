@@ -132,14 +132,14 @@ export class CoreViewsMapper {
         };
       case 'DONUTCHART':
         const donutCore = view.props.core as DonutChart;
-        return new DonutChart({
+        return {
           id: donutCore.id,
           labelColumn: donutCore.props.labelColumn,
           valueColumn: donutCore.props.valueColumn,
           viewId: donutCore.props.viewId,
           createdAt: donutCore.createdAt,
           updatedAt: donutCore.updatedAt,
-        });
+        };
       case 'HORIZONTALBARCHART':
         const horizontalBarCore = view.props.core as HorizontalBarChart;
         return new HorizontalBarChart({

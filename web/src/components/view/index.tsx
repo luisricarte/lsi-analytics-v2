@@ -3,6 +3,7 @@ import { ListFilter } from 'lucide-react';
 import React from 'react';
 
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
+import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { NumberViewPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
@@ -11,6 +12,7 @@ import { PANEL } from '@/services/models/panel/constants';
 import { ViewType } from '@/services/models/panel/types';
 
 import { BarChartView } from './BarChartView';
+import { DonutChartView } from './DonutChartView';
 import { LineChartView } from './LineChartView';
 import { NumberView } from './NumberView';
 import { PieChartView } from './PieChartView';
@@ -22,6 +24,7 @@ interface ViewProps {
     | EPieChartData[]
     | EBarChartData
     | ELineChartData
+    | EDonutChartData[]
     | NumberViewPresentation
     | SelectFilterPresentation;
   type: ViewType;
@@ -60,35 +63,34 @@ export const View: React.FC<ViewProps> = ({
     }
 
     case PANEL.VIEW.DONUTCHART: {
-      // AJUSTAR 
-      const _data = data as EPieChartData[];
-      ViewComponent = <PieChartView data={_data} />;
+      const _data = data as EDonutChartData[];
+      ViewComponent = <DonutChartView data={_data} />;
       break;
     }
-    case PANEL.VIEW.CASCATECHART: {
-      // AJUSTAR 
-      const _data = data as EPieChartData[];
-      ViewComponent = <PieChartView data={_data} />;
-      break;
-    }
-    case PANEL.VIEW.MAPCHART: {
-      // AJUSTAR 
-      const _data = data as EPieChartData[];
-      ViewComponent = <PieChartView data={_data} />;
-      break;
-    }
-    case PANEL.VIEW.HORIZONTALBARCHART: {
-      // AJUSTAR 
-      const _data = data as EPieChartData[];
-      ViewComponent = <PieChartView data={_data} />;
-      break;
-    }
-    case PANEL.VIEW.KPICHART: {
-      // AJUSTAR 
-      const _data = data as EPieChartData[];
-      ViewComponent = <PieChartView data={_data} />;
-      break;
-    }
+    // case PANEL.VIEW.CASCATECHART: {
+    //   // AJUSTAR 
+    //   const _data = data as EPieChartData[];
+    //   ViewComponent = <PieChartView data={_data} />;
+    //   break;
+    // }
+    // case PANEL.VIEW.MAPCHART: {
+    //   // AJUSTAR 
+    //   const _data = data as EPieChartData[];
+    //   ViewComponent = <PieChartView data={_data} />;
+    //   break;
+    // }
+    // case PANEL.VIEW.HORIZONTALBARCHART: {
+    //   // AJUSTAR 
+    //   const _data = data as EPieChartData[];
+    //   ViewComponent = <PieChartView data={_data} />;
+    //   break;
+    // }
+    // case PANEL.VIEW.KPICHART: {
+    //   // AJUSTAR 
+    //   const _data = data as EPieChartData[];
+    //   ViewComponent = <PieChartView data={_data} />;
+    //   break;
+    // }
 
     case PANEL.VIEW.NUMBERVIEW: {
       const _data = data as NumberViewPresentation;

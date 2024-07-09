@@ -1,4 +1,5 @@
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
+import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SQLResult } from '@/services/models/datafont/types';
@@ -40,30 +41,29 @@ export class EchartAdapter {
         return this.lineChartQueryToData(queryResult, _core);
       }
       case PANEL.VIEW.DONUTCHART: {
-        // AJUSTAR
         const _core = core as DonutChartProps & { [key: string]: unknown };
-        return this.pieChartQueryToData(queryResult, _core);
+        return this.donutChartQueryToData(queryResult, _core);
       }
-      case PANEL.VIEW.HORIZONTALBARCHART: {
-        // AJUSTAR
-        const _core = core as PieChartProps & { [key: string]: unknown };
-        return this.pieChartQueryToData(queryResult, _core);
-      }
-      case PANEL.VIEW.CASCATECHART: {
-        // AJUSTAR
-        const _core = core as PieChartProps & { [key: string]: unknown };
-        return this.pieChartQueryToData(queryResult, _core);
-      }
-      case PANEL.VIEW.MAPCHART: {
-        // AJUSTAR
-        const _core = core as PieChartProps & { [key: string]: unknown };
-        return this.pieChartQueryToData(queryResult, _core);
-      }
-      case PANEL.VIEW.KPICHART: {
-        // AJUSTAR
-        const _core = core as PieChartProps & { [key: string]: unknown };
-        return this.pieChartQueryToData(queryResult, _core);
-      }
+      // case PANEL.VIEW.HORIZONTALBARCHART: {
+      //   // AJUSTAR
+      //   const _core = core as PieChartProps & { [key: string]: unknown };
+      //   return this.pieChartQueryToData(queryResult, _core);
+      // }
+      // case PANEL.VIEW.CASCATECHART: {
+      //   // AJUSTAR
+      //   const _core = core as PieChartProps & { [key: string]: unknown };
+      //   return this.pieChartQueryToData(queryResult, _core);
+      // }
+      // case PANEL.VIEW.MAPCHART: {
+      //   // AJUSTAR
+      //   const _core = core as PieChartProps & { [key: string]: unknown };
+      //   return this.pieChartQueryToData(queryResult, _core);
+      // }
+      // case PANEL.VIEW.KPICHART: {
+      //   // AJUSTAR
+      //   const _core = core as PieChartProps & { [key: string]: unknown };
+      //   return this.pieChartQueryToData(queryResult, _core);
+      // }
       default:
         return null;
     }
@@ -100,6 +100,16 @@ export class EchartAdapter {
     });
 
     return finalData;
+  }
+
+  private static donutChartQueryToData(
+    queryResult: SQLResult,
+    core: DonutChartProps & { [key: string]: unknown },
+  ): EDonutChartData[] {
+    return queryResult.rows.map((r) => ({
+      value: r[core.valueColumn],
+      name: r[core.labelColumn],
+    }));
   }
 
   private static lineChartQueryToData(

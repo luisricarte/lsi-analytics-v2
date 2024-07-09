@@ -7,7 +7,7 @@ interface DonutChartViewProps {
   data: EDonutChartData[];
 }
 
-export const PieChartView: React.FC<DonutChartViewProps> = ({ data }) => (
+export const DonutChartView: React.FC<DonutChartViewProps> = ({ data }) => (
   <EChart
     style={{
       width: '100%',
@@ -31,7 +31,7 @@ export const PieChartView: React.FC<DonutChartViewProps> = ({ data }) => (
           emphasis: {
             label: {
               show: true,
-              fontSize: 40,
+              fontSize: 16,
               fontWeight: 'bold'
             }
           },
