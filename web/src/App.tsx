@@ -22,7 +22,9 @@ const App: React.FC = () => (
       <Route path="/cadastrar" element={<RegisterPage />} />
       <Route path="/fontes/*" element={<DataFontRoutes />} />
       <Route path="/config/*" element={<ConfigRoutes />} />
+      {/* Listagem de visualizações */}
       <Route path="/paineis/*" element={<PanelsRoutes />} />
+      {/* Visualizações específicas */}
       <Route path="/painel/*" element={<PanelRoutes />} />
       <Route path="/docs/*" element={<DocsRoutes />} />
     </Routes>

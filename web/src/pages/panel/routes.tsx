@@ -27,14 +27,19 @@ export const PanelRoutes: React.FC = () => (
       <Route path=":id/editar" element={<PanelEditPage />} />
       <Route element={<PanelNewViewLayout />}>
         <Route path=":id/novo/visualizacao" element={<PanelNewViewConfig />} />
+        
+        {/* Rota para as fontes de dados */}
         <Route
           path=":id/novo/visualizacao/fonte"
           element={<PanelNewViewDataFont />}
         />
+
+        {/* Rota para acesso ao schema/sql */}
         <Route
           path=":id/novo/visualizacao/objeto"
           element={<PanelNewViewObject />}
         />
+        {/* Rotas de visualizações! */}
         <Route element={<PanelViewStudioPieChartLayout />}>
           <Route
             path=":id/novo/visualizacao/studio/pie"
@@ -59,6 +64,7 @@ export const PanelRoutes: React.FC = () => (
             element={<PanelViewStudioDonutChartPage />}
           />
         </Route>
+        
         <Route element={<PanelViewStudioNumberViewLayout />}>
           <Route
             path=":id/novo/visualizacao/studio/number"
@@ -69,9 +75,8 @@ export const PanelRoutes: React.FC = () => (
           path=":id/novo/visualizacao/studio/select"
           element={<PanelViewStudioSelectFilterPage />}
         />
-        {// ADICIONAR - NOVAS ROTAS
-        }
       </Route>
+
     </Route>
   </Routes>
 );
