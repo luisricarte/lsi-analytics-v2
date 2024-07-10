@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Plus, Settings, Share2, Trash2 } from 'lucide-react';
+import { Plus, Settings, Trash2 } from 'lucide-react';
 import React from 'react';
 import { Layout as GridLayout } from 'react-grid-layout';
 import { Link, useParams } from 'react-router-dom';
@@ -197,10 +197,6 @@ export const PanelPage: React.FC = () => {
               )}
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="outline" className="gap-2 rounded-full">
-                <Share2 size={18} />
-                Compartilhar
-              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
