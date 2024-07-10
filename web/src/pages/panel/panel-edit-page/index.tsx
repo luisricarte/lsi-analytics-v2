@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import {
   ChevronDown,
-  History,
   Monitor,
   Smartphone,
   Tablet,
 } from 'lucide-react';
 import React from 'react';
 import { Layout as GridLayout } from 'react-grid-layout';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
@@ -26,11 +25,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { View } from '@/components/view';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { reactQueryKeys } from '@/constants/react-query-keys';
@@ -292,23 +286,6 @@ export const PanelEditPage: React.FC = () => {
             >
               Salvar
             </Button>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full"
-                  asChild
-                >
-                  <Link
-                    to={APP_ROUTES.panel.audit.replace(':id', data.panel.id)}
-                  >
-                    <History className="text-muted-foreground" />
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Registro de auditoria</TooltipContent>
-            </Tooltip>
           </div>
         }
       >

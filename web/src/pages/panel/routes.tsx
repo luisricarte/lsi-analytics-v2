@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { PanelEditLayout } from './layout';
-import { PanelAuditPage } from './panel-audit-page';
 import { PanelEditPage } from './panel-edit-page';
 import { PanelNewViewLayout } from './panel-new-view/layout';
 import { PanelNewViewConfig } from './panel-new-view/pages/config';
@@ -24,7 +23,6 @@ import { PanelPage } from './panel-page';
 export const PanelRoutes: React.FC = () => (
   <Routes>
     <Route path=":id" element={<PanelPage />} />
-    <Route path=":id/auditoria" element={<PanelAuditPage />} />
     <Route element={<PanelEditLayout />}>
       <Route path=":id/editar" element={<PanelEditPage />} />
       <Route element={<PanelNewViewLayout />}>
