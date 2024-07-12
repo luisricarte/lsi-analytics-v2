@@ -5,6 +5,7 @@ import { ViewProps, ViewType } from '@/services/models/panel/types';
 
 import { EBarChartData } from '../panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '../panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
+import { EHorizontalBarChartData } from '../panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
 import { ELineChartData } from '../panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { NumberViewPresentation } from '../panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '../panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
@@ -23,6 +24,7 @@ export type NewViewPreview = {
   toViewData:
     | EPieChartData[]
     | EBarChartData
+    | EHorizontalBarChartData
     | ELineChartData
     | EDonutChartData[]
     | NumberViewPresentation

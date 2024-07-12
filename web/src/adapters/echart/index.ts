@@ -1,5 +1,6 @@
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
+import { EHorizontalBarChartData} from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider'
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SQLResult } from '@/services/models/datafont/types';
@@ -8,6 +9,7 @@ import {
   BarChartProps,
   DonutChartProps,
   GraphTypeCore,
+  HorizontalBarChartProps,
   LineChartProps,
   PieChartProps,
   ViewType
@@ -44,11 +46,10 @@ export class EchartAdapter {
         const _core = core as DonutChartProps & { [key: string]: unknown };
         return this.donutChartQueryToData(queryResult, _core);
       }
-      // case PANEL.VIEW.HORIZONTALBARCHART: {
-      //   // AJUSTAR
-      //   const _core = core as PieChartProps & { [key: string]: unknown };
-      //   return this.pieChartQueryToData(queryResult, _core);
-      // }
+      case PANEL.VIEW.HORIZONTALBARCHART: {
+        const _core = core as HorizontalBarChartProps & { [key: string]: unknown };
+        return this.horizontalBarChartQueryToData(queryResult, _core);
+      }
       // case PANEL.VIEW.CASCATECHART: {
       //   // AJUSTAR
       //   const _core = core as PieChartProps & { [key: string]: unknown };
@@ -94,6 +95,27 @@ export class EchartAdapter {
 
     queryResult.rows.forEach((r) => {
       finalData.xAxis.data.push(r[core.labelColumn]);
+      core.valueColumns.forEach((v, index) => {
+        finalData.series[index].data.push(r[v]);
+      });
+    });
+
+    return finalData;
+  }
+
+  private static horizontalBarChartQueryToData(
+    queryResult: SQLResult,
+    core: HorizontalBarChartProps & { [key: string]: unknown },
+  ) {
+    const finalData: EHorizontalBarChartData = {
+      yAxis: {
+        data: [],
+      },
+      series: core.valueColumns.map(() => ({ data: [], type: 'bar' })),
+    };
+
+    queryResult.rows.forEach((r) => {
+      finalData.yAxis.data.push(r[core.labelColumn]);
       core.valueColumns.forEach((v, index) => {
         finalData.series[index].data.push(r[v]);
       });

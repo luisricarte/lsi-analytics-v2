@@ -85,21 +85,6 @@
   }
 }
 
-/* .bottomBar {
-  position: relative;
-}
-
-.bottomBar::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #3b82f6;
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-} */
-
 .react-grid-placeholder {
   background: #3b82f6 !important;
   background-color: #3b82f6 !important;

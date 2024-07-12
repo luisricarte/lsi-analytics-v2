@@ -1,15 +1,15 @@
 import React from 'react';
 
 export type EHorizontalBarChartData = {
-    xAxis: {
+    yAxis: {
       data: (string | number)[];
     };
     series: { data: (string | number)[]; type: 'bar' }[];
   };
 
 type PanelNewViewStudioHorizontalBarChartContextType = {
-  echartData: EHorizontalBarChartData[];
-  setEchartData: React.Dispatch<React.SetStateAction<EHorizontalBarChartData[]>>;
+  echartData: EHorizontalBarChartData;
+  setEchartData: React.Dispatch<React.SetStateAction<EHorizontalBarChartData>>;
 };
 
 export const PanelNewViewStudioHorizontalBarChartContext = React.createContext(
@@ -20,10 +20,12 @@ interface PanelNewViewStudioHorizontalBarChartProviderProps {
   children: React.ReactNode;
 }
 
+const ECHART_INITIAL_VALUE = { yAxis: { data: [] }, series: [] };
+
 export const PanelNewViewStudioHorizontalBarChartProvider: React.FC<
   PanelNewViewStudioHorizontalBarChartProviderProps
 > = ({ children }) => {
-  const [echartData, setEchartData] = React.useState<EHorizontalBarChartData[]>([]);
+  const [echartData, setEchartData] = React.useState<EHorizontalBarChartData>(ECHART_INITIAL_VALUE);
 
   const value = React.useMemo(
     () => ({

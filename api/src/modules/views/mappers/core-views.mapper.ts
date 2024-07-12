@@ -142,34 +142,16 @@ export class CoreViewsMapper {
         };
       case 'HORIZONTALBARCHART':
         const horizontalBarCore = view.props.core as HorizontalBarChart;
-        return new HorizontalBarChart({
+        return {
           id: horizontalBarCore.id,
           labelColumn: horizontalBarCore.props.labelColumn,
           valueColumns: horizontalBarCore.props.valueColumns,
           viewId: horizontalBarCore.props.viewId,
           createdAt: horizontalBarCore.createdAt,
           updatedAt: horizontalBarCore.updatedAt,
-        });
+        };
       case 'KPICHART':
-        const kpiCore = view.props.core as KPIChart;
-        return new KPIChart({
-          id: kpiCore.id,
-          labelColumn: kpiCore.props.labelColumn,
-          valueColumns: kpiCore.props.valueColumns,
-          viewId: kpiCore.props.viewId,
-          createdAt: kpiCore.createdAt,
-          updatedAt: kpiCore.updatedAt,
-        });
       case 'CASCATECHART':
-        const cascateCore = view.props.core as CascateChart;
-        return new CascateChart({
-          id: cascateCore.id,
-          labelColumn: cascateCore.props.labelColumn,
-          valueColumns: cascateCore.props.valueColumns,
-          viewId: cascateCore.props.viewId,
-          createdAt: cascateCore.createdAt,
-          updatedAt: cascateCore.updatedAt,
-        });
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();
     }
