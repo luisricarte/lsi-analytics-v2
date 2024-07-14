@@ -4,6 +4,7 @@ import React from 'react';
 
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
+import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { NumberViewPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
@@ -13,6 +14,7 @@ import { ViewType } from '@/services/models/panel/types';
 
 import { BarChartView } from './BarChartView';
 import { DonutChartView } from './DonutChartView';
+import { HorizontalBarChartView } from './HorizontalBarChartView';
 import { LineChartView } from './LineChartView';
 import { NumberView } from './NumberView';
 import { PieChartView } from './PieChartView';
@@ -23,6 +25,7 @@ interface ViewProps {
    // ADICIONAR - NOVAS VISUALIZAÇÕES private static visualizações
     | EPieChartData[]
     | EBarChartData
+    | EHorizontalBarChartData
     | ELineChartData
     | EDonutChartData[]
     | NumberViewPresentation
@@ -67,6 +70,12 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <DonutChartView data={_data} />;
       break;
     }
+
+    case PANEL.VIEW.HORIZONTALBARCHART : {
+      const _data = data as EHorizontalBarChartData;
+      ViewComponent = <HorizontalBarChartView data={_data} />
+      break;
+    }
     // case PANEL.VIEW.CASCATECHART: {
     //   // AJUSTAR 
     //   const _data = data as EPieChartData[];
@@ -74,12 +83,6 @@ export const View: React.FC<ViewProps> = ({
     //   break;
     // }
     // case PANEL.VIEW.MAPCHART: {
-    //   // AJUSTAR 
-    //   const _data = data as EPieChartData[];
-    //   ViewComponent = <PieChartView data={_data} />;
-    //   break;
-    // }
-    // case PANEL.VIEW.HORIZONTALBARCHART: {
     //   // AJUSTAR 
     //   const _data = data as EPieChartData[];
     //   ViewComponent = <PieChartView data={_data} />;
