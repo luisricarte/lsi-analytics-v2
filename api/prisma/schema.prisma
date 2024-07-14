@@ -93,11 +93,11 @@ model View {
   sql               String?
   pieChart          PieChart?
   barChart          BarChart?
-  lineChart         LineChart?
+  lineChart         LineChart? 
   donutChart        DonutChart?
   cascateChart      CascateChart?
   kpiChart          KPIChart?
-  horizontalBarChar HorizontalBarChart?
+  horizontalBarChart HorizontalBarChart?
   numberView        NumberView?
   selectFilter      SelectFilter?
   panel             Panel               @relation(fields: [panelId], references: [id], onDelete: Cascade)

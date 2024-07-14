@@ -257,7 +257,7 @@ export class PanelsController {
                   sql,
                   panelId: param.id,
                   datafontId,
-                  horizontalBarChar: {
+                  horizontalBarChart: {
                     create: _core,
                   },
                 },

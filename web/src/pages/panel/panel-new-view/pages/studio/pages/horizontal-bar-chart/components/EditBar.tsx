@@ -71,11 +71,12 @@ export const EditBar: React.FC = () => {
   const handleCreate = () => {
     if (category && value && queryData && data) {
       const createdView = { ...viewCreation };
-
+      
       const core: HorizontalBarChartProps = {
         labelColumn: category,
         valueColumns: value,
       };
+      // console.log('adicionando core: ',core);
 
       Object.assign(createdView, { core });
 

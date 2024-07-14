@@ -90,7 +90,7 @@ export class PrismaPanelsRepository implements PanelsRepository {
             pieChart: true,
             barChart: true,
             lineChart: true,
-            horizontalBarChar: true,
+            horizontalBarChart: true,
             donutChart: true,
             cascateChart: true,
             kpiChart: true,
