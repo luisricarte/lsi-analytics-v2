@@ -94,16 +94,15 @@ export const EditBar: React.FC = () => {
   if (queryData) {
     return (
       <div className="flex h-full flex-col">
-        <span className="p-4 text-lg font-semibold">
-          Estúdio da visualização
-        </span>
+        <div className="justify-center items-center flex">
+          <span className="p-4 text-lg font-semibold ">
+           Estúdio da visualização
+          </span>          
+        </div>
 
         <SimpleTabs defaultValue="config" className="flex h-full flex-col">
           <SimpleTabsList>
             <SimpleTabsTrigger value="config">Configurações</SimpleTabsTrigger>
-            <SimpleTabsTrigger value="customize">
-              Customização
-            </SimpleTabsTrigger>
           </SimpleTabsList>
           <SimpleTabsContent value="config" asChild>
             <div className="flex flex-col gap-4 p-4">
@@ -127,7 +126,7 @@ export const EditBar: React.FC = () => {
               </div>
 
               <div>
-                <Label>Selecione o valor</Label>
+                <Label>Selecione o(s) valor(es)</Label>
                 <ListBox value={value} onChange={setValue} multiple>
                   <ListBoxTrigger>
                     {value.length > 0
