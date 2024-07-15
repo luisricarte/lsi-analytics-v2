@@ -37,7 +37,7 @@ import { ApplyFilterError } from '../errors/apply-filter.error';
 import { ViewsRepository } from 'src/modules/views/repositories/abstract/views.repository';
 import { FilterNotFoundError } from '../errors/filter-not-found.error';
 import { CreateKPIChartDto } from '../dtos/create-kpi-chart.dto';
-import { CreateCascateChartDto } from '../dtos/create-cascate-chart.dto';
+import { CreateWaterfallChartDto } from '../dtos/create-waterfall-chart.dto';
 import { CreateHorizontalBarChartDto } from '../dtos/create-horizontal-bar-chart.dto';
 import { CreateDonutChartDto } from '../dtos/create-donut-chart.dto';
 
@@ -264,8 +264,8 @@ export class PanelsController {
               });
               break;
             }
-            case 'CASCATECHART': {
-              const _core = core as CreateCascateChartDto;
+            case 'WATERFALLCHART': {
+              const _core = core as CreateWaterfallChartDto;
               await this.prisma.view.create({
                 data: {
                   id,
@@ -275,7 +275,7 @@ export class PanelsController {
                   sql,
                   panelId: param.id,
                   datafontId,
-                  cascateChart: {
+                  waterfallChart: {
                     create: _core,
                   },
                 },

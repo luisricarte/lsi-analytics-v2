@@ -6,7 +6,7 @@ import { NumberView } from './number-view.entity';
 import { PieChart } from './pie-chart.entity';
 import { SelectFilter } from './select-filter';
 import { DonutChart } from './donut-chart.entity';
-import { CascateChart } from './cascate-chart.entity';
+import { WaterfallChart } from './waterfall-chart.entity';
 import { HorizontalBarChart } from './horizontal-bar-chart.entity';
 import { KPIChart } from './kpi-chart.entity';
 
@@ -21,7 +21,7 @@ export interface ViewProps {
     | NumberView
     | SelectFilter
     | DonutChart
-    | CascateChart
+    | WaterfallChart
     | HorizontalBarChart
     | KPIChart
     | null;

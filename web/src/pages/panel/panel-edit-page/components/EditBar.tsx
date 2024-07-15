@@ -120,7 +120,7 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
                     <span>KPI</span>
                   </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.CASCATECHART}>
+                  <ViewSelectButton value={PANEL.VIEW.WATERFALLCHART}>
                     <BarChart className='rotate-180' />
                   </ViewSelectButton>
 

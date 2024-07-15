@@ -19,6 +19,7 @@ const App: React.FC = () => (
     <Routes>
       <Route path="/" index element={<LandingPage />} />
       <Route path="/entrar" element={<LoginPage />} />
+      <Route path="/docs/*" element={<DocsRoutes />} />
       <Route path="/cadastrar" element={<RegisterPage />} />
       <Route path="/fontes/*" element={<DataFontRoutes />} />
       <Route path="/config/*" element={<ConfigRoutes />} />
@@ -26,7 +27,7 @@ const App: React.FC = () => (
       <Route path="/paineis/*" element={<PanelsRoutes />} />
       {/* Visualizações específicas */}
       <Route path="/painel/*" element={<PanelRoutes />} />
-      <Route path="/docs/*" element={<DocsRoutes />} />
+      
     </Routes>
   </Providers>
 );

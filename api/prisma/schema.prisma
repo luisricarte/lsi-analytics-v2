@@ -74,7 +74,7 @@ enum ViewType {
   LINECHART
   DONUTCHART
   HORIZONTALBARCHART
-  CASCATECHART
+  WATERFALLCHART
   KPICHART
   NUMBERVIEW
   SELECTFILTER
@@ -95,7 +95,7 @@ model View {
   barChart          BarChart?
   lineChart         LineChart? 
   donutChart        DonutChart?
-  cascateChart      CascateChart?
+  waterfallChart      WaterfallChart?
   kpiChart          KPIChart?
   horizontalBarChart HorizontalBarChart?
   numberView        NumberView?
@@ -229,7 +229,7 @@ model HorizontalBarChart {
   @@map("HORIZONTAL_BAR_CHART")
 }
 
-model CascateChart {
+model WaterfallChart {
   id           String   @id @default(nanoid())
   labelColumn  String
   valueColumns String[]
@@ -238,7 +238,7 @@ model CascateChart {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  @@map("CASCATE_CHART")
+  @@map("WATERFALL_CHART")
 }
 
 model KPIChart {

@@ -7,7 +7,7 @@ import { CreatePieChartDto } from './create-pie-chart.dto';
 import { CreateSelectFilterDto } from './create-select-filter.dto';
 import { CreateDonutChartDto } from './create-donut-chart.dto';
 import { CreateHorizontalBarChartDto } from './create-horizontal-bar-chart.dto';
-import { CreateCascateChartDto } from './create-cascate-chart.dto';
+import { CreateWaterfallChartDto } from './create-waterfall-chart.dto';
 import { CreateKPIChartDto } from './create-kpi-chart.dto';
 
 export class CreateViewDto {
@@ -24,7 +24,7 @@ export class CreateViewDto {
     'DONUTCHART',
     'HORIZONTALBARCHART',
     'KPICHART',
-    'CASCATECHART',
+    'WATERFALLCHART',
     'NUMBERVIEW',
     'SELECTFILTER',
   ])
@@ -46,7 +46,7 @@ export class CreateViewDto {
     | CreateSelectFilterDto
     | CreateDonutChartDto
     | CreateHorizontalBarChartDto
-    | CreateCascateChartDto
+    | CreateWaterfallChartDto
     | CreateKPIChartDto;
 
   @IsString()

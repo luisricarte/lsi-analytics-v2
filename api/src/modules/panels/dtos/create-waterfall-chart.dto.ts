@@ -1,6 +1,6 @@
 import { IsArray, IsString } from 'class-validator';
 
-export class CreateCascateChartDto {
+export class CreateWaterfallChartDto {
   @IsString()
   labelColumn: string;
 

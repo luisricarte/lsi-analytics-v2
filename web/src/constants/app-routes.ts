@@ -17,7 +17,7 @@ export const APP_ROUTES = {
         donut: '/painel/:id/novo/visualizacao/studio/donut',
         horizontalBar: '/painel/:id/novo/visualizacao/studio/horizontalBar',
         kpi: '/painel/:id/novo/visualizacao/studio/kpi',
-        cascate: '/painel/:id/novo/visualizacao/studio/cascate',
+        waterfall: '/painel/:id/novo/visualizacao/studio/waterfall',
         number: '/painel/:id/novo/visualizacao/studio/number',
         select: '/painel/:id/novo/visualizacao/studio/select',
       },
@@ -33,7 +33,6 @@ export const APP_ROUTES = {
   },
   config: {
     index: '/config/conta',
-    preferences: '/config/preferencias',
   },
   brand: {
     landing: '/',

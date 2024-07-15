@@ -20,7 +20,7 @@ export type ViewType =
   | 'SELECTFILTER'
   | 'DONUTCHART'
   | 'HORIZONTALBARCHART'
-  | 'CASCATECHART'
+  | 'WATERFALLCHART'
   | 'KPICHART';
 
 export type ViewContentUpdate = 'STATIC' | 'DYNAMIC';

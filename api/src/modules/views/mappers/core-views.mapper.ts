@@ -7,7 +7,7 @@ import {
   View as PrismaView,
   DonutChart as PrismaDonutChart,
   HorizontalBarChart as PrismaHorizontalBarChart,
-  CascateChart as PrismaCascateChart,
+  WaterfallChart as PrismaWaterfallChart,
   KPIChart as PrismaKPIChart,
 } from '@prisma/client';
 import { BarChart } from '../entities/bar-chart.entity';
@@ -16,7 +16,7 @@ import { NumberView } from '../entities/number-view.entity';
 import { PieChart } from '../entities/pie-chart.entity';
 import { SelectFilter } from '../entities/select-filter';
 import { DonutChart } from '../entities/donut-chart.entity';
-import { CascateChart } from '../entities/cascate-chart.entity';
+import { WaterfallChart } from '../entities/waterfall-chart.entity';
 import { KPIChart } from '../entities/kpi-chart.entity';
 import { View } from '../entities/view.entity';
 import { HorizontalBarChart } from './../entities/horizontal-bar-chart.entity';
@@ -30,7 +30,7 @@ export type FullRelationView = PrismaView & {
   selectFilter?: PrismaSelectFilter | null;
   donutChart?: PrismaDonutChart | null;
   horizontalBarChart?: PrismaHorizontalBarChart | null;
-  cascateChart?: PrismaCascateChart | null;
+  waterfallChart?: PrismaWaterfallChart | null;
   kpiChart?: PrismaKPIChart | null;
 };
 
@@ -151,7 +151,16 @@ export class CoreViewsMapper {
           updatedAt: horizontalBarCore.updatedAt,
         };
       case 'KPICHART':
-      case 'CASCATECHART':
+      case 'WATERFALLCHART':
+        const waterfallCore = view.props.core as WaterfallChart;
+        return {
+          id: waterfallCore.id,
+          labelColumn: waterfallCore.props.labelColumn,
+          valueColumns: waterfallCore.props.valueColumns,
+          viewId: waterfallCore.props.viewId,
+          createdAt: waterfallCore.createdAt,
+          updatedAt: waterfallCore.updatedAt,
+        };
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();
     }
@@ -262,18 +271,18 @@ export class CoreViewsMapper {
           updatedAt: kpiCore.updatedAt,
         });
 
-      case 'CASCATECHART':
-        if (!view.cascateChart) {
+      case 'WATERFALLCHART':
+        if (!view.waterfallChart) {
           throw new ItWasNotPossibleToCreateViewInstanceError();
         }
-        const cascateCore = view.cascateChart;
-        return new CascateChart({
-          id: cascateCore.id,
-          labelColumn: cascateCore.labelColumn,
-          valueColumns: cascateCore.valueColumns,
-          viewId: cascateCore.viewId,
-          createdAt: cascateCore.createdAt,
-          updatedAt: cascateCore.updatedAt,
+        const waterfallCore = view.waterfallChart;
+        return new WaterfallChart({
+          id: waterfallCore.id,
+          labelColumn: waterfallCore.labelColumn,
+          valueColumns: waterfallCore.valueColumns,
+          viewId: waterfallCore.viewId,
+          createdAt: waterfallCore.createdAt,
+          updatedAt: waterfallCore.updatedAt,
         });
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();

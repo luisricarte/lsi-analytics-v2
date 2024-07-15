@@ -8,7 +8,7 @@ import {
   View as PrismaView,
   DonutChart as PrismaDonutChart,
   HorizontalBarChart as PrismaHorizontalBarChart,
-  CascateChart as PrismaCascateChart,
+  WaterfallChart as PrismaWaterfallChart,
   KPIChart as PrismaKPIChart,
 } from '@prisma/client';
 import { Panel } from '../entities/panel.entity';
@@ -26,7 +26,7 @@ export class PanelsMapper {
         selectFilter?: PrismaSelectFilter | null;
         donutChart?: PrismaDonutChart | null;
         horizontalBarChart?: PrismaHorizontalBarChart | null;
-        cascateChart?: PrismaCascateChart | null;
+        waterfallChart?: PrismaWaterfallChart | null;
         kpiChart?: PrismaKPIChart | null;
       })[];
     },

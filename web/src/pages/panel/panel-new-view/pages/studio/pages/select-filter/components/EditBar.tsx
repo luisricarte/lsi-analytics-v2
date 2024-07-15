@@ -117,7 +117,7 @@ export const EditBar: React.FC = () => {
             case PANEL.VIEW.KPICHART:
               Icon = Ban;
               break;
-            case PANEL.VIEW.CASCATECHART:
+            case PANEL.VIEW.WATERFALLCHART:
               Icon = BarChart;
               break;
             case PANEL.VIEW.HORIZONTALBARCHART:

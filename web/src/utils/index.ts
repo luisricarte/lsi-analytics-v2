@@ -235,7 +235,7 @@ export const getSelectFilterData = ({
 export const getViewData = (v: { queryResult: SQLResult; view: ViewModel }) => {
   switch (v.view.type) {
     case PANEL.VIEW.HORIZONTALBARCHART:
-    case PANEL.VIEW.CASCATECHART:
+    case PANEL.VIEW.WATERFALLCHART:
     case PANEL.VIEW.KPICHART:
     case PANEL.VIEW.DONUTCHART:
     case PANEL.VIEW.BARCHART:

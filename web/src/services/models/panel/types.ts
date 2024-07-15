@@ -24,7 +24,7 @@ export type ViewType =
   | 'LINECHART'
   | 'DONUTCHART'
   | 'HORIZONTALBARCHART'
-  | 'CASCATECHART'
+  | 'WATERFALLCHART'
   | 'KPICHART'
   | 'MAPCHART' 
   | 'NUMBERVIEW'
@@ -64,7 +64,7 @@ export type HorizontalBarChart = {
   updatedAt: Date;
 };
 
-export type CascateChart = {
+export type WaterfallChart = {
   id: string;
   labelColumn: string;
   valueColumns: string[];
@@ -139,7 +139,7 @@ export type HorizontalBarChartProps = {
   valueColumns: string[];
 };
 
-export type CascateChartProps = {
+export type WaterfallChartProps = {
   labelColumn: string;
   valueColumns: string[];
 };
@@ -163,10 +163,10 @@ export type CoreType =
   | HorizontalBarChart
   | DonutChart
   | KPIChart
-  | CascateChart;
+  | WaterfallChart;
 
 
-export type GraphTypeCore = PieChart | BarChart | LineChart | CascateChart | DonutChart | HorizontalBarChart | KPIChart;
+export type GraphTypeCore = PieChart | BarChart | LineChart | WaterfallChart | DonutChart | HorizontalBarChart | KPIChart;
 
 export type ViewModel = {
   id: string;
@@ -188,7 +188,7 @@ export type ViewProps = Omit<ViewModel, 'createdAt' | 'updatedAt' | 'core'> & {
   | LineChartProps 
   | NumberViewProps 
   | HorizontalBarChartProps 
-  | CascateChartProps 
+  | WaterfallChartProps 
   | DonutChartProps 
   | KPIChartProps;
 };
