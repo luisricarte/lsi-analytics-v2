@@ -1,24 +1,24 @@
 import React from 'react';
 
 import { EChart } from '@/lib/echarts-for-react';
-import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
+import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/waterfall-chart/contexts/PanelNewViewStudioWaterfallChartProvider';
 
-interface HorizontalBarChartViewProps {
-  data: EHorizontalBarChartData;
+interface WaterfallChartViewProps {
+  data: EWaterfallChartData;
 }
 
-export const HorizontalBarChartView: React.FC<HorizontalBarChartViewProps> = ({ data }) => (
+export const WaterfallChartView: React.FC<WaterfallChartViewProps> = ({ data }) => (
   <EChart
     style={{
       width: '100%',
       height: '100%',
     }}
     option={{
-      yAxis: {
-        type: 'category',
-        data: data.yAxis.data,
-      },
       xAxis: {
+        type: 'category',
+        data: data.xAxis.data,
+      },
+      yAxis: {
         type: 'value',
       },
       series: data.series,

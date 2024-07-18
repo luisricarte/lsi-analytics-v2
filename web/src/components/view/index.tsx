@@ -9,6 +9,7 @@ import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/
 import { NumberViewPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SelectFilterPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/select-filter/hooks/useSelectFilterStore';
+import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/waterfall-chart/contexts/PanelNewViewStudioWaterfallChartProvider';
 import { PANEL } from '@/services/models/panel/constants';
 import { ViewType } from '@/services/models/panel/types';
 
@@ -19,6 +20,7 @@ import { LineChartView } from './LineChartView';
 import { NumberView } from './NumberView';
 import { PieChartView } from './PieChartView';
 import { SelectFilterView } from './SelectFilterView';
+import { WaterfallChartView } from './WaterfallChartView';
 
 interface ViewProps {
   data:
@@ -28,6 +30,7 @@ interface ViewProps {
     | EHorizontalBarChartData
     | ELineChartData
     | EDonutChartData[]
+    | EWaterfallChartData[]
     | NumberViewPresentation
     | SelectFilterPresentation;
   type: ViewType;
@@ -76,12 +79,11 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <HorizontalBarChartView data={_data} />
       break;
     }
-    // case PANEL.VIEW.CASCATECHART: {
-    //   // AJUSTAR 
-    //   const _data = data as EPieChartData[];
-    //   ViewComponent = <PieChartView data={_data} />;
-    //   break;
-    // }
+    case PANEL.VIEW.WATERFALLCHART: {
+      const _data = data as EWaterfallChartData;
+      ViewComponent = <WaterfallChartView data={_data} />;
+      break;
+    }
     // case PANEL.VIEW.MAPCHART: {
     //   // AJUSTAR 
     //   const _data = data as EPieChartData[];

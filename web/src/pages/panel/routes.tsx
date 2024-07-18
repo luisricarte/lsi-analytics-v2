@@ -20,6 +20,8 @@ import { PanelViewStudioNumberViewLayout } from './panel-new-view/pages/studio/p
 import { PanelViewStudioPieChartPage } from './panel-new-view/pages/studio/pages/pie-chart';
 import { PanelViewStudioPieChartLayout } from './panel-new-view/pages/studio/pages/pie-chart/layout';
 import { PanelViewStudioSelectFilterPage } from './panel-new-view/pages/studio/pages/select-filter';
+import { PanelViewStudioWaterfallChartPage } from './panel-new-view/pages/studio/pages/waterfall-chart';
+import { PanelViewStudioWaterfallChartLayout } from './panel-new-view/pages/studio/pages/waterfall-chart/layout';
 import { PanelPage } from './panel-page';
 
 export const PanelRoutes: React.FC = () => (
@@ -72,7 +74,12 @@ export const PanelRoutes: React.FC = () => (
             element={<PanelViewStudioDonutChartPage />}
           />
         </Route>
-        
+        <Route element={<PanelViewStudioWaterfallChartLayout/>}>
+          <Route
+            path=":id/novo/visualizacao/studio/waterfall"
+            element={<PanelViewStudioWaterfallChartPage />}
+          />
+        </Route>
         <Route element={<PanelViewStudioNumberViewLayout />}>
           <Route
             path=":id/novo/visualizacao/studio/number"
