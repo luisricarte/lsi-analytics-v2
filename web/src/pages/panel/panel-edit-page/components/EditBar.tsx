@@ -4,7 +4,7 @@ import {
   LineChart,
   List,
   PieChart,
-  Plus,
+  ChevronRight,
   LifeBuoy,
   BarChartHorizontal,
   Map,
@@ -85,77 +85,79 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
         </SimpleTabsContent>
         <SimpleTabsContent
           value="views"
-          className="flex h-full flex-col justify-between"
+          className="flex h-full max-h-[720px] flex-col justify-between"
         >
-          <Accordion
-            type="multiple"
-            className="w-full px-2"
-            defaultValue={['item-1', 'item-2', 'item-3']}
-          >
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Gráficos</AccordionTrigger>
-              <AccordionContent>
-                <div className="grid grid-cols-2 flex-wrap gap-4 px-4">
-                  <ViewSelectButton value={PANEL.VIEW.PIECHART}>
-                    <PieChart />
-                  </ViewSelectButton>
+          <div className="flex-1 overflow-y-auto p-2">
+            <Accordion
+              type="multiple"
+              className="w-full px-2"
+              defaultValue={['item-1', 'item-2', 'item-3']}
+            >
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Gráficos</AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-2 flex-wrap gap-4 px-4">
+                    <ViewSelectButton value={PANEL.VIEW.PIECHART}>
+                      <PieChart />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.BARCHART}>
-                    <BarChart3 />
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.BARCHART}>
+                      <BarChart3 />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.LINECHART}>
-                    <LineChart />
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.LINECHART}>
+                      <LineChart />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.DONUTCHART}>
-                    <LifeBuoy />
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.DONUTCHART}>
+                      <LifeBuoy />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.HORIZONTALBARCHART}>
-                    <BarChartHorizontal />
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.HORIZONTALBARCHART}>
+                      <BarChartHorizontal />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.KPICHART}>
-                    <span>KPI</span>
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.KPICHART}>
+                      <span>KPI</span>
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.WATERFALLCHART}>
-                    <BarChart className='rotate-180' />
-                  </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.WATERFALLCHART}>
+                      <BarChart className="rotate-180" />
+                    </ViewSelectButton>
 
-                  <ViewSelectButton value={PANEL.VIEW.MAPCHART}>
-                    <Map />
-                  </ViewSelectButton>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Valores</AccordionTrigger>
-              <AccordionContent>
-                <div className="grid grid-cols-4 flex-wrap gap-4 px-4">
-                  <ViewSelectButton value={PANEL.VIEW.NUMBERVIEW}>
-                    <Binary />
-                  </ViewSelectButton>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Filtros</AccordionTrigger>
-              <AccordionContent>
-                <div className="grid grid-cols-4 flex-wrap gap-4 px-4">
-                  <ViewSelectButton value="SELECTFILTER">
-                    <List />
-                  </ViewSelectButton>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+                    <ViewSelectButton value={PANEL.VIEW.MAPCHART}>
+                      <Map />
+                    </ViewSelectButton>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Valores</AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-4 flex-wrap gap-4 px-4">
+                    <ViewSelectButton value={PANEL.VIEW.NUMBERVIEW}>
+                      <Binary />
+                    </ViewSelectButton>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Filtros</AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-4 flex-wrap gap-4 px-4">
+                    <ViewSelectButton value="SELECTFILTER">
+                      <List />
+                    </ViewSelectButton>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
 
-          <div className="border-t p-4">
+          <div className="border-t-2 p-4">
             <Link
               className={cn(
-                'flex w-full items-center justify-center gap-1 rounded-sm bg-blue-500 py-2 text-sm text-zinc-50',
+                'flex w-full items-center justify-center gap-1 rounded-sm bg-blue-500 py-3 text-base text-zinc-50',
                 !selectedView && 'cursor-default opacity-50',
               )}
               to={
@@ -165,8 +167,8 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
               }
               state={{ view: selectedView }}
             >
-              <Plus size={18} />
-              Visualização
+              Construir Visualização
+              <ChevronRight size={24} />
             </Link>
           </div>
         </SimpleTabsContent>

@@ -1,10 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import {
-  ChevronDown,
-  Monitor,
-  Smartphone,
-  Tablet,
-} from 'lucide-react';
 import React from 'react';
 import { Layout as GridLayout } from 'react-grid-layout';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,12 +13,6 @@ import {
 import { Layout } from '@/components/layout';
 import { NotFoundPage } from '@/components/not-found-page';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { View } from '@/components/view';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { reactQueryKeys } from '@/constants/react-query-keys';
@@ -39,9 +27,7 @@ import { PanelPageLoading } from '../panel-page/loading';
 import { EditBar } from './components/EditBar';
 
 export const PanelEditPage: React.FC = () => {
-  const [responsive, setResponsive] = React.useState<Breakpoints>(
-    BREAKPOINTS.LARGE,
-  );
+  const [responsive] = React.useState<Breakpoints>(BREAKPOINTS.LARGE);
   const [hasFilledLayoutWithResponse, setHasFilledLayoutWithResponse] =
     React.useState<boolean>(false);
 
@@ -100,19 +86,6 @@ export const PanelEditPage: React.FC = () => {
   if (error || !id) {
     return <NotFoundPage />;
   }
-
-  const renderResponsiveContentIcon = (_responsive: Breakpoints) => {
-    switch (_responsive) {
-      case BREAKPOINTS.LARGE:
-        return <Monitor size={18} />;
-      case BREAKPOINTS.MEDIUM:
-        return <Tablet size={18} />;
-      case BREAKPOINTS.SMALL:
-        return <Smartphone size={18} />;
-      default:
-        return null;
-    }
-  };
 
   const handleSavePanel = () => {
     if (data) {
@@ -242,43 +215,6 @@ export const PanelEditPage: React.FC = () => {
         rightBar={<EditBar data={data.panel} />}
         rightContent={
           <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  {renderResponsiveContentIcon(responsive)}
-                  <ChevronDown size={18} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem asChild>
-                  <button
-                    className="flex w-full items-center gap-1"
-                    onClick={() => setResponsive(BREAKPOINTS.LARGE)}
-                  >
-                    <Monitor size={18} />
-                    Desktop
-                  </button>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <button
-                    className="flex w-full items-center gap-1"
-                    onClick={() => setResponsive(BREAKPOINTS.MEDIUM)}
-                  >
-                    <Tablet size={18} />
-                    Tablet
-                  </button>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <button
-                    className="flex w-full items-center gap-1"
-                    onClick={() => setResponsive(BREAKPOINTS.SMALL)}
-                  >
-                    <Smartphone size={18} />
-                    Mobile
-                  </button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
             <Button
               variant="positive"
               disabled={saveIsDisabled()}
