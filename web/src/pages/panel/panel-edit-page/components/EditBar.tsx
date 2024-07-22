@@ -85,7 +85,7 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
         </SimpleTabsContent>
         <SimpleTabsContent
           value="views"
-          className="flex h-full max-h-[720px] flex-col justify-between"
+          className="flex h-full max-h-[740px] flex-col justify-between"
         >
           <div className="flex-1 overflow-y-auto p-2">
             <Accordion
@@ -154,10 +154,10 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
             </Accordion>
           </div>
 
-          <div className="border-t-2 p-4">
+          <div className="border-t-2 p-4 ">
             <Link
               className={cn(
-                'flex w-full items-center justify-center gap-1 rounded-sm bg-blue-500 py-3 text-base text-zinc-50',
+                'flex w-full items-center justify-center gap-2 rounded-sm bg-blue-500 py-3 text-base text-zinc-50',
                 !selectedView && 'cursor-default opacity-50',
               )}
               to={
