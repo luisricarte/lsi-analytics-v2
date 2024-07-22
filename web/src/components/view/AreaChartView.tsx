@@ -1,15 +1,13 @@
 import React from 'react';
 
 import { EChart } from '@/lib/echarts-for-react';
-import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/waterfall-chart/contexts/PanelNewViewStudioWaterfallChartProvider';
+import { EAreaChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/area-chart/contexts/PanelNewViewStudioAreaChartProvider';
 
-interface WaterfallChartViewProps {
-  data: EWaterfallChartData;
+interface AreaChartViewProps {
+  data: EAreaChartData;
 }
 
-export const WaterfallChartView: React.FC<WaterfallChartViewProps> = ({
-  data,
-}) => (
+export const AreaChartView: React.FC<AreaChartViewProps> = ({ data }) => (
   <EChart
     style={{
       width: '100%',
@@ -18,6 +16,7 @@ export const WaterfallChartView: React.FC<WaterfallChartViewProps> = ({
     option={{
       xAxis: {
         type: 'category',
+        boundaryGap: false,
         data: data.xAxis.data,
       },
       yAxis: {

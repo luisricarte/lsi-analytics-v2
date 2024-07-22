@@ -1,0 +1,17 @@
+-- CreateTable
+CREATE TABLE "AREA_CHART" (
+    "id" TEXT NOT NULL,
+    "labelColumn" TEXT NOT NULL,
+    "valueColumns" TEXT[],
+    "viewId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "AREA_CHART_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "AREA_CHART_viewId_key" ON "AREA_CHART"("viewId");
+
+-- AddForeignKey
+ALTER TABLE "AREA_CHART" ADD CONSTRAINT "AREA_CHART_viewId_fkey" FOREIGN KEY ("viewId") REFERENCES "VIEWS"("id") ON DELETE CASCADE ON UPDATE CASCADE;

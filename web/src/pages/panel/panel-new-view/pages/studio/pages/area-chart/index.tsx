@@ -15,14 +15,14 @@ import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePa
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
 
 import { EditBar } from './components/EditBar';
-import { usePanelNewViewStudioWaterfallChartContext } from './hooks/usePanelNewViewStudioWaterfallChartContext';
+import { usePanelNewViewStudioAreaChartContext } from './hooks/usePanelNewViewStudioAreaChartContext';
 
-export const PanelViewStudioWaterfallChartPage: React.FC = () => {
+export const PanelViewStudioAreaChartPage: React.FC = () => {
   const { id } = useParams();
 
   const { canAccessStep } = usePanelNewViewContext();
 
-  const { echartData } = usePanelNewViewStudioWaterfallChartContext();
+  const { echartData } = usePanelNewViewStudioAreaChartContext();
 
   const { data, error } = usePanelQuery({ id });
 
@@ -56,8 +56,7 @@ export const PanelViewStudioWaterfallChartPage: React.FC = () => {
           option={{
             xAxis: {
               type: 'category',
-              splitLine: { show: false },
-              data: echartData.xAxis,
+              data: echartData.xAxis.data,
             },
             yAxis: {
               type: 'value',

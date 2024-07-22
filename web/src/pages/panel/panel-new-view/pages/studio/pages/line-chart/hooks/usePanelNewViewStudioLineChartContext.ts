@@ -7,7 +7,7 @@ export const usePanelNewViewStudioLineChartContext = () => {
 
   if (!value) {
     throw new Error(
-      'PanelNewViewStudioBarChartContext só pode usado dentro do componente PanelNewViewProvider',
+      'PanelNewViewStudioLineChartContext só pode usado dentro do componente PanelNewViewProvider',
     );
   }
 

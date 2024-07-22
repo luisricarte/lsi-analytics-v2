@@ -22,11 +22,12 @@ export type ViewType =
   | 'PIECHART'
   | 'BARCHART'
   | 'LINECHART'
+  | 'AREACHART'
   | 'DONUTCHART'
   | 'HORIZONTALBARCHART'
   | 'WATERFALLCHART'
   | 'KPICHART'
-  | 'MAPCHART' 
+  | 'MAPCHART'
   | 'NUMBERVIEW'
   | 'SELECTFILTER';
 
@@ -80,8 +81,15 @@ export type KPIChart = {
   updatedAt: Date;
 };
 
-
 export type LineChart = {
+  id: string;
+  labelColumn: string;
+  valueColumns: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type AreaChart = {
   id: string;
   labelColumn: string;
   valueColumns: string[];
@@ -124,6 +132,11 @@ export type LineChartProps = {
   valueColumns: string[];
 };
 
+export type AreaChartProps = {
+  labelColumn: string;
+  valueColumns: string[];
+};
+
 export type PieChartProps = {
   labelColumn: string;
   valueColumn: string;
@@ -158,6 +171,7 @@ export type CoreType =
   | PieChart
   | BarChart
   | LineChart
+  | AreaChart
   | NumberView
   | SelectFilter
   | HorizontalBarChart
@@ -165,8 +179,15 @@ export type CoreType =
   | KPIChart
   | WaterfallChart;
 
-
-export type GraphTypeCore = PieChart | BarChart | LineChart | WaterfallChart | DonutChart | HorizontalBarChart | KPIChart;
+export type GraphTypeCore =
+  | PieChart
+  | BarChart
+  | LineChart
+  | AreaChart
+  | WaterfallChart
+  | DonutChart
+  | HorizontalBarChart
+  | KPIChart;
 
 export type ViewModel = {
   id: string;
@@ -182,13 +203,14 @@ export type ViewModel = {
 };
 
 export type ViewProps = Omit<ViewModel, 'createdAt' | 'updatedAt' | 'core'> & {
-  core: 
-    PieChartProps
-  | BarChartProps 
-  | LineChartProps 
-  | NumberViewProps 
-  | HorizontalBarChartProps 
-  | WaterfallChartProps 
-  | DonutChartProps 
-  | KPIChartProps;
+  core:
+    | PieChartProps
+    | BarChartProps
+    | LineChartProps
+    | AreaChartProps
+    | NumberViewProps
+    | HorizontalBarChartProps
+    | WaterfallChartProps
+    | DonutChartProps
+    | KPIChartProps;
 };

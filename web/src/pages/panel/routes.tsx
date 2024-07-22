@@ -7,11 +7,13 @@ import { PanelNewViewLayout } from './panel-new-view/layout';
 import { PanelNewViewConfig } from './panel-new-view/pages/config';
 import { PanelNewViewDataFont } from './panel-new-view/pages/datafont';
 import { PanelNewViewObject } from './panel-new-view/pages/object';
+import { PanelViewStudioAreaChartPage } from './panel-new-view/pages/studio/pages/area-chart';
+import { PanelViewStudioAreaChartLayout } from './panel-new-view/pages/studio/pages/area-chart/layout';
 import { PanelViewStudioBarChartPage } from './panel-new-view/pages/studio/pages/bar-chart';
 import { PanelViewStudioBarChartLayout } from './panel-new-view/pages/studio/pages/bar-chart/layout';
-import { PanelViewStudioDonutChartPage } from './panel-new-view/pages/studio/pages/donut-chart'
+import { PanelViewStudioDonutChartPage } from './panel-new-view/pages/studio/pages/donut-chart';
 import { PanelViewStudioDonutChartLayout } from './panel-new-view/pages/studio/pages/donut-chart/layout';
-import { PanelViewStudioHorizontalBarChartPage } from './panel-new-view/pages/studio/pages/horizontal-bar-chart'
+import { PanelViewStudioHorizontalBarChartPage } from './panel-new-view/pages/studio/pages/horizontal-bar-chart';
 import { PanelViewStudioHorizontalBarChartLayout } from './panel-new-view/pages/studio/pages/horizontal-bar-chart/layout';
 import { PanelViewStudioLineChartPage } from './panel-new-view/pages/studio/pages/line-chart';
 import { PanelViewStudioLineChartLayout } from './panel-new-view/pages/studio/pages/line-chart/layout';
@@ -31,7 +33,7 @@ export const PanelRoutes: React.FC = () => (
       <Route path=":id/editar" element={<PanelEditPage />} />
       <Route element={<PanelNewViewLayout />}>
         <Route path=":id/novo/visualizacao" element={<PanelNewViewConfig />} />
-        
+
         {/* Rota para as fontes de dados */}
         <Route
           path=":id/novo/visualizacao/fonte"
@@ -68,13 +70,19 @@ export const PanelRoutes: React.FC = () => (
             element={<PanelViewStudioLineChartPage />}
           />
         </Route>
-        <Route element={<PanelViewStudioDonutChartLayout/>}>
+        <Route element={<PanelViewStudioAreaChartLayout />}>
+          <Route
+            path=":id/novo/visualizacao/studio/area"
+            element={<PanelViewStudioAreaChartPage />}
+          />
+        </Route>
+        <Route element={<PanelViewStudioDonutChartLayout />}>
           <Route
             path=":id/novo/visualizacao/studio/donut"
             element={<PanelViewStudioDonutChartPage />}
           />
         </Route>
-        <Route element={<PanelViewStudioWaterfallChartLayout/>}>
+        <Route element={<PanelViewStudioWaterfallChartLayout />}>
           <Route
             path=":id/novo/visualizacao/studio/waterfall"
             element={<PanelViewStudioWaterfallChartPage />}
@@ -91,7 +99,6 @@ export const PanelRoutes: React.FC = () => (
           element={<PanelViewStudioSelectFilterPage />}
         />
       </Route>
-
     </Route>
   </Routes>
 );

@@ -9,6 +9,7 @@ import {
   BarChartHorizontal,
   Map,
   BarChart,
+  AreaChart,
 } from 'lucide-react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -100,23 +101,22 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
                     <ViewSelectButton value={PANEL.VIEW.PIECHART}>
                       <PieChart />
                     </ViewSelectButton>
-
-                    <ViewSelectButton value={PANEL.VIEW.BARCHART}>
-                      <BarChart3 />
-                    </ViewSelectButton>
-
-                    <ViewSelectButton value={PANEL.VIEW.LINECHART}>
-                      <LineChart />
-                    </ViewSelectButton>
-
                     <ViewSelectButton value={PANEL.VIEW.DONUTCHART}>
                       <LifeBuoy />
+                    </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.BARCHART}>
+                      <BarChart3 />
                     </ViewSelectButton>
 
                     <ViewSelectButton value={PANEL.VIEW.HORIZONTALBARCHART}>
                       <BarChartHorizontal />
                     </ViewSelectButton>
-
+                    <ViewSelectButton value={PANEL.VIEW.LINECHART}>
+                      <LineChart />
+                    </ViewSelectButton>
+                    <ViewSelectButton value={PANEL.VIEW.AREACHART}>
+                      <AreaChart />
+                    </ViewSelectButton>
                     <ViewSelectButton value={PANEL.VIEW.KPICHART}>
                       <span>KPI</span>
                     </ViewSelectButton>

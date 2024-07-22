@@ -88,6 +88,7 @@ export class PrismaPanelsRepository implements PanelsRepository {
         views: {
           include: {
             pieChart: true,
+            areaChart: true,
             barChart: true,
             lineChart: true,
             horizontalBarChart: true,

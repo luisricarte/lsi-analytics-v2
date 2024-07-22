@@ -28,6 +28,7 @@ import { DataFontsRepository } from 'src/modules/datafonts/respositories/abstrac
 import { PostgresqlService } from 'src/services/databases/postgresql.service';
 import { CreateBarChartDto } from '../dtos/create-bar-chart.dto';
 import { CreateLineChartDto } from '../dtos/create-line-chart.dto';
+import { CreateAreaChartDto } from '../dtos/create-area-chart.dto';
 import { CreateNumberViewDto } from '../dtos/create-number-view';
 import { CreatePieChartDto } from '../dtos/create-pie-chart.dto';
 import { CreateSelectFilterDto } from '../dtos/create-select-filter.dto';
@@ -183,6 +184,24 @@ export class PanelsController {
                   panelId: param.id,
                   datafontId,
                   lineChart: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'AREACHART': {
+              const _core = core as CreateAreaChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  areaChart: {
                     create: _core,
                   },
                 },

@@ -5,6 +5,7 @@ export const TYPE_STUDIO_LINK_MAPPER: Record<ViewType, string> = {
   PIECHART: APP_ROUTES.panel.new.studio.pie,
   BARCHART: APP_ROUTES.panel.new.studio.bar,
   LINECHART: APP_ROUTES.panel.new.studio.line,
+  AREACHART: APP_ROUTES.panel.new.studio.area,
   HORIZONTALBARCHART: APP_ROUTES.panel.new.studio.horizontalBar,
   DONUTCHART: APP_ROUTES.panel.new.studio.donut,
   WATERFALLCHART: APP_ROUTES.panel.new.studio.waterfall,

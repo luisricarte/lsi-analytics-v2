@@ -9,6 +9,7 @@ import { DonutChart } from './donut-chart.entity';
 import { WaterfallChart } from './waterfall-chart.entity';
 import { HorizontalBarChart } from './horizontal-bar-chart.entity';
 import { KPIChart } from './kpi-chart.entity';
+import { AreaChart } from './area-chart.entity';
 
 export interface ViewProps {
   type: ViewType;
@@ -16,6 +17,7 @@ export interface ViewProps {
   sql?: string | null;
   core?:
     | PieChart
+    | AreaChart
     | BarChart
     | LineChart
     | NumberView

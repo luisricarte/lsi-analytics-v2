@@ -3,6 +3,7 @@ import { Layout } from 'react-grid-layout';
 
 import { ViewProps, ViewType } from '@/services/models/panel/types';
 
+import { EAreaChartData } from '../panel-new-view/pages/studio/pages/area-chart/contexts/PanelNewViewStudioAreaChartProvider';
 import { EBarChartData } from '../panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '../panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '../panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
@@ -10,7 +11,7 @@ import { ELineChartData } from '../panel-new-view/pages/studio/pages/line-chart/
 import { NumberViewPresentation } from '../panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '../panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SelectFilterPresentation } from '../panel-new-view/pages/studio/pages/select-filter/hooks/useSelectFilterStore';
-// ADICIONAR - NOVOS TIPOS
+
 export type Breakpoints = 'LARGE' | 'MEDIUM' | 'SMALL';
 
 export const BREAKPOINTS: Record<Breakpoints, Breakpoints> = {
@@ -26,6 +27,7 @@ export type NewViewPreview = {
     | EBarChartData
     | EHorizontalBarChartData
     | ELineChartData
+    | EAreaChartData
     | EDonutChartData[]
     | NumberViewPresentation
     | SelectFilterPresentation;

@@ -81,7 +81,6 @@ class PanelsService {
   }
 
   public async findPanelChartViews(props: FindPanelChartViewsProps) {
-    console.log('aaaa: ', props.config?.params);
     const response = await api.get<FindPanelChartViewsResponse>(
       `/panels/${props.path.id}/chart-views`,
       props.config,

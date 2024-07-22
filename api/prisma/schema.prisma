@@ -73,6 +73,7 @@ enum ViewType {
   BARCHART
   LINECHART
   DONUTCHART
+  AREACHART
   HORIZONTALBARCHART
   WATERFALLCHART
   KPICHART
@@ -94,6 +95,7 @@ model View {
   pieChart          PieChart?
   barChart          BarChart?
   lineChart         LineChart? 
+  areaChart         AreaChart? 
   donutChart        DonutChart?
   waterfallChart      WaterfallChart?
   kpiChart          KPIChart?
@@ -145,6 +147,19 @@ model LineChart {
 
   @@map("LINE_CHART")
 }
+
+model AreaChart {
+  id           String   @id @default(nanoid())
+  labelColumn  String
+  valueColumns String[]
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("AREA_CHART")
+}
+
 
 model NumberView {
   id                    String   @id @default(nanoid())

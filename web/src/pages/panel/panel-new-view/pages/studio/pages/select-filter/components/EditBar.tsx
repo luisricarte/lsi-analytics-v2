@@ -1,5 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { BarChart3, Binary, Folder, LineChart, PieChart, LifeBuoy, BarChartHorizontal, Map, BarChart, Ban } from 'lucide-react';
+import {
+  BarChart3,
+  Binary,
+  Folder,
+  LineChart,
+  PieChart,
+  LifeBuoy,
+  BarChartHorizontal,
+  Map,
+  BarChart,
+  Ban,
+  AreaChart,
+} from 'lucide-react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -131,6 +143,9 @@ export const EditBar: React.FC = () => {
               break;
             case PANEL.VIEW.BARCHART:
               Icon = BarChart3;
+              break;
+            case PANEL.VIEW.AREACHART:
+              Icon = AreaChart;
               break;
             case PANEL.VIEW.LINECHART:
               Icon = LineChart;

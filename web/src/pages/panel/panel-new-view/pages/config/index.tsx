@@ -134,6 +134,9 @@ export const PanelNewViewConfig: React.FC = () => {
                       <SelectItem value={PANEL.VIEW.LINECHART}>
                         Gráfico de linha
                       </SelectItem>
+                      <SelectItem value={PANEL.VIEW.AREACHART}>
+                        Gráfico de área
+                      </SelectItem>
                       <SelectItem value={PANEL.VIEW.WATERFALLCHART}>
                         Gráfico de cascata
                       </SelectItem>

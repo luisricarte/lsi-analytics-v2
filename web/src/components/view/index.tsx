@@ -2,6 +2,7 @@
 import { ListFilter } from 'lucide-react';
 import React from 'react';
 
+import { EAreaChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/area-chart/contexts/PanelNewViewStudioAreaChartProvider';
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
@@ -13,6 +14,7 @@ import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/p
 import { PANEL } from '@/services/models/panel/constants';
 import { ViewType } from '@/services/models/panel/types';
 
+import { AreaChartView } from './AreaChartView';
 import { BarChartView } from './BarChartView';
 import { DonutChartView } from './DonutChartView';
 import { HorizontalBarChartView } from './HorizontalBarChartView';
@@ -24,13 +26,12 @@ import { WaterfallChartView } from './WaterfallChartView';
 
 interface ViewProps {
   data:
-   // ADICIONAR - NOVAS VISUALIZAÇÕES private static visualizações
     | EPieChartData[]
     | EBarChartData
     | EHorizontalBarChartData
     | ELineChartData
     | EDonutChartData[]
-    | EWaterfallChartData[]
+    | EWaterfallChartData
     | NumberViewPresentation
     | SelectFilterPresentation;
   type: ViewType;
@@ -49,7 +50,6 @@ export const View: React.FC<ViewProps> = ({
   let ViewComponent = null;
 
   switch (type) {
-     // ADICIONAR - NOVAS VISUALIZAÇÕES private static visualizações
     case PANEL.VIEW.PIECHART: {
       const _data = data as EPieChartData[];
       ViewComponent = <PieChartView data={_data} />;
@@ -67,16 +67,20 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <LineChartView data={_data} />;
       break;
     }
-
+    case PANEL.VIEW.AREACHART: {
+      const _data = data as EAreaChartData;
+      ViewComponent = <AreaChartView data={_data} />;
+      break;
+    }
     case PANEL.VIEW.DONUTCHART: {
       const _data = data as EDonutChartData[];
       ViewComponent = <DonutChartView data={_data} />;
       break;
     }
 
-    case PANEL.VIEW.HORIZONTALBARCHART : {
+    case PANEL.VIEW.HORIZONTALBARCHART: {
       const _data = data as EHorizontalBarChartData;
-      ViewComponent = <HorizontalBarChartView data={_data} />
+      ViewComponent = <HorizontalBarChartView data={_data} />;
       break;
     }
     case PANEL.VIEW.WATERFALLCHART: {
@@ -84,14 +88,15 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <WaterfallChartView data={_data} />;
       break;
     }
+
     // case PANEL.VIEW.MAPCHART: {
-    //   // AJUSTAR 
+    //   // AJUSTAR
     //   const _data = data as EPieChartData[];
     //   ViewComponent = <PieChartView data={_data} />;
     //   break;
     // }
     // case PANEL.VIEW.KPICHART: {
-    //   // AJUSTAR 
+    //   // AJUSTAR
     //   const _data = data as EPieChartData[];
     //   ViewComponent = <PieChartView data={_data} />;
     //   break;

@@ -1,6 +1,7 @@
 import {
   BarChart as PrismaBarChart,
   LineChart as PrismaLineChart,
+  AreaChart as PrismaAreaChart,
   NumberView as PrismaNumberView,
   PieChart as PrismaPieChart,
   SelectFilter as PrismaSelectFilter,
@@ -12,6 +13,7 @@ import {
 } from '@prisma/client';
 import { BarChart } from '../entities/bar-chart.entity';
 import { LineChart } from '../entities/line-chart.entity';
+import { AreaChart } from '../entities/area-chart.entity';
 import { NumberView } from '../entities/number-view.entity';
 import { PieChart } from '../entities/pie-chart.entity';
 import { SelectFilter } from '../entities/select-filter';
@@ -26,6 +28,7 @@ export type FullRelationView = PrismaView & {
   pieChart?: PrismaPieChart | null;
   barChart?: PrismaBarChart | null;
   lineChart?: PrismaLineChart | null;
+  areaChart?: PrismaAreaChart | null;
   numberView?: PrismaNumberView | null;
   selectFilter?: PrismaSelectFilter | null;
   donutChart?: PrismaDonutChart | null;
@@ -107,6 +110,16 @@ export class CoreViewsMapper {
           viewId: lineCore.props.viewId,
           createdAt: lineCore.createdAt,
           updatedAt: lineCore.updatedAt,
+        };
+      case 'AREACHART':
+        const areaCore = view.props.core as AreaChart;
+        return {
+          id: areaCore.id,
+          labelColumn: areaCore.props.labelColumn,
+          valueColumns: areaCore.props.valueColumns,
+          viewId: areaCore.props.viewId,
+          createdAt: areaCore.createdAt,
+          updatedAt: areaCore.updatedAt,
         };
       case 'NUMBERVIEW':
         const numberViewCore = view.props.core as NumberView;
@@ -206,6 +219,19 @@ export class CoreViewsMapper {
           viewId: lineCore.viewId,
           createdAt: lineCore.createdAt,
           updatedAt: lineCore.updatedAt,
+        });
+      case 'AREACHART':
+        if (!view.areaChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const areaCore = view.areaChart;
+        return new AreaChart({
+          id: areaCore.id,
+          labelColumn: areaCore.labelColumn,
+          valueColumns: areaCore.valueColumns,
+          viewId: areaCore.viewId,
+          createdAt: areaCore.createdAt,
+          updatedAt: areaCore.updatedAt,
         });
       case 'NUMBERVIEW':
         if (!view.numberView) {

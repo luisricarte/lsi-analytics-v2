@@ -40,7 +40,6 @@ export const PanelPage: React.FC = () => {
   const { id } = useParams();
 
   const filtersToURL = () => {
-    console.log('executei: ');
     let filterURL = '';
 
     if (filters.current.length > 0) {
@@ -124,8 +123,6 @@ export const PanelPage: React.FC = () => {
           >
             {data.views.map((v) => {
               const vData = getViewData(v);
-
-              console.log('v: ', v);
 
               if (vData) {
                 switch (v.view.type) {
