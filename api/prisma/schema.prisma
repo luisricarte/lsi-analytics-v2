@@ -74,6 +74,7 @@ enum ViewType {
   LINECHART
   DONUTCHART
   AREACHART
+  MAPCHART
   HORIZONTALBARCHART
   WATERFALLCHART
   KPICHART
@@ -87,27 +88,28 @@ enum ViewContentUpdate {
 }
 
 model View {
-  id                String              @id @default(nanoid())
-  name              String
-  type              ViewType
-  contentUpdate     ViewContentUpdate
-  sql               String?
-  pieChart          PieChart?
-  barChart          BarChart?
-  lineChart         LineChart? 
-  areaChart         AreaChart? 
-  donutChart        DonutChart?
-  waterfallChart      WaterfallChart?
-  kpiChart          KPIChart?
+  id                 String              @id @default(nanoid())
+  name               String
+  type               ViewType
+  contentUpdate      ViewContentUpdate
+  sql                String?
+  pieChart           PieChart?
+  barChart           BarChart?
+  lineChart          LineChart?
+  areaChart          AreaChart?
+  donutChart         DonutChart?
+  mapChart           MapChart?
+  waterfallChart     WaterfallChart?
+  kpiChart           KPIChart?
   horizontalBarChart HorizontalBarChart?
-  numberView        NumberView?
-  selectFilter      SelectFilter?
-  panel             Panel               @relation(fields: [panelId], references: [id], onDelete: Cascade)
-  panelId           String
-  datafont          DataFont            @relation(fields: [datafontId], references: [id])
-  datafontId        String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  numberView         NumberView?
+  selectFilter       SelectFilter?
+  panel              Panel               @relation(fields: [panelId], references: [id], onDelete: Cascade)
+  panelId            String
+  datafont           DataFont            @relation(fields: [datafontId], references: [id])
+  datafontId         String
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
   @@map("VIEWS")
 }
@@ -160,6 +162,17 @@ model AreaChart {
   @@map("AREA_CHART")
 }
 
+model MapChart {
+  id           String   @id @default(nanoid())
+  labelColumn  String
+  valueColumns String[]
+  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId       String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("MAP_CHART")
+}
 
 model NumberView {
   id                    String   @id @default(nanoid())

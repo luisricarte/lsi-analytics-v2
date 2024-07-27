@@ -16,6 +16,7 @@ export type ViewType =
   | 'PIECHART'
   | 'BARCHART'
   | 'LINECHART'
+  | 'MAPCHART'
   | 'AREACHART'
   | 'NUMBERVIEW'
   | 'SELECTFILTER'

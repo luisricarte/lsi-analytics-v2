@@ -1,0 +1,20 @@
+-- AlterEnum
+ALTER TYPE "ViewType" ADD VALUE 'MAPCHART';
+
+-- CreateTable
+CREATE TABLE "MAP_CHART" (
+    "id" TEXT NOT NULL,
+    "labelColumn" TEXT NOT NULL,
+    "valueColumns" TEXT[],
+    "viewId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "MAP_CHART_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MAP_CHART_viewId_key" ON "MAP_CHART"("viewId");
+
+-- AddForeignKey
+ALTER TABLE "MAP_CHART" ADD CONSTRAINT "MAP_CHART_viewId_fkey" FOREIGN KEY ("viewId") REFERENCES "VIEWS"("id") ON DELETE CASCADE ON UPDATE CASCADE;

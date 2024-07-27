@@ -233,10 +233,6 @@ export class EchartAdapter {
       const incomeObj = {
         type: 'bar',
         stack: 'stack',
-        label: {
-          show: true,
-          position: 'bottom',
-        },
         itemStyle: {
           color: 'red',
         },
@@ -245,10 +241,6 @@ export class EchartAdapter {
       const expensesObj = {
         type: 'bar',
         stack: 'stack',
-        label: {
-          show: true,
-          position: 'top',
-        },
         itemStyle: {
           color: 'green',
         },
