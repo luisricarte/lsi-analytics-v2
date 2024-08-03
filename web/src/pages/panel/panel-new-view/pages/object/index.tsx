@@ -35,10 +35,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { REQUIRED_FIELD, UNEXPECTED_ERROR } from '@/constants/messages';
 import { reactQueryKeys } from '@/constants/react-query-keys';
+import { useTheme } from '@/hooks/useTheme';
 import { dataFontsService } from '@/services/datafonts';
 import { favoriteQueriesService } from '@/services/favorite-queries';
 
-import { useTheme } from '@/hooks/useTheme';
 import { usePanelNewViewContext } from '../../hooks/usePanelNewViewContext';
 import { usePanelQuery } from '../../hooks/usePanelQuery';
 import { TYPE_STUDIO_LINK_MAPPER } from './constants';

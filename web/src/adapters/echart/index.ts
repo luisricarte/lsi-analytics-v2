@@ -3,6 +3,7 @@ import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/b
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
+import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/waterfall-chart/contexts/PanelNewViewStudioWaterfallChartProvider';
 import { SQLResult } from '@/services/models/datafont/types';
@@ -17,6 +18,7 @@ import {
   ViewType,
   AreaChartProps,
   WaterfallChartProps,
+  MapChartProps,
 } from '@/services/models/panel/types';
 
 export class EchartAdapter {
@@ -62,11 +64,10 @@ export class EchartAdapter {
         const _core = core as AreaChartProps & { [key: string]: unknown };
         return this.areaChartQueryToData(queryResult, _core);
       }
-      // case PANEL.VIEW.MAPCHART: {
-      //   // AJUSTAR
-      //   const _core = core as PieChartProps & { [key: string]: unknown };
-      //   return this.pieChartQueryToData(queryResult, _core);
-      // }
+      case PANEL.VIEW.MAPCHART: {
+        const _core = core as MapChartProps & { [key: string]: unknown };
+        return this.mapChartQueryToData(queryResult, _core);
+      }
       // case PANEL.VIEW.KPICHART: {
       //   // AJUSTAR
       //   const _core = core as PieChartProps & { [key: string]: unknown };
@@ -261,5 +262,15 @@ export class EchartAdapter {
       finalData.series[0].data = stackData;
     }
     return finalData;
+  }
+
+  private static mapChartQueryToData(
+    queryResult: SQLResult,
+    core: MapChartProps & { [key: string]: unknown },
+  ): EMapChartData[] {
+    return queryResult.rows.map((r) => ({
+      value: r[core.valueColumn],
+      name: r[core.labelColumn],
+    }));
   }
 }

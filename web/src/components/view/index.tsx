@@ -7,6 +7,7 @@ import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/b
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
+import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
 import { NumberViewPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SelectFilterPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/select-filter/hooks/useSelectFilterStore';
@@ -19,6 +20,7 @@ import { BarChartView } from './BarChartView';
 import { DonutChartView } from './DonutChartView';
 import { HorizontalBarChartView } from './HorizontalBarChartView';
 import { LineChartView } from './LineChartView';
+import { MapChartView } from './MapChartView';
 import { NumberView } from './NumberView';
 import { PieChartView } from './PieChartView';
 import { SelectFilterView } from './SelectFilterView';
@@ -30,6 +32,7 @@ interface ViewProps {
     | EBarChartData
     | EHorizontalBarChartData
     | ELineChartData
+    | EMapChartData[]
     | EDonutChartData[]
     | EWaterfallChartData
     | NumberViewPresentation
@@ -88,20 +91,11 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <WaterfallChartView data={_data} />;
       break;
     }
-
-    // case PANEL.VIEW.MAPCHART: {
-    //   // AJUSTAR
-    //   const _data = data as EPieChartData[];
-    //   ViewComponent = <PieChartView data={_data} />;
-    //   break;
-    // }
-    // case PANEL.VIEW.KPICHART: {
-    //   // AJUSTAR
-    //   const _data = data as EPieChartData[];
-    //   ViewComponent = <PieChartView data={_data} />;
-    //   break;
-    // }
-
+    case PANEL.VIEW.MAPCHART: {
+      const _data = data as EMapChartData[];
+      ViewComponent = <MapChartView data={_data} />;
+      break;
+    }
     case PANEL.VIEW.NUMBERVIEW: {
       const _data = data as NumberViewPresentation;
       ViewComponent = <NumberView data={_data} />;

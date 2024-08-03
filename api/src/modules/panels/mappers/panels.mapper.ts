@@ -3,6 +3,7 @@ import {
   LineChart as PrismaLineChart,
   NumberView as PrismaNumberView,
   Panel as PrismaPanel,
+  MapChart as PrismaMapChart,
   PieChart as PrismaPieChart,
   AreaChart as PrismaAreaChart,
   SelectFilter as PrismaSelectFilter,
@@ -24,6 +25,7 @@ export class PanelsMapper {
         barChart?: PrismaBarChart | null;
         areaChart?: PrismaAreaChart | null;
         lineChart?: PrismaLineChart | null;
+        mapChart?: PrismaMapChart | null;
         numberView?: PrismaNumberView | null;
         selectFilter?: PrismaSelectFilter | null;
         donutChart?: PrismaDonutChart | null;

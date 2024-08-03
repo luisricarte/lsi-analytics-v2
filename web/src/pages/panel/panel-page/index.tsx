@@ -163,7 +163,6 @@ export const PanelPage: React.FC = () => {
                       </div>
                     );
                   }
-
                   default:
                     return (
                       <div key={v.view.id}>

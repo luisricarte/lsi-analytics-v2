@@ -238,6 +238,7 @@ export const getViewData = (v: { queryResult: SQLResult; view: ViewModel }) => {
     case PANEL.VIEW.WATERFALLCHART:
     case PANEL.VIEW.KPICHART:
     case PANEL.VIEW.DONUTCHART:
+    case PANEL.VIEW.MAPCHART:
     case PANEL.VIEW.BARCHART:
     case PANEL.VIEW.PIECHART:
     case PANEL.VIEW.LINECHART:

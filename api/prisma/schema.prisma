@@ -165,7 +165,7 @@ model AreaChart {
 model MapChart {
   id           String   @id @default(nanoid())
   labelColumn  String
-  valueColumns String[]
+  valueColumn String
   view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
   viewId       String   @unique
   createdAt    DateTime @default(now())

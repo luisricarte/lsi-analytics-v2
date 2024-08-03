@@ -10,6 +10,7 @@ import { WaterfallChart } from './waterfall-chart.entity';
 import { HorizontalBarChart } from './horizontal-bar-chart.entity';
 import { KPIChart } from './kpi-chart.entity';
 import { AreaChart } from './area-chart.entity';
+import { MapChart } from './map-chart.entity';
 
 export interface ViewProps {
   type: ViewType;
@@ -20,6 +21,7 @@ export interface ViewProps {
     | AreaChart
     | BarChart
     | LineChart
+    | MapChart
     | NumberView
     | SelectFilter
     | DonutChart

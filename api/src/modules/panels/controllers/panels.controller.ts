@@ -41,6 +41,7 @@ import { CreateKPIChartDto } from '../dtos/create-kpi-chart.dto';
 import { CreateWaterfallChartDto } from '../dtos/create-waterfall-chart.dto';
 import { CreateHorizontalBarChartDto } from '../dtos/create-horizontal-bar-chart.dto';
 import { CreateDonutChartDto } from '../dtos/create-donut-chart.dto';
+import { CreateMapChartDto } from '../dtos/create-map-chart.dto copy';
 
 @Controller('/panels')
 export class PanelsController {
@@ -202,6 +203,24 @@ export class PanelsController {
                   panelId: param.id,
                   datafontId,
                   areaChart: {
+                    create: _core,
+                  },
+                },
+              });
+              break;
+            }
+            case 'MAPCHART': {
+              const _core = core as CreateMapChartDto;
+              await this.prisma.view.create({
+                data: {
+                  id,
+                  name,
+                  type,
+                  contentUpdate,
+                  sql,
+                  panelId: param.id,
+                  datafontId,
+                  mapChart: {
                     create: _core,
                   },
                 },

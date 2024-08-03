@@ -137,6 +137,11 @@ export type AreaChartProps = {
   valueColumns: string[];
 };
 
+export type MapChartProps = {
+  labelColumn: string;
+  valueColumn: string;
+};
+
 export type PieChartProps = {
   labelColumn: string;
   valueColumn: string;

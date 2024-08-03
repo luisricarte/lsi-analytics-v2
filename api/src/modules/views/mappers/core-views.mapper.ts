@@ -4,6 +4,7 @@ import {
   AreaChart as PrismaAreaChart,
   NumberView as PrismaNumberView,
   PieChart as PrismaPieChart,
+  MapChart as PrismaMapChart,
   SelectFilter as PrismaSelectFilter,
   View as PrismaView,
   DonutChart as PrismaDonutChart,
@@ -16,6 +17,7 @@ import { LineChart } from '../entities/line-chart.entity';
 import { AreaChart } from '../entities/area-chart.entity';
 import { NumberView } from '../entities/number-view.entity';
 import { PieChart } from '../entities/pie-chart.entity';
+import { MapChart } from '../entities/map-chart.entity';
 import { SelectFilter } from '../entities/select-filter';
 import { DonutChart } from '../entities/donut-chart.entity';
 import { WaterfallChart } from '../entities/waterfall-chart.entity';
@@ -27,6 +29,7 @@ import { ItWasNotPossibleToCreateViewInstanceError } from '../../panels/errors/i
 export type FullRelationView = PrismaView & {
   pieChart?: PrismaPieChart | null;
   barChart?: PrismaBarChart | null;
+  mapChart?: PrismaMapChart | null;
   lineChart?: PrismaLineChart | null;
   areaChart?: PrismaAreaChart | null;
   numberView?: PrismaNumberView | null;
@@ -100,6 +103,16 @@ export class CoreViewsMapper {
           viewId: barCore.props.viewId,
           createdAt: barCore.createdAt,
           updatedAt: barCore.updatedAt,
+        };
+      case 'MAPCHART':
+        const mapCore = view.props.core as MapChart;
+        return {
+          id: mapCore.id,
+          labelColumn: mapCore.props.labelColumn,
+          valueColumn: mapCore.props.valueColumn,
+          viewId: mapCore.props.viewId,
+          createdAt: mapCore.createdAt,
+          updatedAt: mapCore.updatedAt,
         };
       case 'LINECHART':
         const lineCore = view.props.core as LineChart;
@@ -206,6 +219,19 @@ export class CoreViewsMapper {
           viewId: barCore.viewId,
           createdAt: barCore.createdAt,
           updatedAt: barCore.updatedAt,
+        });
+      case 'MAPCHART':
+        if (!view.mapChart) {
+          throw new ItWasNotPossibleToCreateViewInstanceError();
+        }
+        const mapCore = view.mapChart;
+        return new MapChart({
+          id: mapCore.id,
+          labelColumn: mapCore.labelColumn,
+          valueColumn: mapCore.valueColumn,
+          viewId: mapCore.viewId,
+          createdAt: mapCore.createdAt,
+          updatedAt: mapCore.updatedAt,
         });
       case 'LINECHART':
         if (!view.lineChart) {

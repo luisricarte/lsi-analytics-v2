@@ -10,6 +10,7 @@ import { CreateHorizontalBarChartDto } from './create-horizontal-bar-chart.dto';
 import { CreateWaterfallChartDto } from './create-waterfall-chart.dto';
 import { CreateKPIChartDto } from './create-kpi-chart.dto';
 import { CreateAreaChartDto } from './create-area-chart.dto';
+import { CreateMapChartDto } from './create-map-chart.dto copy';
 
 export class CreateViewDto {
   @IsString()
@@ -23,6 +24,7 @@ export class CreateViewDto {
     'BARCHART',
     'LINECHART',
     'DONUTCHART',
+    'MAPCHART',
     'AREACHART',
     'HORIZONTALBARCHART',
     'KPICHART',
@@ -44,6 +46,7 @@ export class CreateViewDto {
     | CreatePieChartDto
     | CreateBarChartDto
     | CreateLineChartDto
+    | CreateMapChartDto
     | CreateNumberViewDto
     | CreateSelectFilterDto
     | CreateDonutChartDto
