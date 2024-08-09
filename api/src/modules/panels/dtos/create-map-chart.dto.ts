@@ -1,3 +1,4 @@
+import { AssociatedMap } from '@prisma/client';
 import { IsArray, IsString } from 'class-validator';
 
 export class CreateMapChartDto {
@@ -7,4 +8,7 @@ export class CreateMapChartDto {
   @IsArray()
   @IsString({ each: true })
   valueColumn: string;
+
+  @IsString()
+  associatedMap: AssociatedMap;
 }

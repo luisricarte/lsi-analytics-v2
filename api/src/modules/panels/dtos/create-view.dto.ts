@@ -10,7 +10,7 @@ import { CreateHorizontalBarChartDto } from './create-horizontal-bar-chart.dto';
 import { CreateWaterfallChartDto } from './create-waterfall-chart.dto';
 import { CreateKPIChartDto } from './create-kpi-chart.dto';
 import { CreateAreaChartDto } from './create-area-chart.dto';
-import { CreateMapChartDto } from './create-map-chart.dto copy';
+import { CreateMapChartDto } from './create-map-chart.dto';
 
 export class CreateViewDto {
   @IsString()
