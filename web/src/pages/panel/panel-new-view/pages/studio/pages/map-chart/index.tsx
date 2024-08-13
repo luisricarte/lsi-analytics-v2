@@ -1,5 +1,5 @@
 import * as echarts from 'echarts';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -25,6 +25,56 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
   const { echartData } = usePanelNewViewStudioMapChartContext();
 
   const { data, error } = usePanelQuery({ id });
+
+  useEffect(() => {
+    const getMap = async () => {
+      try {
+        const braJson = await fetch(
+          `/map/geojs-${viewCreation.mapType}-mun.json`,
+        ).then((res) => res.json());
+
+        echarts.registerMap('Brazil', braJson);
+
+        const optionSeries = {
+          tooltip: {
+            trigger: 'item',
+          },
+          visualMap: {
+            left: 'right',
+            min: 0, // ajustar!
+            max: 1000, // ajustar!
+            inRange: {
+              color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // ajustar!
+            },
+            text: ['High', 'Low'], // ajustar!
+            calculable: true,
+          },
+          series: [
+            {
+              type: 'map',
+              map: 'Brazil',
+              roam: true,
+              emphasis: {
+                label: {
+                  show: true,
+                },
+              },
+              data: echartData,
+            },
+          ],
+        };
+
+        setOption(optionSeries);
+      } catch (e) {
+        console.error('Failed to load map data', e);
+      }
+    };
+
+    if (data && canAccessStep(4, data.id)) {
+      getMap();
+    }
+  }, [data, canAccessStep, echartData, viewCreation.mapType]);
+
   const renderBreadbrumb = () => {
     if (data && id) {
       return (
@@ -45,67 +95,9 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
     return null;
   };
 
-  const render = () => {
-    if (data && canAccessStep(4, data.id)) {
-      const getMap = async () => {
-        try {
-          const braJson = await fetch(
-            `./public/map/geojs-${viewCreation.mapType}-mun.json`,
-          ).then((res) => res.json());
-
-          echarts.registerMap('Brazil', braJson);
-
-          const optionSeries = {
-            tooltip: {
-              trigger: 'item',
-            },
-            visualMap: {
-              left: 'right',
-              min: 0, // ajustar!
-              max: 1000, // ajustar!
-              inRange: {
-                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // ajustar!
-              },
-              text: ['High', 'Low'], // ajustar!
-              calculable: true,
-            },
-            series: [
-              {
-                type: 'map',
-                map: 'Brazil',
-                roam: true,
-                emphasis: {
-                  label: {
-                    show: true,
-                  },
-                },
-                data: echartData,
-              },
-            ],
-          };
-
-          setOption(optionSeries);
-        } catch (e) {
-          console.error('Failed to load map data', error);
-        }
-      };
-      getMap();
-      return (
-        <EChart
-          style={{
-            height: 'calc(100vh - 3.5rem)',
-          }}
-          option={option}
-        />
-      );
-    }
-
-    if (error || !id) {
-      <NotFoundPage />;
-    }
-
-    return null;
-  };
+  if (error || !id) {
+    return <NotFoundPage />;
+  }
 
   return (
     <Layout
@@ -114,7 +106,12 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
       breadcrumb={renderBreadbrumb()}
       rightBar={<EditBar />}
     >
-      {render()}
+      <EChart
+        style={{
+          height: 'calc(100vh - 3.5rem)',
+        }}
+        option={option}
+      />
     </Layout>
   );
 };
