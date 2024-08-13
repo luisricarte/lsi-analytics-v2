@@ -1,7 +1,7 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { nanoid } from 'nanoid';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -38,15 +38,18 @@ import { usePanelQuery } from '../../hooks/usePanelQuery';
 type FormData = {
   name: ViewProps['name'];
   type: ViewProps['type'];
+  mapType: ViewProps['mapType'];
   contentUpdate: ViewProps['contentUpdate'];
 };
 
 export const PanelNewViewConfig: React.FC = () => {
   const { id } = useParams();
-
   const { setViewCreation, viewCreation } = usePanelNewViewContext();
-
   const location = useLocation();
+
+  const [selectedType, setSelectedType] = useState<ViewProps['type'] | null>(
+    location.state?.view ?? viewCreation.type ?? '',
+  );
 
   const {
     handleSubmit,
@@ -110,7 +113,10 @@ export const PanelNewViewConfig: React.FC = () => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <Select
-                    onValueChange={onChange}
+                    onValueChange={(value) => {
+                      onChange(value);
+                      setSelectedType(value as ViewProps['type']);
+                    }}
                     defaultValue={
                       location.state?.view ?? viewCreation.type ?? null
                     }
@@ -160,7 +166,57 @@ export const PanelNewViewConfig: React.FC = () => {
               />
             </div>
           </div>
-
+          {selectedType === 'MAPCHART' && (
+            <div>
+              <Label> Selecione o Mapa </Label>
+              <Controller
+                name="mapType"
+                rules={{ required: REQUIRED_FIELD }}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <Select onValueChange={onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um mapa" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={'Brasil'}>Brasil</SelectItem>
+                      <SelectItem value={'12'}>Acre</SelectItem>
+                      <SelectItem value={'27'}>Alagoas</SelectItem>
+                      <SelectItem value={'13'}>Amazonas</SelectItem>
+                      <SelectItem value={'16'}>Amapá</SelectItem>
+                      <SelectItem value={'29'}>Bahia</SelectItem>
+                      <SelectItem value={'23'}>Ceará</SelectItem>
+                      <SelectItem value={'53'}>Distrito Federal</SelectItem>
+                      <SelectItem value={'32'}>Espírito Santo</SelectItem>
+                      <SelectItem value={'52'}>Goiás</SelectItem>
+                      <SelectItem value={'21'}>Maranhão</SelectItem>
+                      <SelectItem value={'51'}>Mato Grosso</SelectItem>
+                      <SelectItem value={'50'}>Mato Grosso do Sul</SelectItem>
+                      <SelectItem value={'15'}>Pará</SelectItem>
+                      <SelectItem value={'25'}>Paraíba</SelectItem>
+                      <SelectItem value={'41'}>Paraná</SelectItem>
+                      <SelectItem value={'26'}>Pernambuco</SelectItem>
+                      <SelectItem value={'22'}>Piauí</SelectItem>
+                      <SelectItem value={'33'}>Rio de Janeiro</SelectItem>
+                      <SelectItem value={'24'}>Rio Grande do Norte</SelectItem>
+                      <SelectItem value={'43'}>Rio Grande do Sul</SelectItem>
+                      <SelectItem value={'11'}>Rondônia</SelectItem>
+                      <SelectItem value={'14'}>Roraima</SelectItem>
+                      <SelectItem value={'42'}>Santa Catarina</SelectItem>
+                      <SelectItem value={'35'}>São Paulo</SelectItem>
+                      <SelectItem value={'28'}>Sergipe</SelectItem>
+                      <SelectItem value={'17'}>Tocantins</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="mapType"
+                render={({ message }) => <FieldError message={message} />}
+              />
+            </div>
+          )}
           <div className="flex flex-col gap-2">
             <Label>Atualização do conteúdo</Label>
             <Controller

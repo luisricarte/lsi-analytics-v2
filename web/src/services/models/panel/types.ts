@@ -81,6 +81,21 @@ export type KPIChart = {
   updatedAt: Date;
 };
 
+export enum AssociatedMap {
+  BRASIL,
+  ESTADOS_UNIDOS,
+  PARAIBA,
+}
+
+export type MapChart = {
+  id: string;
+  labelColumn: string;
+  valueColumns: string;
+  associatedMap: AssociatedMap;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type LineChart = {
   id: string;
   labelColumn: string;
@@ -140,6 +155,7 @@ export type AreaChartProps = {
 export type MapChartProps = {
   labelColumn: string;
   valueColumn: string;
+  // associatedMap: AssociatedMap;
 };
 
 export type PieChartProps = {
@@ -191,6 +207,7 @@ export type GraphTypeCore =
   | AreaChart
   | WaterfallChart
   | DonutChart
+  | MapChart
   | HorizontalBarChart
   | KPIChart;
 
@@ -198,6 +215,7 @@ export type ViewModel = {
   id: string;
   name: string;
   type: ViewType;
+  mapType: string;
   contentUpdate: ContentUpdate;
   datafontId: string;
   sql: string;
@@ -214,6 +232,7 @@ export type ViewProps = Omit<ViewModel, 'createdAt' | 'updatedAt' | 'core'> & {
     | LineChartProps
     | AreaChartProps
     | NumberViewProps
+    | MapChartProps
     | HorizontalBarChartProps
     | WaterfallChartProps
     | DonutChartProps

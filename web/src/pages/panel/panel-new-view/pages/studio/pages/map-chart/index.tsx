@@ -21,7 +21,7 @@ import { usePanelNewViewStudioMapChartContext } from './hooks/usePanelNewViewStu
 export const PanelViewStudioMapChartPage: React.FC = () => {
   const { id } = useParams();
   const [option, setOption] = useState({});
-  const { canAccessStep } = usePanelNewViewContext();
+  const { canAccessStep, viewCreation } = usePanelNewViewContext();
   const { echartData } = usePanelNewViewStudioMapChartContext();
 
   const { data, error } = usePanelQuery({ id });
@@ -50,7 +50,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
       const getMap = async () => {
         try {
           const braJson = await fetch(
-            'https://raw.githubusercontent.com/luisricarte/lsi-analytics-v2/main/web/public/map/brazil_geo.json',
+            `https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-${viewCreation.mapType}-mun.json`,
           ).then((res) => res.json());
 
           echarts.registerMap('Brazil', braJson);

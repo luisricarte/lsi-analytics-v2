@@ -15,25 +15,24 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
   useEffect(() => {
     const loadMapData = async () => {
       const braJson = await fetch(
-        'https://raw.githubusercontent.com/luisricarte/lsi-analytics-v2/main/web/public/map/brazil_geo.json',
+        `https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-25-mun.json`,
       ).then((res) => res.json());
 
       echarts.registerMap('Brazil', braJson);
 
-      // Configurando as opções do gráfico
       setOption({
         tooltip: {
           trigger: 'item',
         },
         visualMap: {
-          min: 0,
-          max: 1000,
+          min: 0, // editável
+          max: 1000, // editável
           left: 'left',
           top: 'bottom',
-          text: ['High', 'Low'],
+          text: ['High', 'Low'], // editável
           calculable: true,
           inRange: {
-            color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+            color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // editável
           },
         },
         series: [
