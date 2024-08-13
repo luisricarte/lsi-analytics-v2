@@ -50,7 +50,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
       const getMap = async () => {
         try {
           const braJson = await fetch(
-            `https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-${viewCreation.mapType}-mun.json`,
+            `./public/map/geojs-${viewCreation.mapType}-mun.json`,
           ).then((res) => res.json());
 
           echarts.registerMap('Brazil', braJson);
@@ -61,12 +61,12 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
             },
             visualMap: {
               left: 'right',
-              min: 0,
-              max: 1000,
+              min: 0, // ajustar!
+              max: 1000, // ajustar!
               inRange: {
-                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // ajustar!
               },
-              text: ['High', 'Low'],
+              text: ['High', 'Low'], // ajustar!
               calculable: true,
             },
             series: [
