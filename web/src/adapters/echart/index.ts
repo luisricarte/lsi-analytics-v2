@@ -56,6 +56,10 @@ export class EchartAdapter {
         };
         return this.horizontalBarChartQueryToData(queryResult, _core);
       }
+      case PANEL.VIEW.MAPCHART: {
+        const _core = core as MapChartProps & { [key: string]: unknown };
+        return this.mapChartQueryToData(queryResult, _core);
+      }
       case PANEL.VIEW.WATERFALLCHART: {
         const _core = core as WaterfallChartProps & { [key: string]: unknown };
         return this.waterfallChartQueryToData(queryResult, _core);
@@ -64,15 +68,6 @@ export class EchartAdapter {
         const _core = core as AreaChartProps & { [key: string]: unknown };
         return this.areaChartQueryToData(queryResult, _core);
       }
-      case PANEL.VIEW.MAPCHART: {
-        const _core = core as MapChartProps & { [key: string]: unknown };
-        return this.mapChartQueryToData(queryResult, _core);
-      }
-      // case PANEL.VIEW.KPICHART: {
-      //   // AJUSTAR
-      //   const _core = core as PieChartProps & { [key: string]: unknown };
-      //   return this.pieChartQueryToData(queryResult, _core);
-      // }
       default:
         return null;
     }

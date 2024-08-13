@@ -177,7 +177,6 @@ export class CoreViewsMapper {
           createdAt: horizontalBarCore.createdAt,
           updatedAt: horizontalBarCore.updatedAt,
         };
-      case 'KPICHART':
       case 'WATERFALLCHART':
         const waterfallCore = view.props.core as WaterfallChart;
         return {

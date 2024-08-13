@@ -72,14 +72,17 @@ export const EditBar: React.FC = () => {
       const core: MapChartProps = {
         labelColumn: category,
         valueColumn: value,
-        // associatedMap: map,
+        associatedMap: viewCreation.mapType,
       };
 
       Object.assign(createdView, { core });
 
       setNewViewsPreview((prevState) => {
+        console.log('prevState', prevState);
+
         const newState = [...prevState];
         newState.push({ toViewData: echartData, view: createdView });
+        console.log('newState', newState);
         return newState;
       });
 

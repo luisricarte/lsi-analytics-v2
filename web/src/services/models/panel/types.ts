@@ -81,17 +81,11 @@ export type KPIChart = {
   updatedAt: Date;
 };
 
-export enum AssociatedMap {
-  BRASIL,
-  ESTADOS_UNIDOS,
-  PARAIBA,
-}
-
 export type MapChart = {
   id: string;
   labelColumn: string;
   valueColumns: string;
-  associatedMap: AssociatedMap;
+  associatedMap: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -155,7 +149,7 @@ export type AreaChartProps = {
 export type MapChartProps = {
   labelColumn: string;
   valueColumn: string;
-  // associatedMap: AssociatedMap;
+  associatedMap: string;
 };
 
 export type PieChartProps = {

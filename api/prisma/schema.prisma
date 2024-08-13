@@ -168,7 +168,7 @@ model MapChart {
   valueColumn String
   view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
   viewId       String   @unique
-  associatedMap AssociatedMap @default(BRASIL)
+  associatedMap String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -205,13 +205,6 @@ enum FeedbackType {
   BUG
   IDEA
   SUPPORT
-}
-
-enum AssociatedMap {
-  BRASIL
-  ESTADOS_UNIDOS
-  PARAIBA
-  MUNDO
 }
 
 model Feedback {

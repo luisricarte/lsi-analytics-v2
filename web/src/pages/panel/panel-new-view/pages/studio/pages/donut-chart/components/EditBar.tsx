@@ -87,10 +87,10 @@ export const EditBar: React.FC = () => {
   if (queryData) {
     return (
       <div className="flex h-full flex-col">
-        <div className="justify-center items-center flex">
+        <div className="flex items-center justify-center">
           <span className="p-4 text-lg font-semibold ">
-           Estúdio da visualização
-          </span>          
+            Estúdio da visualização
+          </span>
         </div>
 
         <SimpleTabs defaultValue="config" className="flex h-full flex-col">

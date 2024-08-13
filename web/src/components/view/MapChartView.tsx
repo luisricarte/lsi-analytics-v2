@@ -56,7 +56,7 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
     };
 
     loadMapData();
-  }, [data]);
+  }, []);
 
   return (
     <>
