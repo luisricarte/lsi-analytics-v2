@@ -112,8 +112,6 @@ export const View: React.FC<ViewProps> = ({
       return null;
   }
 
-  console.log('filters: ', filters);
-
   return (
     <div className="flex h-full w-full flex-col rounded-md border shadow-sm">
       <div className="flex w-full justify-between border-b p-2">

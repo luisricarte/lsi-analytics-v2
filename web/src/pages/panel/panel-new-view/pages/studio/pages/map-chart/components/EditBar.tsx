@@ -18,6 +18,7 @@ import {
   SimpleTabsTrigger,
 } from '@/components/ui/simple-tabs';
 import { APP_ROUTES } from '@/constants/app-routes';
+// import { EChart } from '@/lib/echarts-for-react';
 import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
@@ -65,7 +66,7 @@ export const EditBar: React.FC = () => {
     getEChartsData();
   }, [category, value, getEChartsData]);
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (category && value && queryData && data) {
       const createdView = { ...viewCreation };
 
@@ -76,6 +77,11 @@ export const EditBar: React.FC = () => {
       };
 
       Object.assign(createdView, { core });
+
+      echartData.push({
+        data: { name: '', value: '' },
+        mapType: viewCreation.mapType,
+      });
 
       setNewViewsPreview((prevState) => {
         const newState = [...prevState];

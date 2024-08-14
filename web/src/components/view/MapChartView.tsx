@@ -13,9 +13,11 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
   const [option, setOption] = useState({});
   useEffect(() => {
     const loadMapData = async () => {
-      const braJson = await fetch(
-        `/map/geojs-${data[0].mapType}-mun.json`,
-      ).then((res) => res.json());
+      const reqMap = await fetch(
+        `/map/geojs-${data[data.length - 1].mapType}-mun.json`,
+      );
+
+      const braJson = await reqMap.json();
 
       echarts.registerMap('Brazil', braJson);
 
