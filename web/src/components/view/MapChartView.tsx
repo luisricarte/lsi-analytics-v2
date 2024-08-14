@@ -11,11 +11,10 @@ interface MapChartViewProps {
 export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [option, setOption] = useState({});
-
   useEffect(() => {
     const loadMapData = async () => {
       const braJson = await fetch(
-        `https://raw.githubusercontent.com/tbrugz/geodata-br/master/geojson/geojs-25-mun.json`,
+        `/map/geojs-${data[0].mapType}-mun.json`,
       ).then((res) => res.json());
 
       echarts.registerMap('Brazil', braJson);
@@ -29,7 +28,6 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
           max: 1000, // editável
           left: 'left',
           top: 'bottom',
-          text: ['High', 'Low'], // editável
           calculable: true,
           inRange: {
             color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // editável
@@ -45,8 +43,8 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
               show: false,
             },
             data: data.map((item) => ({
-              name: item.name,
-              value: item.value,
+              name: item.data.name,
+              value: item.data.value,
             })),
           },
         ],

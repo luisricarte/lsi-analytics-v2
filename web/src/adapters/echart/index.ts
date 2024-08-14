@@ -263,9 +263,16 @@ export class EchartAdapter {
     queryResult: SQLResult,
     core: MapChartProps & { [key: string]: unknown },
   ): EMapChartData[] {
-    return queryResult.rows.map((r) => ({
-      value: r[core.valueColumn],
-      name: r[core.labelColumn],
+    const mappedData = queryResult.rows.map((r) => ({
+      data: {
+        value: r[core.valueColumn],
+        name: r[core.labelColumn],
+      },
+    }));
+
+    return mappedData.map((item) => ({
+      ...item,
+      mapType: core.associatedMap,
     }));
   }
 }

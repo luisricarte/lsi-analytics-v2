@@ -80,9 +80,6 @@ export const EditBar: React.FC = () => {
       }),
   });
 
-  console.log('viewsData: ', viewsData);
-  console.log('filterViews: ', filterViews);
-
   const handleCreate = () => {
     if (category && queryData && data) {
       const createdView = { ...viewCreation };

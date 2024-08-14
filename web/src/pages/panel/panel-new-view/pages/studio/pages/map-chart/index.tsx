@@ -59,7 +59,10 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
                   show: true,
                 },
               },
-              data: echartData,
+              data: echartData.map((e) => ({
+                value: e.data.value,
+                name: e.data.name,
+              })),
             },
           ],
         };
