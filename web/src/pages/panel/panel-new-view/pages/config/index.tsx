@@ -179,7 +179,7 @@ export const PanelNewViewConfig: React.FC = () => {
                       <SelectValue placeholder="Selecione um mapa" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'Brasil'}>Brasil</SelectItem>
+                      <SelectItem value={'100'}>Brasil</SelectItem>
                       <SelectItem value={'12'}>Acre</SelectItem>
                       <SelectItem value={'27'}>Alagoas</SelectItem>
                       <SelectItem value={'13'}>Amazonas</SelectItem>
