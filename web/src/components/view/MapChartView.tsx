@@ -11,10 +11,9 @@ interface MapChartViewProps {
 export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
   const [mapLoading, setMapLoading] = useState(true);
   const [option, setOption] = useState({});
-  // const [maxValue, setMaxValue] = useState<number>(0);
 
   useEffect(() => {
-    const values: any = [];
+    const values: number[] = [];
     data.map((value) => values.push(parseInt(value.data.value, 10)));
     const maxVV = Math.max(...values);
 
@@ -26,14 +25,13 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
       const braJson = await reqMap.json();
 
       echarts.registerMap('Brazil', braJson);
-
       setOption({
         tooltip: {
           trigger: 'item',
         },
         visualMap: {
           min: 0, // editável
-          max: maxVV, // editável
+          max: maxVV || 1, // editável
           left: 'left',
           top: 'bottom',
           calculable: true,
