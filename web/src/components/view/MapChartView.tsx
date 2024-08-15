@@ -9,9 +9,15 @@ interface MapChartViewProps {
 }
 
 export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
   const [option, setOption] = useState({});
+  // const [maxValue, setMaxValue] = useState<number>(0);
+
   useEffect(() => {
+    const values: any = [];
+    data.map((value) => values.push(parseInt(value.data.value, 10)));
+    const maxVV = Math.max(...values);
+
     const loadMapData = async () => {
       const reqMap = await fetch(
         `/map/geojs-${data[data.length - 1].mapType}-mun.json`,
@@ -27,7 +33,7 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
         },
         visualMap: {
           min: 0, // editável
-          max: 1000, // editável
+          max: maxVV, // editável
           left: 'left',
           top: 'bottom',
           calculable: true,
@@ -51,16 +57,17 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data }) => {
           },
         ],
       });
-
-      setMapLoaded(true);
     };
 
     loadMapData();
+    setMapLoading(false);
   }, []);
 
   return (
     <>
-      {mapLoaded && (
+      {mapLoading ? (
+        <div>carregando...</div>
+      ) : (
         <EChart
           style={{
             width: '100%',
