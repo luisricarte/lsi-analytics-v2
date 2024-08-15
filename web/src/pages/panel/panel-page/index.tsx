@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Plus, Settings, Trash2 } from 'lucide-react';
 import React from 'react';
 import { Layout as GridLayout } from 'react-grid-layout';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import {
   Breadcrumb,
@@ -26,6 +26,7 @@ import { View } from '@/components/view';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { reactQueryKeys } from '@/constants/react-query-keys';
 import { ResponsiveGridLayout } from '@/lib/echarts-for-react';
+import { useDeletePanelMutation } from '@/pages/panels/panels-page/hooks/useDeletePanelMutation';
 import { PANEL } from '@/services/models/panel/constants';
 import { SelectFilter } from '@/services/models/panel/types';
 import { panelsService } from '@/services/panels';
@@ -34,8 +35,16 @@ import { getViewData } from '@/utils';
 import { Breakpoints } from '../contexts/PanelEditProvider';
 import { PanelPageLoading } from './loading';
 
-export const PanelPage: React.FC = () => {
+interface PanelCardProps {
+  onDelete?: (id: string) => void;
+}
+
+export const PanelPage: React.FC<PanelCardProps> = ({
+  onDelete = () => {},
+}) => {
   const filters = React.useRef<{ id: string; value: string | number }[]>([]);
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -76,6 +85,18 @@ export const PanelPage: React.FC = () => {
       return null;
     },
     refetchOnWindowFocus: false,
+  });
+
+  const { mutate } = useDeletePanelMutation({
+    onSuccess: () => {
+      if (data) {
+        onDelete(data.panel.id);
+        navigate(APP_ROUTES.panels.index);
+      }
+    },
+    onError: (e) => {
+      console.log(e);
+    },
   });
 
   if (isLoading) {
@@ -240,7 +261,10 @@ export const PanelPage: React.FC = () => {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <button className="group flex w-full items-center gap-2 text-red-500">
+                    <button
+                      className="group flex w-full items-center gap-2 text-red-500"
+                      onClick={() => mutate({ path: { id: data.panel.id } })}
+                    >
                       <Trash2 size={18} className="group-hover:text-red-500" />
                       <span className="group-hover:text-red-500">Excluir</span>
                     </button>
