@@ -66,7 +66,7 @@ export const EditBar: React.FC = () => {
     getEChartsData();
   }, [category, value, getEChartsData]);
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     if (category && value && queryData && data) {
       const createdView = { ...viewCreation };
 

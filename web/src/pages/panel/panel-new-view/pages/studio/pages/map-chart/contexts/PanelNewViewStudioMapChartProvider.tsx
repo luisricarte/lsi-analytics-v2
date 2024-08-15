@@ -1,8 +1,8 @@
 import React from 'react';
 
 export type EMapChartData = {
-  data: { name: unknown; value: unknown };
-  mapType: unknown;
+  data: { name: string; value: string };
+  mapType: string;
 };
 
 type PanelNewViewStudioMapChartContextType = {
