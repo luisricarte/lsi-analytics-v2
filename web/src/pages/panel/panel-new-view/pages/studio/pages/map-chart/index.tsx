@@ -1,4 +1,5 @@
 import * as echarts from 'echarts';
+import { nanoid } from 'nanoid';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -26,6 +27,8 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
 
   const { data, error } = usePanelQuery({ id });
 
+  const idnano = nanoid();
+
   useEffect(() => {
     const getMap = async () => {
       try {
@@ -33,7 +36,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
           `/map/geojs-${viewCreation.mapType}-mun.json`,
         ).then((res) => res.json());
 
-        echarts.registerMap('Brazil', braJson);
+        echarts.registerMap(`Brasil-${idnano}`, braJson);
 
         const optionSeries = {
           tooltip: {
@@ -52,7 +55,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
           series: [
             {
               type: 'map',
-              map: 'Brazil',
+              map: `Brasil-${idnano}`,
               roam: true,
               emphasis: {
                 label: {

@@ -93,7 +93,7 @@ export const View: React.FC<ViewProps> = ({
     }
     case PANEL.VIEW.MAPCHART: {
       const _data = data as EMapChartData[];
-      ViewComponent = <MapChartView data={_data} />;
+      ViewComponent = <MapChartView data={_data} id={name} />;
       break;
     }
     case PANEL.VIEW.NUMBERVIEW: {

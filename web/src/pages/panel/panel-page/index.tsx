@@ -184,20 +184,6 @@ export const PanelPage: React.FC<PanelCardProps> = ({
                       </div>
                     );
                   }
-                  case PANEL.VIEW.MAPCHART:
-                    return isLoading ? (
-                      <PanelPageLoading />
-                    ) : (
-                      <div key={v.view.id}>
-                        <View
-                          filters={v.filters}
-                          name={v.view.name}
-                          data={vData}
-                          type={v.view.type}
-                        />
-                      </div>
-                    );
-
                   default:
                     return (
                       <div key={v.view.id}>
