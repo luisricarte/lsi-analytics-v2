@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import * as echarts from 'echarts';
-import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { EChart } from '@/lib/echarts-for-react';
@@ -9,6 +8,7 @@ import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/m
 
 interface MapChartViewProps {
   data: EMapChartData[];
+  id: string;
 }
 
 export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
@@ -40,13 +40,13 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
               trigger: 'item',
             },
             visualMap: {
-              min: 0, // editável
-              max: maxVV || 1, // editável
+              min: 0,
+              max: maxVV || 1,
               left: 'left',
               top: 'bottom',
               calculable: true,
               inRange: {
-                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'], // editável
+                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
               },
             },
             series: [
