@@ -1,6 +1,7 @@
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { View } from '../../entities/view.entity';
 import {
+  DeleteProps,
   FindByPanelIdProps,
   FindManySelectFiltersProps,
   ViewsRepository,
@@ -38,5 +39,13 @@ export class PrismaViewsRepository implements ViewsRepository {
     });
 
     return selectFilters.map(CoreViewsMapper.selectFilterToDomain);
+  }
+
+  public async delete(props: DeleteProps) {
+    await this.prisma.view.delete({
+      where: {
+        id: props.id,
+      },
+    });
   }
 }

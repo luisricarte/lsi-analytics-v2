@@ -2,6 +2,7 @@
 import { ListFilter } from 'lucide-react';
 import React from 'react';
 
+import { useDeleteViewMutation } from '@/pages/panel/hooks/mutations/useDeleteViewMutation';
 import { EAreaChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/area-chart/contexts/PanelNewViewStudioAreaChartProvider';
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
@@ -41,6 +42,7 @@ interface ViewProps {
   type: ViewType;
   name: string;
   onChange?: (value: any) => void;
+  onDelete?: (id: string) => void;
   filters?: { labelColumn: string; value: string | number }[];
 }
 
@@ -49,8 +51,12 @@ export const View: React.FC<ViewProps> = ({
   type,
   name,
   onChange,
+  onDelete = () => {},
   filters = [],
 }) => {
+  const { mutate } = useDeleteViewMutation({
+    onSuccess: () => onDelete('cIL6fWEAA1AZVA3VNV8jZ'),
+  });
   let ViewComponent = null;
 
   switch (type) {
@@ -117,7 +123,9 @@ export const View: React.FC<ViewProps> = ({
     <div className="flex h-full w-full flex-col rounded-md border shadow-sm">
       <div className="flex w-full justify-between border-b p-2">
         <strong className="ml-4 font-semibold">{name}</strong>
-        <DeleteModal onDelete={() => console.log('teste')} />
+        <DeleteModal
+          onDelete={() => mutate({ path: { id: 'dUW4uVBd9JX0mrzc74SJO' } })}
+        />
         {filters.length > 0 && (
           <div className="flex items-center justify-center rounded-full bg-zinc-600 px-2 dark:bg-zinc-950">
             <ListFilter className="text-purple-100" size={12} />
