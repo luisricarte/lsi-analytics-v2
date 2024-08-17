@@ -29,6 +29,7 @@ import { SelectFilterView } from './SelectFilterView';
 import { WaterfallChartView } from './WaterfallChartView';
 
 interface ViewProps {
+  id: string;
   data:
     | EPieChartData[]
     | EBarChartData
@@ -47,6 +48,7 @@ interface ViewProps {
 }
 
 export const View: React.FC<ViewProps> = ({
+  id,
   data,
   type,
   name,
@@ -54,8 +56,17 @@ export const View: React.FC<ViewProps> = ({
   onDelete = () => {},
   filters = [],
 }) => {
+  const reloadInterface = () => {
+    window.location.reload();
+
+    // TODO recarregar posições dos gráficos
+  };
+
   const { mutate } = useDeleteViewMutation({
-    onSuccess: () => onDelete('cIL6fWEAA1AZVA3VNV8jZ'),
+    onSuccess: () => {
+      onDelete(id);
+      reloadInterface();
+    },
   });
   let ViewComponent = null;
 
@@ -123,9 +134,7 @@ export const View: React.FC<ViewProps> = ({
     <div className="flex h-full w-full flex-col rounded-md border shadow-sm">
       <div className="flex w-full justify-between border-b p-2">
         <strong className="ml-4 font-semibold">{name}</strong>
-        <DeleteModal
-          onDelete={() => mutate({ path: { id: 'dUW4uVBd9JX0mrzc74SJO' } })}
-        />
+        <DeleteModal onDelete={() => mutate({ path: { id } })} />
         {filters.length > 0 && (
           <div className="flex items-center justify-center rounded-full bg-zinc-600 px-2 dark:bg-zinc-950">
             <ListFilter className="text-purple-100" size={12} />

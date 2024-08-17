@@ -152,6 +152,7 @@ export const PanelPage: React.FC<PanelCardProps> = ({
                     return (
                       <div key={v.view.id}>
                         <View
+                          id={v.view.id}
                           name={v.view.name}
                           data={vData}
                           type={v.view.type}
@@ -188,6 +189,7 @@ export const PanelPage: React.FC<PanelCardProps> = ({
                     return (
                       <div key={v.view.id}>
                         <View
+                          id={v.view.id}
                           filters={v.filters}
                           name={v.view.name}
                           data={vData}
