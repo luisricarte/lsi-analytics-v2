@@ -23,7 +23,7 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
 
   const values: number[] = [];
   data.map((value) => values.push(parseInt(value.data.value, 10)));
-  const maxVV = Math.max(...values);
+  const maxValue = Math.max(...values);
 
   return (
     <>
@@ -41,7 +41,7 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
             },
             visualMap: {
               min: 0,
-              max: maxVV || 1,
+              max: maxValue || 1,
               left: 'left',
               top: 'bottom',
               calculable: true,

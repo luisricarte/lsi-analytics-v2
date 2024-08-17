@@ -15,6 +15,7 @@ import { EWaterfallChartData } from '@/pages/panel/panel-new-view/pages/studio/p
 import { PANEL } from '@/services/models/panel/constants';
 import { ViewType } from '@/services/models/panel/types';
 
+import { DeleteModal } from '../delete-modal';
 import { AreaChartView } from './AreaChartView';
 import { BarChartView } from './BarChartView';
 import { DonutChartView } from './DonutChartView';
@@ -116,6 +117,7 @@ export const View: React.FC<ViewProps> = ({
     <div className="flex h-full w-full flex-col rounded-md border shadow-sm">
       <div className="flex w-full justify-between border-b p-2">
         <strong className="ml-4 font-semibold">{name}</strong>
+        <DeleteModal onDelete={() => console.log('teste')} />
         {filters.length > 0 && (
           <div className="flex items-center justify-center rounded-full bg-zinc-600 px-2 dark:bg-zinc-950">
             <ListFilter className="text-purple-100" size={12} />
