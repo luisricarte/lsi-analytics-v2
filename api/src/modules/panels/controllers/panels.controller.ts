@@ -1,4 +1,14 @@
+import * as geojson from 'geojson';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import * as shp2json from 'shapefile';
+import * as tj from '@mapbox/togeojson';
+import * as multer from 'multer';
+import * as fs from 'fs';
+import { promisify } from 'util';
+import * as tmp from 'tmp';
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -10,7 +20,9 @@ import {
   Post,
   Query,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreatePanelDto } from '../dtos/create-panel.dto';
 
@@ -42,6 +54,7 @@ import { CreateWaterfallChartDto } from '../dtos/create-waterfall-chart.dto';
 import { CreateHorizontalBarChartDto } from '../dtos/create-horizontal-bar-chart.dto';
 import { CreateDonutChartDto } from '../dtos/create-donut-chart.dto';
 import { CreateMapChartDto } from '../dtos/create-map-chart.dto';
+import { UploadDto } from '../dtos/upload-geojson.dto';
 
 @Controller('/panels')
 export class PanelsController {
@@ -501,5 +514,74 @@ export class PanelsController {
     });
 
     return panel;
+  }
+
+  @Post('/upload')
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
+  @HttpCode(HttpStatus.CREATED)
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() uploadDto: UploadDto,
+  ) {
+    const { name, userId } = uploadDto;
+
+    if (!name || !userId) {
+      throw new BadRequestException('Missing name or userId.');
+    }
+    const fileExtension = extname(file.originalname).toLowerCase();
+    let geojson;
+
+    if (fileExtension === '.geojson' || fileExtension === '.json') {
+      geojson = JSON.parse(file.buffer.toString());
+    } else if (fileExtension === '.kml') {
+      const kml = new DOMParser().parseFromString(
+        file.buffer.toString(),
+        'text/xml',
+      );
+      geojson = tj.kml(kml);
+    } else if (fileExtension === '.shp') {
+      geojson = await this.convertShpToGeoJson(file.buffer);
+    } else {
+      throw new BadRequestException('Invalid file type.');
+    }
+
+    await this.prisma.geoData.create({
+      data: {
+        name,
+        userId,
+        geojson,
+      },
+    });
+
+    return { message: 'Arquivo carregado e guardado com sucesso.' };
+  }
+
+  private async convertShpToGeoJson(
+    buffer: Buffer,
+  ): Promise<geojson.FeatureCollection> {
+    const writeFile = promisify(fs.writeFile);
+    const tempFile = tmp.fileSync({ postfix: '.shp' });
+
+    await writeFile(tempFile.name, buffer);
+
+    const source = await shp2json.open(tempFile.name);
+    const features: geojson.Feature[] = [];
+
+    while (true) {
+      const result = await source.read();
+      if (result.done) break;
+
+      if (result.value) {
+        features.push(result.value as geojson.Feature);
+      }
+    }
+
+    tempFile.removeCallback();
+
+    return {
+      type: 'FeatureCollection',
+      features,
+    };
   }
 }

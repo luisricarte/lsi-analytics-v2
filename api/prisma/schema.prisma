@@ -21,6 +21,7 @@ model User {
   dataFonts       DataFont[]
   feedbacks       Feedback[]
   favoriteQueries FavoriteQuery[]
+  geoData         GeoData[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
@@ -280,4 +281,15 @@ model KPIChart {
   updatedAt    DateTime @updatedAt
 
   @@map("KPI_CHART")
+}
+
+
+model GeoData {
+  id      String      @id @default(nanoid())
+  name    String
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  geojson Json
+
+  @@map("GEO_DATA")
 }

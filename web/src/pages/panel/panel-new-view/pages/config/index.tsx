@@ -1,5 +1,6 @@
 import { ErrorMessage } from '@hookform/error-message';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { ChevronLeft, ChevronRight, Upload } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -38,15 +39,18 @@ import { usePanelQuery } from '../../hooks/usePanelQuery';
 type FormData = {
   name: ViewProps['name'];
   type: ViewProps['type'];
-  mapType: ViewProps['mapType'];
   contentUpdate: ViewProps['contentUpdate'];
+  mapType: ViewProps['mapType'];
 };
 
 export const PanelNewViewConfig: React.FC = () => {
   const { id } = useParams();
+
   const { setViewCreation, viewCreation } = usePanelNewViewContext();
   const location = useLocation();
 
+  const [file, setFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<ViewProps['type'] | null>(
     location.state?.view ?? viewCreation.type ?? '',
   );
@@ -68,14 +72,27 @@ export const PanelNewViewConfig: React.FC = () => {
 
   const { data, error } = usePanelQuery({ id });
 
-  const handleNext = (formData: FormData) => {
+  const handleNext = async (formData: FormData) => {
     if (data) {
       setViewCreation((prevState) => {
+        console.log('prevState', prevState);
+
         const newState = { ...prevState };
-        Object.assign(newState, { ...formData, panelId: id, id: nanoid() });
+        if (formData.type === 'MAPCHART') {
+          Object.assign(newState, { ...formData, panelId: id, id: nanoid() });
+        }
+
         return newState;
       });
       navigate(APP_ROUTES.panel.new.font.replace(':id', data.id));
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      console.log(event.target.files[0]);
+      setFile(event.target.files[0]);
+      setFileName(event.target.files[0].name);
     }
   };
 
@@ -167,55 +184,159 @@ export const PanelNewViewConfig: React.FC = () => {
             </div>
           </div>
           {selectedType === 'MAPCHART' && (
-            <div>
-              <Label> Selecione o Mapa </Label>
-              <Controller
-                name="mapType"
-                rules={{ required: REQUIRED_FIELD }}
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Select onValueChange={onChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione um mapa" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={'100'}>Brasil</SelectItem>
-                      <SelectItem value={'12'}>Acre</SelectItem>
-                      <SelectItem value={'27'}>Alagoas</SelectItem>
-                      <SelectItem value={'13'}>Amazonas</SelectItem>
-                      <SelectItem value={'16'}>Amapá</SelectItem>
-                      <SelectItem value={'29'}>Bahia</SelectItem>
-                      <SelectItem value={'23'}>Ceará</SelectItem>
-                      <SelectItem value={'53'}>Distrito Federal</SelectItem>
-                      <SelectItem value={'32'}>Espírito Santo</SelectItem>
-                      <SelectItem value={'52'}>Goiás</SelectItem>
-                      <SelectItem value={'21'}>Maranhão</SelectItem>
-                      <SelectItem value={'51'}>Mato Grosso</SelectItem>
-                      <SelectItem value={'50'}>Mato Grosso do Sul</SelectItem>
-                      <SelectItem value={'15'}>Pará</SelectItem>
-                      <SelectItem value={'25'}>Paraíba</SelectItem>
-                      <SelectItem value={'41'}>Paraná</SelectItem>
-                      <SelectItem value={'26'}>Pernambuco</SelectItem>
-                      <SelectItem value={'22'}>Piauí</SelectItem>
-                      <SelectItem value={'33'}>Rio de Janeiro</SelectItem>
-                      <SelectItem value={'24'}>Rio Grande do Norte</SelectItem>
-                      <SelectItem value={'43'}>Rio Grande do Sul</SelectItem>
-                      <SelectItem value={'11'}>Rondônia</SelectItem>
-                      <SelectItem value={'14'}>Roraima</SelectItem>
-                      <SelectItem value={'42'}>Santa Catarina</SelectItem>
-                      <SelectItem value={'35'}>São Paulo</SelectItem>
-                      <SelectItem value={'28'}>Sergipe</SelectItem>
-                      <SelectItem value={'17'}>Tocantins</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="mapType"
-                render={({ message }) => <FieldError message={message} />}
-              />
-            </div>
+            <>
+              <div
+                style={{
+                  gap: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Label> Selecione o Mapa </Label>
+                <Controller
+                  name="mapType"
+                  rules={
+                    file ? { required: false } : { required: REQUIRED_FIELD }
+                  }
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <Select onValueChange={onChange} disabled={file !== null}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione um mapa" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={'100'}>Brasil</SelectItem>
+                        <SelectItem value={'12'}>Acre</SelectItem>
+                        <SelectItem value={'27'}>Alagoas</SelectItem>
+                        <SelectItem value={'13'}>Amazonas</SelectItem>
+                        <SelectItem value={'16'}>Amapá</SelectItem>
+                        <SelectItem value={'29'}>Bahia</SelectItem>
+                        <SelectItem value={'23'}>Ceará</SelectItem>
+                        <SelectItem value={'53'}>Distrito Federal</SelectItem>
+                        <SelectItem value={'32'}>Espírito Santo</SelectItem>
+                        <SelectItem value={'52'}>Goiás</SelectItem>
+                        <SelectItem value={'21'}>Maranhão</SelectItem>
+                        <SelectItem value={'51'}>Mato Grosso</SelectItem>
+                        <SelectItem value={'50'}>Mato Grosso do Sul</SelectItem>
+                        <SelectItem value={'15'}>Pará</SelectItem>
+                        <SelectItem value={'25'}>Paraíba</SelectItem>
+                        <SelectItem value={'41'}>Paraná</SelectItem>
+                        <SelectItem value={'26'}>Pernambuco</SelectItem>
+                        <SelectItem value={'22'}>Piauí</SelectItem>
+                        <SelectItem value={'33'}>Rio de Janeiro</SelectItem>
+                        <SelectItem value={'24'}>
+                          Rio Grande do Norte
+                        </SelectItem>
+                        <SelectItem value={'43'}>Rio Grande do Sul</SelectItem>
+                        <SelectItem value={'11'}>Rondônia</SelectItem>
+                        <SelectItem value={'14'}>Roraima</SelectItem>
+                        <SelectItem value={'42'}>Santa Catarina</SelectItem>
+                        <SelectItem value={'35'}>São Paulo</SelectItem>
+                        <SelectItem value={'28'}>Sergipe</SelectItem>
+                        <SelectItem value={'17'}>Tocantins</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="mapType"
+                  render={({ message }) => <FieldError message={message} />}
+                />
+                <Controller
+                  name="mapType"
+                  rules={
+                    file ? { required: false } : { required: REQUIRED_FIELD }
+                  }
+                  control={control}
+                  render={() => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '16px',
+                      }}
+                    >
+                      <Dialog.Root>
+                        <Dialog.Trigger asChild>
+                          <div>
+                            <button className="w-auto rounded-md bg-blue-500 px-4 py-2 text-white">
+                              <div style={{ display: 'flex', gap: '12px' }}>
+                                <span className="text-xs">
+                                  Carregue um Arquivo
+                                </span>
+                                <Upload size={15} />
+                              </div>
+                            </button>
+                            <span
+                              style={{ marginLeft: '12px', color: '#00A300' }}
+                            >
+                              {file?.name}
+                            </span>
+                          </div>
+                        </Dialog.Trigger>
+                        <div
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                        >
+                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
+                            .json
+                          </span>
+                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
+                            .geojson
+                          </span>
+                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
+                            .kml
+                          </span>
+                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
+                            .shp
+                          </span>
+                        </div>
+                        <Dialog.Portal>
+                          <Dialog.Overlay className="bg-blackA9 fixed inset-0" />
+                          <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-md bg-white p-4 shadow-lg">
+                            <Dialog.Title className="text-lg font-medium text-gray-900">
+                              Carregue um arquivo
+                            </Dialog.Title>
+
+                            <Dialog.Description className="mt-2 text-sm text-gray-500">
+                              Selecione um arquivo para carregar.
+                            </Dialog.Description>
+                            <div className="mt-4">
+                              <input
+                                name={file?.name}
+                                id={file?.name}
+                                type="file"
+                                onChange={handleFileChange}
+                                accept=".json, .geojson, .kml, .shp"
+                                className=" text-sm text-gray-500
+                                      file:mr-4 file:rounded-md file:border-0
+                                      file:bg-blue-500 file:px-4
+                                      file:py-2 file:text-sm
+                                      file:font-semibold file:text-white
+                                      hover:file:bg-blue-600"
+                              />
+
+                              {file && (
+                                <p className="mt-2 text-sm text-green-600">
+                                  Arquivo selecionado: {fileName}
+                                </p>
+                              )}
+                            </div>
+                            <div className="mt-4 flex justify-end">
+                              <Dialog.Close asChild>
+                                <button className="rounded-md bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400">
+                                  Cancelar
+                                </button>
+                              </Dialog.Close>
+                            </div>
+                          </Dialog.Content>
+                        </Dialog.Portal>
+                      </Dialog.Root>
+                    </div>
+                  )}
+                />
+              </div>
+            </>
           )}
           <div className="flex flex-col gap-2">
             <Label>Atualização do conteúdo</Label>
@@ -232,14 +353,6 @@ export const PanelNewViewConfig: React.FC = () => {
                   <Typography level="muted">
                     A plataforma guarda os dados da primeira requisição e faz
                     uma nova requisição para atualizar é arbitrária
-                  </Typography>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="DYNAMIC" id="DYNAMIC" />
-                    <Label htmlFor="DYNAMIC">Dinâmico</Label>
-                  </div>
-                  <Typography level="muted">
-                    A plataforma fará uma requisição para sua fonte de dados
-                    sempre que uma nova requisição para a visualização for feita
                   </Typography>
                 </RadioGroup>
               )}
