@@ -21,7 +21,7 @@ model User {
   dataFonts       DataFont[]
   feedbacks       Feedback[]
   favoriteQueries FavoriteQuery[]
-  geoData         GeoData[]
+  // geoData         GeoData[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
@@ -164,17 +164,33 @@ model AreaChart {
 }
 
 model MapChart {
-  id           String   @id @default(nanoid())
-  labelColumn  String
-  valueColumn String
-  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId       String   @unique
+  id            String   @id @default(nanoid())
+  labelColumn   String
+  valueColumn   String
+  view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId        String   @unique
   associatedMap String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  fileContent   String?
+  fileName      String?
+  // geoData       GeoData?  @relation(fields: [mapaId], references: [id], onDelete: Cascade)
+  // mapaId        String?
+  // uploadedMapId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("MAP_CHART")
 }
+
+// model GeoData {
+//   id          String     @id @default(nanoid())
+//   fileName    String
+//   user        User       @relation(fields: [userId], references: [id])
+//   userId      String
+  
+//   MapChart    MapChart[]
+
+//   @@map("GEO_DATA")
+// }
 
 model NumberView {
   id                    String   @id @default(nanoid())
@@ -281,15 +297,4 @@ model KPIChart {
   updatedAt    DateTime @updatedAt
 
   @@map("KPI_CHART")
-}
-
-
-model GeoData {
-  id      String      @id @default(nanoid())
-  name    String
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
-  geojson Json
-
-  @@map("GEO_DATA")
 }
