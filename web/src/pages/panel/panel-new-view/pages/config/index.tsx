@@ -40,7 +40,9 @@ type FormData = {
   name: ViewProps['name'];
   type: ViewProps['type'];
   contentUpdate: ViewProps['contentUpdate'];
-  mapType: ViewProps['mapType'];
+  mapType?: ViewProps['mapType'];
+  fileMapName?: ViewProps['fileMapName'];
+  fileContent?: ViewProps['fileContent'];
 };
 
 export const PanelNewViewConfig: React.FC = () => {
@@ -49,8 +51,10 @@ export const PanelNewViewConfig: React.FC = () => {
   const { setViewCreation, viewCreation } = usePanelNewViewContext();
   const location = useLocation();
 
-  const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | undefined>(undefined);
+  const [fileContent, setFileContent] = useState<string | ArrayBuffer | null>(
+    null,
+  );
   const [selectedType, setSelectedType] = useState<ViewProps['type'] | null>(
     location.state?.view ?? viewCreation.type ?? '',
   );
@@ -75,24 +79,48 @@ export const PanelNewViewConfig: React.FC = () => {
   const handleNext = async (formData: FormData) => {
     if (data) {
       setViewCreation((prevState) => {
-        console.log('prevState', prevState);
-
         const newState = { ...prevState };
-        if (formData.type === 'MAPCHART') {
-          Object.assign(newState, { ...formData, panelId: id, id: nanoid() });
-        }
 
+        if (formData.type === 'MAPCHART') {
+          Object.assign(newState, {
+            fileMapName: fileName,
+            fileContent,
+            ...formData,
+            panelId: id,
+            id: nanoid(),
+          });
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-shadow
+          const { fileContent, fileMapName, mapType, ...formDataNotMapChart } =
+            formData;
+          Object.assign(newState, {
+            ...formDataNotMapChart,
+            panelId: id,
+            id: nanoid(),
+          });
+        }
         return newState;
       });
       navigate(APP_ROUTES.panel.new.font.replace(':id', data.id));
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadChangeFile = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    event.preventDefault();
     if (event.target.files && event.target.files[0]) {
-      console.log(event.target.files[0]);
-      setFile(event.target.files[0]);
-      setFileName(event.target.files[0].name);
+      const file = event.target.files[0];
+      if (file) {
+        setFileName(file.name);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target) {
+            setFileContent(e.target.result);
+          }
+        };
+        reader.readAsText(file);
+      }
     }
   };
 
@@ -196,11 +224,16 @@ export const PanelNewViewConfig: React.FC = () => {
                 <Controller
                   name="mapType"
                   rules={
-                    file ? { required: false } : { required: REQUIRED_FIELD }
+                    fileName
+                      ? { required: false }
+                      : { required: REQUIRED_FIELD }
                   }
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <Select onValueChange={onChange} disabled={file !== null}>
+                    <Select
+                      onValueChange={onChange}
+                      disabled={fileName !== undefined}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione um mapa" />
                       </SelectTrigger>
@@ -244,10 +277,7 @@ export const PanelNewViewConfig: React.FC = () => {
                   render={({ message }) => <FieldError message={message} />}
                 />
                 <Controller
-                  name="mapType"
-                  rules={
-                    file ? { required: false } : { required: REQUIRED_FIELD }
-                  }
+                  name="fileMapName"
                   control={control}
                   render={() => (
                     <div
@@ -271,7 +301,7 @@ export const PanelNewViewConfig: React.FC = () => {
                             <span
                               style={{ marginLeft: '12px', color: '#00A300' }}
                             >
-                              {file?.name}
+                              {fileName}
                             </span>
                           </div>
                         </Dialog.Trigger>
@@ -279,16 +309,10 @@ export const PanelNewViewConfig: React.FC = () => {
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .json
+                            .json | .geojson
                           </span>
                           <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .geojson
-                          </span>
-                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .kml
-                          </span>
-                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .shp
+                            .kml | .shp
                           </span>
                         </div>
                         <Dialog.Portal>
@@ -303,10 +327,10 @@ export const PanelNewViewConfig: React.FC = () => {
                             </Dialog.Description>
                             <div className="mt-4">
                               <input
-                                name={file?.name}
-                                id={file?.name}
+                                name={fileName}
+                                id={fileName}
                                 type="file"
-                                onChange={handleFileChange}
+                                onChange={handleUploadChangeFile}
                                 accept=".json, .geojson, .kml, .shp"
                                 className=" text-sm text-gray-500
                                       file:mr-4 file:rounded-md file:border-0
@@ -316,7 +340,7 @@ export const PanelNewViewConfig: React.FC = () => {
                                       hover:file:bg-blue-600"
                               />
 
-                              {file && (
+                              {fileName && (
                                 <p className="mt-2 text-sm text-green-600">
                                   Arquivo selecionado: {fileName}
                                 </p>
@@ -334,6 +358,11 @@ export const PanelNewViewConfig: React.FC = () => {
                       </Dialog.Root>
                     </div>
                   )}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="fileMapName"
+                  render={({ message }) => <FieldError message={message} />}
                 />
               </div>
             </>
