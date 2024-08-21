@@ -17,7 +17,6 @@ class ViewsService {
   }
 
   public async delete(props: DeleteViewProps) {
-    console.log('props.path', props.path.id);
     const response = await api.delete<void>(
       `/views/${props.path.id}`,
       props.config,

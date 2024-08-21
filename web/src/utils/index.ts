@@ -54,10 +54,10 @@ export const extractTokenFromCookies = () => {
 };
 
 export const getUserInfo = () => {
-  const memoizedUser = localStorage.getItem('user');
+  const memorizedUser = localStorage.getItem('user');
 
-  if (memoizedUser) {
-    const user = JSON.parse(memoizedUser) as UserWithoutPasswordModel;
+  if (memorizedUser) {
+    const user = JSON.parse(memorizedUser) as UserWithoutPasswordModel;
 
     return user;
   }
