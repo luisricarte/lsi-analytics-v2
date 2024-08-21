@@ -270,9 +270,15 @@ export class EchartAdapter {
       },
     }));
 
-    return mappedData.map((item) => ({
-      ...item,
+    const mapData = {
+      data: { name: 'objeto de configuração', value: 0 },
       mapType: core.associatedMap,
-    }));
+      ...(core.fileContent && { fileContent: core.fileContent }),
+      ...(core.fileName && { fileName: core.fileName }),
+    };
+
+    mappedData.push(mapData);
+
+    return mappedData;
   }
 }

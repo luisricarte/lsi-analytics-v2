@@ -12,13 +12,25 @@ interface MapChartViewProps {
 }
 
 export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
-  const mapNumber = data[data.length - 1].mapType;
+  const configRegister = data[data.length - 1];
+  const mapNumber = configRegister.mapType;
+
   const { isLoading } = useQuery({
-    queryKey: [`geojs-${mapNumber}`],
-    queryFn: () =>
-      axios.get(`/map/geojs-${mapNumber}-mun.json`).then((res) => {
-        echarts.registerMap(id, res.data);
-      }),
+    queryKey: [`geojs-${id}-${mapNumber}-${configRegister.fileContent}`],
+    queryFn: () => {
+      if (mapNumber) {
+        return axios.get(`/map/geojs-${mapNumber}-mun.json`).then((res) => {
+          echarts.registerMap(id, res.data);
+        });
+      }
+      if (configRegister.fileContent) {
+        return echarts.registerMap(id, configRegister?.fileContent);
+      }
+      console.error('O arquivo JSON carregado não está disponível.');
+      return Promise.reject(
+        new Error('O arquivo JSON carregado não está disponível.'),
+      );
+    },
   });
 
   const values: number[] = [];

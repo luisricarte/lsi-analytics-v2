@@ -18,15 +18,10 @@ import {
   SimpleTabsTrigger,
 } from '@/components/ui/simple-tabs';
 import { APP_ROUTES } from '@/constants/app-routes';
-// import { EChart } from '@/lib/echarts-for-react';
 import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
-import {
-  // AssociatedMap,
-  GraphTypeCore,
-  MapChartProps,
-} from '@/services/models/panel/types';
+import { GraphTypeCore, MapChartProps } from '@/services/models/panel/types';
 import { addViewIdToLayout } from '@/utils';
 
 import { EMapChartData } from '../contexts/PanelNewViewStudioMapChartProvider';
@@ -74,6 +69,8 @@ export const EditBar: React.FC = () => {
         labelColumn: category,
         valueColumn: value,
         associatedMap: viewCreation.mapType,
+        fileName: viewCreation.fileName,
+        fileContent: viewCreation.fileContent,
       };
 
       Object.assign(createdView, { core });
@@ -81,6 +78,8 @@ export const EditBar: React.FC = () => {
       echartData.push({
         data: { name: '', value: '' },
         mapType: viewCreation.mapType,
+        fileName: viewCreation.fileName,
+        fileContent: viewCreation.fileContent,
       });
 
       setNewViewsPreview((prevState) => {

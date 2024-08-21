@@ -170,11 +170,8 @@ model MapChart {
   view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
   viewId        String   @unique
   associatedMap String?
-  fileContent   String?
+  fileContent   Json?
   fileName      String?
-  // geoData       GeoData?  @relation(fields: [mapaId], references: [id], onDelete: Cascade)
-  // mapaId        String?
-  // uploadedMapId String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

@@ -2,7 +2,10 @@ import React from 'react';
 
 export type EMapChartData = {
   data: { name: string; value: string };
-  mapType: string;
+  mapType?: string;
+  fileName?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fileContent?: any;
 };
 
 type PanelNewViewStudioMapChartContextType = {

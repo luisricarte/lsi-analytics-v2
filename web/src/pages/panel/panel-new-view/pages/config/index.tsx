@@ -41,7 +41,7 @@ type FormData = {
   type: ViewProps['type'];
   contentUpdate: ViewProps['contentUpdate'];
   mapType?: ViewProps['mapType'];
-  fileMapName?: ViewProps['fileMapName'];
+  fileName?: ViewProps['fileName'];
   fileContent?: ViewProps['fileContent'];
 };
 
@@ -52,9 +52,7 @@ export const PanelNewViewConfig: React.FC = () => {
   const location = useLocation();
 
   const [fileName, setFileName] = useState<string | undefined>(undefined);
-  const [fileContent, setFileContent] = useState<string | ArrayBuffer | null>(
-    null,
-  );
+  const [fileContent, setFileContent] = useState<JSON | null | undefined>(null);
   const [selectedType, setSelectedType] = useState<ViewProps['type'] | null>(
     location.state?.view ?? viewCreation.type ?? '',
   );
@@ -83,15 +81,15 @@ export const PanelNewViewConfig: React.FC = () => {
 
         if (formData.type === 'MAPCHART') {
           Object.assign(newState, {
-            fileMapName: fileName,
+            fileName,
             fileContent,
             ...formData,
             panelId: id,
             id: nanoid(),
           });
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-shadow
-          const { fileContent, fileMapName, mapType, ...formDataNotMapChart } =
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { fileContent, fileName, mapType, ...formDataNotMapChart } =
             formData;
           Object.assign(newState, {
             ...formDataNotMapChart,
@@ -116,7 +114,12 @@ export const PanelNewViewConfig: React.FC = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target) {
-            setFileContent(e.target.result);
+            const { result } = e.target;
+            if (typeof result === 'string') {
+              setFileContent(JSON.parse(result));
+            } else {
+              console.error('O arquivo não é um JSON válido.');
+            }
           }
         };
         reader.readAsText(file);
@@ -277,7 +280,7 @@ export const PanelNewViewConfig: React.FC = () => {
                   render={({ message }) => <FieldError message={message} />}
                 />
                 <Controller
-                  name="fileMapName"
+                  name="fileName"
                   control={control}
                   render={() => (
                     <div
@@ -319,7 +322,7 @@ export const PanelNewViewConfig: React.FC = () => {
                           <Dialog.Overlay className="bg-blackA9 fixed inset-0" />
                           <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-md bg-white p-4 shadow-lg">
                             <Dialog.Title className="text-lg font-medium text-gray-900">
-                              Carregue um arquivo
+                              Carregue um Arquivo
                             </Dialog.Title>
 
                             <Dialog.Description className="mt-2 text-sm text-gray-500">
@@ -361,7 +364,7 @@ export const PanelNewViewConfig: React.FC = () => {
                 />
                 <ErrorMessage
                   errors={errors}
-                  name="fileMapName"
+                  name="fileName"
                   render={({ message }) => <FieldError message={message} />}
                 />
               </div>

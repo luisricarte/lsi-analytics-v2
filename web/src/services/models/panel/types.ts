@@ -85,7 +85,9 @@ export type MapChart = {
   id: string;
   labelColumn: string;
   valueColumns: string;
-  associatedMap: string;
+  associatedMap?: string;
+  fileContent?: JSON;
+  fileName?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -149,7 +151,9 @@ export type AreaChartProps = {
 export type MapChartProps = {
   labelColumn: string;
   valueColumn: string;
-  associatedMap: string;
+  associatedMap?: string;
+  fileName?: string;
+  fileContent?: JSON;
 };
 
 export type PieChartProps = {
@@ -188,6 +192,7 @@ export type CoreType =
   | LineChart
   | AreaChart
   | NumberView
+  | MapChart
   | SelectFilter
   | HorizontalBarChart
   | DonutChart
@@ -209,12 +214,14 @@ export type ViewModel = {
   id: string;
   name: string;
   type: ViewType;
-  mapType: string;
   contentUpdate: ContentUpdate;
   datafontId: string;
   sql: string;
   panelId: string;
   core: CoreType;
+  mapType: string;
+  fileName: string;
+  fileContent?: JSON;
   createdAt: Date;
   updatedAt: Date;
 };

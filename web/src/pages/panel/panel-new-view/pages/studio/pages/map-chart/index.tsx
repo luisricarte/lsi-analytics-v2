@@ -32,9 +32,11 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
   useEffect(() => {
     const getMap = async () => {
       try {
-        const braJson = await fetch(
-          `/map/geojs-${viewCreation.mapType}-mun.json`,
-        ).then((res) => res.json());
+        const braJson = viewCreation.mapType
+          ? await fetch(`/map/geojs-${viewCreation.mapType}-mun.json`).then(
+              (res) => res.json(),
+            )
+          : viewCreation.fileContent;
 
         echarts.registerMap(`Brasil-${idnano}`, braJson);
 
@@ -44,12 +46,12 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
           },
           visualMap: {
             left: 'right',
-            min: 0, // ajustar!
-            max: 1, // ajustar!
+            min: 0,
+            max: 1,
             inRange: {
-              color: ['#313695'], // ajustar!
+              color: ['#313695'],
             },
-            text: ['Campos com valor'], // ajustar!
+            text: ['Campos com valor'],
             calculable: true,
           },
           series: [
