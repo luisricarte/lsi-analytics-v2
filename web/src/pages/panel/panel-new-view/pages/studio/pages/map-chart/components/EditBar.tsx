@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { EchartAdapter } from '@/adapters/echart';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -17,6 +18,7 @@ import {
   SimpleTabsList,
   SimpleTabsTrigger,
 } from '@/components/ui/simple-tabs';
+import { ToolTipSymb } from '@/components/ui/tooltip-symb';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
@@ -30,6 +32,7 @@ import { usePanelNewViewStudioMapChartContext } from '../hooks/usePanelNewViewSt
 export const EditBar: React.FC = () => {
   const [category, setCategory] = React.useState<string | null>(null);
   const [value, setValue] = React.useState<string | null>(null);
+  // const [symbolize, setSymbolize] = React.useState<string | null>('');
 
   const navigate = useNavigate();
 
@@ -41,7 +44,13 @@ export const EditBar: React.FC = () => {
 
   const { setNewViewsPreview, setLayouts } = usePanelEditContext();
 
-  const { setEchartData, echartData } = usePanelNewViewStudioMapChartContext();
+  const {
+    setEchartData,
+    echartData,
+    setColor,
+    setMaxValue,
+    setHoverDescription,
+  } = usePanelNewViewStudioMapChartContext();
 
   const getEChartsData = React.useCallback(() => {
     if (category && value && queryData) {
@@ -60,6 +69,17 @@ export const EditBar: React.FC = () => {
   React.useEffect(() => {
     getEChartsData();
   }, [category, value, getEChartsData]);
+
+  useEffect(() => {
+    const values: number[] = [];
+    if (echartData.length > 0) {
+      echartData.map((valoresGravados) =>
+        values.push(parseInt(valoresGravados.data.value, 10)),
+      );
+      const maxValue = Math.max(...values);
+      setMaxValue(maxValue);
+    }
+  }, [value, echartData]);
 
   const handleCreate = () => {
     if (category && value && queryData && data) {
@@ -144,6 +164,56 @@ export const EditBar: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Label>Cores do Mapa</Label>
+                  <ToolTipSymb message="Digite as cores em hexdecimal separado por vírgula e com #"></ToolTipSymb>
+                </div>
+                <Input
+                  placeholder="Digite as cores do seu gráfico"
+                  onChange={(e) => {
+                    const valor = e.target.value;
+                    const splitted = valor.split(',');
+                    console.log(splitted);
+                    setColor(splitted);
+                    // TODO: MELHORAR LÓGICA PARA EVITAR QUEBRAR com caractéres especiais
+                  }}
+                />
+
+                <span
+                  style={{
+                    fontWeight: '400',
+                    fontSize: '12px',
+                    color: '#bdbdbd',
+                  }}
+                >
+                  Exemplo: #e0f3f8, #abd9e9, #74add1, #4575b4, #313695
+                </span>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Label>Do que se trata o mapa?</Label>
+                  <ToolTipSymb message="Aparecerá ao colocar o mouse por cima"></ToolTipSymb>
+                </div>
+                <Input
+                  placeholder="Digite o texto"
+                  onChange={(e) => {
+                    setHoverDescription(e.target.value);
+                  }}
+                />
               </div>
             </div>
           </SimpleTabsContent>

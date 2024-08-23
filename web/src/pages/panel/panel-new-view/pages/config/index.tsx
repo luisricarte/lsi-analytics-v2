@@ -312,10 +312,7 @@ export const PanelNewViewConfig: React.FC = () => {
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .json | .geojson
-                          </span>
-                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .kml | .shp
+                            .json | .geojson | .shp
                           </span>
                         </div>
                         <Dialog.Portal>

@@ -23,7 +23,8 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
   const { id } = useParams();
   const [option, setOption] = useState({});
   const { canAccessStep, viewCreation } = usePanelNewViewContext();
-  const { echartData } = usePanelNewViewStudioMapChartContext();
+  const { echartData, color, maxValue, hoverDescription } =
+    usePanelNewViewStudioMapChartContext();
 
   const { data, error } = usePanelQuery({ id });
 
@@ -47,16 +48,17 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
           visualMap: {
             left: 'right',
             min: 0,
-            max: 1,
+            max: maxValue || 1,
             inRange: {
-              color: ['#313695'],
+              color: color || ['#313695'],
             },
-            text: ['Campos com valor'],
+            text: ['populacao', 'casa de quere'],
             calculable: true,
           },
           series: [
             {
               type: 'map',
+              name: hoverDescription || viewCreation.name,
               map: `Brasil-${idnano}`,
               roam: true,
               emphasis: {
@@ -81,7 +83,15 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
     if (data && canAccessStep(4, data.id)) {
       getMap();
     }
-  }, [data, canAccessStep, echartData, viewCreation.mapType]);
+  }, [
+    data,
+    canAccessStep,
+    echartData,
+    viewCreation.mapType,
+    color,
+    maxValue,
+    hoverDescription,
+  ]);
 
   const renderBreadbrumb = () => {
     if (data && id) {

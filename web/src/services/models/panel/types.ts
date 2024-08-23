@@ -154,6 +154,8 @@ export type MapChartProps = {
   associatedMap?: string;
   fileName?: string;
   fileContent?: JSON;
+  representation?: string;
+  color?: string;
 };
 
 export type PieChartProps = {
