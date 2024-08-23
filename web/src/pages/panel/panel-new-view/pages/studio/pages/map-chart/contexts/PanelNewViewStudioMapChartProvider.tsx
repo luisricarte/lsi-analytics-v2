@@ -4,25 +4,25 @@ export type EMapChartData = {
   data: { name: string; value: string };
   mapType?: string;
   fileName?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fileContent?: any;
   hoverDescription?: string;
-  color?: string[];
+  colors?: string[];
   maxValue?: number;
   label?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fileContent?: any;
 };
 
 type PanelNewViewStudioMapChartContextType = {
   echartData: EMapChartData[];
   setEchartData: React.Dispatch<React.SetStateAction<EMapChartData[]>>;
-  color: string[] | null;
-  setColor: React.Dispatch<React.SetStateAction<string[] | null>>;
-  maxValue: number | null;
-  setMaxValue: React.Dispatch<React.SetStateAction<number | null>>;
-  hoverDescription: string | null;
-  setHoverDescription: React.Dispatch<React.SetStateAction<string | null>>;
-  label: string[] | null;
-  setLabel: React.Dispatch<React.SetStateAction<string[] | null>>;
+  colors: string[];
+  setColors: React.Dispatch<React.SetStateAction<string[]>>;
+  maxValue: number;
+  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
+  hoverDescription: string;
+  setHoverDescription: React.Dispatch<React.SetStateAction<string>>;
+  label: string[];
+  setLabel: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export const PanelNewViewStudioMapChartContext = React.createContext(
@@ -37,19 +37,24 @@ export const PanelNewViewStudioMapChartProvider: React.FC<
   PanelNewViewStudioMapChartProviderProps
 > = ({ children }) => {
   const [echartData, setEchartData] = React.useState<EMapChartData[]>([]);
-  const [color, setColor] = React.useState<string[] | null>(null);
-  const [maxValue, setMaxValue] = React.useState<number | null>(null);
-  const [hoverDescription, setHoverDescription] = React.useState<string | null>(
-    '',
-  );
-  const [label, setLabel] = React.useState<string[] | null>(null);
+  const [colors, setColors] = React.useState<string[]>([
+    '#e0f3f8',
+    '#abd9e9',
+    '#74add1',
+    '#4575b4',
+    '#313695',
+  ]);
+  const [maxValue, setMaxValue] = React.useState<number>(1);
+  const [hoverDescription, setHoverDescription] =
+    React.useState<string>('Campo');
+  const [label, setLabel] = React.useState<string[]>(['Alto', 'Baixo']);
 
   const value = React.useMemo(
     () => ({
       echartData,
       setEchartData,
-      color,
-      setColor,
+      colors,
+      setColors,
       maxValue,
       setMaxValue,
       hoverDescription,
@@ -57,7 +62,7 @@ export const PanelNewViewStudioMapChartProvider: React.FC<
       label,
       setLabel,
     }),
-    [echartData, color, maxValue, hoverDescription, label],
+    [echartData, colors, maxValue, hoverDescription, label],
   );
 
   return (

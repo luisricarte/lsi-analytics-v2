@@ -273,6 +273,10 @@ export class EchartAdapter {
     const mapData = {
       data: { name: 'objeto de configuração', value: 0 },
       mapType: core.associatedMap,
+      hoverDescription: core.hoverDescription,
+      maxValue: core.maxValue,
+      label: core.label,
+      colors: core.colors,
       ...(core.fileContent && { fileContent: core.fileContent }),
       ...(core.fileName && { fileName: core.fileName }),
     };

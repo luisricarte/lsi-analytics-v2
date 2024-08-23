@@ -32,7 +32,6 @@ import { usePanelNewViewStudioMapChartContext } from '../hooks/usePanelNewViewSt
 export const EditBar: React.FC = () => {
   const [category, setCategory] = React.useState<string | null>(null);
   const [value, setValue] = React.useState<string | null>(null);
-  // const [symbolize, setSymbolize] = React.useState<string | null>('');
 
   const navigate = useNavigate();
 
@@ -47,9 +46,13 @@ export const EditBar: React.FC = () => {
   const {
     setEchartData,
     echartData,
-    setColor,
+    colors,
+    setColors,
+    maxValue,
     setMaxValue,
+    hoverDescription,
     setHoverDescription,
+    label,
     setLabel,
   } = usePanelNewViewStudioMapChartContext();
 
@@ -77,8 +80,8 @@ export const EditBar: React.FC = () => {
       echartData.map((valoresGravados) =>
         values.push(parseInt(valoresGravados.data.value, 10)),
       );
-      const maxValue = Math.max(...values);
-      setMaxValue(maxValue);
+      const maxiValue = Math.max(...values);
+      setMaxValue(maxiValue);
     }
   }, [value, echartData]);
 
@@ -92,6 +95,10 @@ export const EditBar: React.FC = () => {
         associatedMap: viewCreation.mapType,
         fileName: viewCreation.fileName,
         fileContent: viewCreation.fileContent,
+        colors,
+        label,
+        maxValue,
+        hoverDescription,
       };
 
       Object.assign(createdView, { core });
@@ -101,6 +108,10 @@ export const EditBar: React.FC = () => {
         mapType: viewCreation.mapType,
         fileName: viewCreation.fileName,
         fileContent: viewCreation.fileContent,
+        colors,
+        label,
+        maxValue,
+        hoverDescription,
       });
 
       setNewViewsPreview((prevState) => {
@@ -184,7 +195,8 @@ export const EditBar: React.FC = () => {
                     const splitted = valor.split(',');
 
                     // isValidHex
-                    setColor(splitted);
+                    setColors(splitted);
+
                     // TODO: MELHORAR LÓGICA PARA EVITAR QUEBRAR com caractéres especiais
                   }}
                 />

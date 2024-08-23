@@ -34,10 +34,6 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
     },
   });
 
-  const values: number[] = [];
-  data.map((value) => values.push(parseInt(value.data.value, 10)));
-  const maxValue = Math.max(...values);
-
   return (
     <>
       {isLoading ? (
@@ -54,17 +50,24 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
             },
             visualMap: {
               min: 0,
-              max: maxValue || 1,
+              max: configRegister.maxValue || 1,
               left: 'left',
               top: 'bottom',
               calculable: true,
               inRange: {
-                color: ['#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+                color: configRegister.colors || [
+                  '#e0f3f8',
+                  '#abd9e9',
+                  '#74add1',
+                  '#4575b4',
+                  '#313695',
+                ],
               },
+              text: configRegister.label || ['Alto', 'Baixo'],
             },
             series: [
               {
-                name: 'Data',
+                name: configRegister.hoverDescription || 'Campo',
                 type: 'map',
                 map: id,
                 roam: true,

@@ -88,6 +88,10 @@ export type MapChart = {
   associatedMap?: string;
   fileContent?: JSON;
   fileName?: string;
+  hoverDescription?: string;
+  colors: string[];
+  maxValue: number;
+  label: string[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -154,8 +158,10 @@ export type MapChartProps = {
   associatedMap?: string;
   fileName?: string;
   fileContent?: JSON;
-  representation?: string;
-  color?: string;
+  hoverDescription: string;
+  colors: string[];
+  maxValue: number;
+  label: string[];
 };
 
 export type PieChartProps = {
