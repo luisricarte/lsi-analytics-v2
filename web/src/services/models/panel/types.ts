@@ -223,7 +223,8 @@ export type ViewModel = {
   core: CoreType;
   mapType: string;
   fileName: string;
-  fileContent?: JSON;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fileContent?: any;
   createdAt: Date;
   updatedAt: Date;
 };

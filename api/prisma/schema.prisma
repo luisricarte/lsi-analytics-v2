@@ -172,22 +172,15 @@ model MapChart {
   associatedMap String?
   fileContent   Json?
   fileName      String?
+  hoverDescription String[]
+  colors String[]
+  maxValue Int
+  label String[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@map("MAP_CHART")
 }
-
-// model GeoData {
-//   id          String     @id @default(nanoid())
-//   fileName    String
-//   user        User       @relation(fields: [userId], references: [id])
-//   userId      String
-  
-//   MapChart    MapChart[]
-
-//   @@map("GEO_DATA")
-// }
 
 model NumberView {
   id                    String   @id @default(nanoid())

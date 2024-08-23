@@ -182,6 +182,8 @@ export const EditBar: React.FC = () => {
                   onChange={(e) => {
                     const valor = e.target.value;
                     const splitted = valor.split(',');
+
+                    // isValidHex
                     setColor(splitted);
                     // TODO: MELHORAR LÓGICA PARA EVITAR QUEBRAR com caractéres especiais
                   }}

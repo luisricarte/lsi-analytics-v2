@@ -16,7 +16,8 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
   const mapNumber = configRegister.mapType;
 
   const { isLoading } = useQuery({
-    queryKey: [`geojs-${id}-${mapNumber}-${configRegister.fileContent}`],
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
+    queryKey: [`geojs-${id}-${mapNumber}`],
     queryFn: () => {
       if (mapNumber) {
         return axios.get(`/map/geojs-${mapNumber}-mun.json`).then((res) => {
