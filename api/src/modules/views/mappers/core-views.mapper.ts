@@ -237,6 +237,10 @@ export class CoreViewsMapper {
           viewId: mapCore.viewId,
           createdAt: mapCore.createdAt,
           updatedAt: mapCore.updatedAt,
+          maxValue: mapCore.maxValue,
+          colors: mapCore.colors,
+          label: mapCore.label,
+          hoverDescription: mapCore.hoverDescription,
         });
       case 'LINECHART':
         if (!view.lineChart) {

@@ -9,6 +9,10 @@ export interface MapChartProps {
   associatedMap?: string | null;
   fileContent?: JsonValue | null;
   fileName?: string | null;
+  maxValue: number;
+  colors: string[];
+  label: string[];
+  hoverDescription: string;
 }
 
 export class MapChart extends Entity<MapChartProps> {

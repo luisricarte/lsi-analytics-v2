@@ -1,4 +1,10 @@
-import { IsArray, IsJSON, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsJSON,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateMapChartDto {
   @IsString()
@@ -19,4 +25,18 @@ export class CreateMapChartDto {
   @IsOptional()
   @IsString()
   fileName: string;
+
+  @IsNumber()
+  maxValue: number;
+
+  @IsArray()
+  @IsString({ each: true })
+  colors: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  label: string[];
+
+  @IsString()
+  hoverDescription: string;
 }

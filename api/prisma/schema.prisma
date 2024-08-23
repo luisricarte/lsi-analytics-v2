@@ -172,10 +172,10 @@ model MapChart {
   associatedMap    String?
   fileContent      Json?
   fileName         String?
-  hoverDescription String[]
-  colors           String[]
-  maxValue         Int
-  label            String[]
+  hoverDescription String   @default("Campo")
+  colors           String[] @default(["#e0f3f8", "#abd9e9", "#74add1", "#4575b4", "#313695"])
+  maxValue         Int      @default(1)
+  label            String[] @default(["Alto", "Baixo"])
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

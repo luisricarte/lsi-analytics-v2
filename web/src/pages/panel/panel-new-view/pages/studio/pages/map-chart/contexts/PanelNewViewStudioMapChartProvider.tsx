@@ -7,7 +7,7 @@ export type EMapChartData = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fileContent?: any;
   hoverDescription?: string;
-  color?: string;
+  color?: string[];
   maxValue?: number;
   label?: string[];
 };
