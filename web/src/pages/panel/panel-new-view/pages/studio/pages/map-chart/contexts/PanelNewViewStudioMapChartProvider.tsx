@@ -9,6 +9,7 @@ export type EMapChartData = {
   hoverDescription?: string;
   color?: string;
   maxValue?: number;
+  label?: string[];
 };
 
 type PanelNewViewStudioMapChartContextType = {
@@ -20,6 +21,8 @@ type PanelNewViewStudioMapChartContextType = {
   setMaxValue: React.Dispatch<React.SetStateAction<number | null>>;
   hoverDescription: string | null;
   setHoverDescription: React.Dispatch<React.SetStateAction<string | null>>;
+  label: string[] | null;
+  setLabel: React.Dispatch<React.SetStateAction<string[] | null>>;
 };
 
 export const PanelNewViewStudioMapChartContext = React.createContext(
@@ -39,6 +42,7 @@ export const PanelNewViewStudioMapChartProvider: React.FC<
   const [hoverDescription, setHoverDescription] = React.useState<string | null>(
     '',
   );
+  const [label, setLabel] = React.useState<string[] | null>(null);
 
   const value = React.useMemo(
     () => ({
@@ -50,8 +54,10 @@ export const PanelNewViewStudioMapChartProvider: React.FC<
       setMaxValue,
       hoverDescription,
       setHoverDescription,
+      label,
+      setLabel,
     }),
-    [echartData, color, maxValue, hoverDescription],
+    [echartData, color, maxValue, hoverDescription, label],
   );
 
   return (

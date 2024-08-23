@@ -50,6 +50,7 @@ export const EditBar: React.FC = () => {
     setColor,
     setMaxValue,
     setHoverDescription,
+    setLabel,
   } = usePanelNewViewStudioMapChartContext();
 
   const getEChartsData = React.useCallback(() => {
@@ -181,7 +182,6 @@ export const EditBar: React.FC = () => {
                   onChange={(e) => {
                     const valor = e.target.value;
                     const splitted = valor.split(',');
-                    console.log(splitted);
                     setColor(splitted);
                     // TODO: MELHORAR LÓGICA PARA EVITAR QUEBRAR com caractéres especiais
                   }}
@@ -212,6 +212,26 @@ export const EditBar: React.FC = () => {
                   placeholder="Digite o texto"
                   onChange={(e) => {
                     setHoverDescription(e.target.value);
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Label>Adicionar legenda ao filtro</Label>
+                  <ToolTipSymb message="Adicione as labels separadas por vírgula. Aparecerá dois valores no topo e abaixo. Estarão Alto e Baixo por padrão"></ToolTipSymb>
+                </div>
+                <Input
+                  placeholder="Digite o texto"
+                  onChange={(e) => {
+                    const valor = e.target.value;
+                    const splitted = valor.split(',');
+                    setLabel(splitted);
                   }}
                 />
               </div>
