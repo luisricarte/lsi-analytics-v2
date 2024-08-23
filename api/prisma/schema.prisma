@@ -164,20 +164,20 @@ model AreaChart {
 }
 
 model MapChart {
-  id            String   @id @default(nanoid())
-  labelColumn   String
-  valueColumn   String
-  view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId        String   @unique
-  associatedMap String?
-  fileContent   Json?
-  fileName      String?
+  id               String   @id @default(nanoid())
+  labelColumn      String
+  valueColumn      String
+  view             View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId           String   @unique
+  associatedMap    String?
+  fileContent      Json?
+  fileName         String?
   hoverDescription String[]
-  colors String[]
-  maxValue Int
-  label String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  colors           String[]
+  maxValue         Int
+  label            String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("MAP_CHART")
 }
