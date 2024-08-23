@@ -114,6 +114,10 @@ export class CoreViewsMapper {
           fileName: mapCore.props.fileName,
           fileContent: mapCore.props.fileContent,
           viewId: mapCore.props.viewId,
+          maxValue: mapCore.props.maxValue,
+          colors: mapCore.props.colors,
+          label: mapCore.props.label,
+          hoverDescription: mapCore.props.hoverDescription,
           createdAt: mapCore.createdAt,
           updatedAt: mapCore.updatedAt,
         };

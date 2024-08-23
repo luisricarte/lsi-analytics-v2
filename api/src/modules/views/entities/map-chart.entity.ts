@@ -11,8 +11,8 @@ export interface MapChartProps {
   fileName?: string | null;
   maxValue: number;
   colors: string[];
-  label: string[];
   hoverDescription: string;
+  label: string[];
 }
 
 export class MapChart extends Entity<MapChartProps> {
