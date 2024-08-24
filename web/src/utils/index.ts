@@ -283,5 +283,8 @@ export const getViewData = (v: { queryResult: SQLResult; view: ViewModel }) => {
 export const isValidHex = (hex: string) => {
   const hexRegex = /^#([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/;
 
-  return hexRegex.test(hex) && !/[^\s]/.test(hex.replace(hexRegex, ''));
+  return (
+    (hexRegex.test(hex) && !/[^\s]/.test(hex.replace(hexRegex, ''))) ||
+    hex === ""
+  );
 };

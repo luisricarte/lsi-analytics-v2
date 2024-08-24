@@ -24,7 +24,7 @@ import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
 import { GraphTypeCore, MapChartProps } from '@/services/models/panel/types';
-import { addViewIdToLayout } from '@/utils';
+import { addViewIdToLayout, isValidHex } from '@/utils';
 
 import { EMapChartData } from '../contexts/PanelNewViewStudioMapChartProvider';
 import { usePanelNewViewStudioMapChartContext } from '../hooks/usePanelNewViewStudioMapChartContext';
@@ -193,11 +193,16 @@ export const EditBar: React.FC = () => {
                   onChange={(e) => {
                     const valor = e.target.value;
                     const splitted = valor.split(',');
-
-                    // isValidHex
-                    setColors(splitted);
-
-                    // TODO: MELHORAR LÓGICA PARA EVITAR QUEBRAR com caractéres especiais
+                    let allValid = true;
+                    console.log('executei');
+                    for (let i = 0; i < splitted.length + 1; i += i + 1) {
+                      if (!isValidHex(splitted[i])) {
+                        allValid = false;
+                      }
+                      if (i === splitted.length - 1 && allValid) {
+                        setColors(splitted);
+                      }
+                    }
                   }}
                 />
 
