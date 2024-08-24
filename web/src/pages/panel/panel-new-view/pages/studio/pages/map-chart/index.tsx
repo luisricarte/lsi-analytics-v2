@@ -23,7 +23,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
   const { id } = useParams();
   const [option, setOption] = useState({});
   const { canAccessStep, viewCreation } = usePanelNewViewContext();
-  const { echartData, color, maxValue, hoverDescription, label } =
+  const { echartData, colors, maxValue, hoverDescription, label } =
     usePanelNewViewStudioMapChartContext();
 
   const { data, error } = usePanelQuery({ id });
@@ -50,7 +50,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
             min: 0,
             max: maxValue || 1,
             inRange: {
-              color: color || ['#313695'],
+              color: colors || ['#313695'],
             },
             text: label || ['Alto', 'Baixo'],
             calculable: true,
@@ -88,7 +88,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
     canAccessStep,
     echartData,
     viewCreation.mapType,
-    color,
+    colors,
     maxValue,
     hoverDescription,
     label,
