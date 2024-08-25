@@ -250,7 +250,7 @@ export const PanelNewViewObject: React.FC = () => {
     editor.onDidChangeCursorSelection(() => {
       const selection = editor.getSelection();
       if (selection) {
-        const selectedText = editor.getModel().getValueInRange(selection);
+        const selectedText = editor.getModel()?.getValueInRange(selection);
         textSelectionRef.current = selectedText;
       }
     });
