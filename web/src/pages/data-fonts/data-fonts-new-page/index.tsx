@@ -1,5 +1,6 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { useMutation } from '@tanstack/react-query';
+import { Upload } from 'lucide-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -79,7 +80,6 @@ export const DataFontsNewPage: React.FC = () => {
       },
     });
   };
-
   return (
     <Layout
       breadcrumb={
@@ -120,7 +120,7 @@ export const DataFontsNewPage: React.FC = () => {
                 name="font"
                 rules={{ required: REQUIRED_FIELD }}
                 render={({ field: { onChange } }) => (
-                  <div className="grid grid-cols-4 rounded-[2px] bg-zinc-50 p-8">
+                  <div className="grid grid-cols-4 gap-4 rounded-[2px] bg-zinc-50 p-8">
                     {AVAILABLE_DATA_FONTS.map((d, index) => {
                       const isSelected =
                         selectedProvider?.provider === d.provider &&
@@ -164,17 +164,32 @@ export const DataFontsNewPage: React.FC = () => {
               />
             </div>
             <div>
-              <Label>Chave de acesso</Label>
-              <PasswordInput
-                {...register('accessKey', { required: REQUIRED_FIELD })}
-                visible={accessKeyIsVisible}
-                onVisibilityChange={setAccessKeyIsVisible}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="accessKey"
-                render={({ message }) => <FieldError message={message} />}
-              />
+              {selectedProvider?.provider === 'POSTGRESQL' && (
+                <>
+                  <Label>Chave de acesso</Label>
+                  <PasswordInput
+                    {...register('accessKey', { required: REQUIRED_FIELD })}
+                    visible={accessKeyIsVisible}
+                    onVisibilityChange={setAccessKeyIsVisible}
+                  />
+                  <ErrorMessage
+                    errors={errors}
+                    name="accessKey"
+                    render={({ message }) => <FieldError message={message} />}
+                  />
+                </>
+              )}
+              {selectedProvider?.provider === 'CSV' && (
+                <>
+                  <Label>Adicione o arquivo</Label>
+                  <Upload />
+                  <ErrorMessage
+                    errors={errors}
+                    name="accessKey"
+                    render={({ message }) => <FieldError message={message} />}
+                  />
+                </>
+              )}
             </div>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">

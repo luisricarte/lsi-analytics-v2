@@ -1,14 +1,4 @@
-// import * as geojson from 'geojson';
-// import { FileInterceptor } from '@nestjs/platform-express';
-// import { extname } from 'path';
-// import * as shp2json from 'shapefile';
-// import * as tj from '@mapbox/togeojson';
-// import * as multer from 'multer';
-// import * as fs from 'fs';
-// import { promisify } from 'util';
-// import * as tmp from 'tmp';
 import {
-  // BadRequestException,
   Body,
   Controller,
   Delete,
@@ -20,9 +10,7 @@ import {
   Post,
   Query,
   Req,
-  // UploadedFile,
   UseGuards,
-  // UseInterceptors,
 } from '@nestjs/common';
 import { CreatePanelDto } from '../dtos/create-panel.dto';
 

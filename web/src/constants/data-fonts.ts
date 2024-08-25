@@ -15,6 +15,12 @@ export const AVAILABLE_DATA_FONTS: {
     provider: 'POSTGRESQL',
     typeOfStorage: 'DATABASE',
   },
+  {
+    label: 'CSV',
+    imageURL: '/icons/csv.png',
+    provider: 'CSV',
+    typeOfStorage: 'FILE',
+  },
 ];
 
 export const TYPE_STORAGE_MAPPER_DB_LABEL = {

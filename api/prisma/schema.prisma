@@ -21,7 +21,6 @@ model User {
   dataFonts       DataFont[]
   feedbacks       Feedback[]
   favoriteQueries FavoriteQuery[]
-  // geoData         GeoData[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
