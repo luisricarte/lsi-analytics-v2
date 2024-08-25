@@ -57,7 +57,9 @@ export class EchartAdapter {
         return this.horizontalBarChartQueryToData(queryResult, _core);
       }
       case PANEL.VIEW.MAPCHART: {
-        const _core = core as MapChartProps & { [key: string]: unknown };
+        const _core = core as unknown as MapChartProps & {
+          [key: string]: unknown;
+        };
         return this.mapChartQueryToData(queryResult, _core);
       }
       case PANEL.VIEW.WATERFALLCHART: {
