@@ -9,14 +9,25 @@ import {
 } from '../abstract/datafonts.repository';
 import { DataFont } from '../../entities/datafont.entity';
 import { DataFontsMapper } from '../../mappers/datafonts.mapper';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PrismaDataFontsRepository implements DataFontsRepository {
   constructor(private prisma: PrismaService) {}
 
   public async create(props: CreateDataFontProps): Promise<DataFont> {
+    const csvName = props.csvName;
+    let processedCsvData = props.csvData;
+
+    if (csvName != '' && processedCsvData && props.accessKey == '') {
+      const rawCsvData = props?.csvData;
+      if (typeof rawCsvData === 'string') {
+        processedCsvData = JSON.parse(rawCsvData);
+      }
+    }
+
     const dataFont = await this.prisma.dataFont.create({
-      data: { ...props },
+      data: { ...props, csvData: processedCsvData as Prisma.InputJsonValue },
     });
 
     return DataFontsMapper.toDomain(dataFont);
@@ -59,4 +70,6 @@ export class PrismaDataFontsRepository implements DataFontsRepository {
 
     return DataFontsMapper.toDomain(dataFont);
   }
+
+  // evoluir para que seja possível adicionar o arquivo a base de dados
 }

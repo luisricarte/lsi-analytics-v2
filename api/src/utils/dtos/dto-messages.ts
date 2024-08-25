@@ -26,4 +26,8 @@ export class DtoMessages {
   public static isArray(field: string) {
     return `${field ?? 'O Campo'} deve ser uma lista`;
   }
+
+  public static isJson() {
+    return 'Deve ser possível converter para JSON';
+  }
 }

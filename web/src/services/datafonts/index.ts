@@ -5,7 +5,10 @@ import { DataFontModel, SQLResult } from '../models/datafont/types';
 import { DeleteRequest, GetRequest, PostRequest } from '../types';
 
 export type CreateDataFontProps = PostRequest<
-  Pick<DataFontModel, 'name' | 'typeOfStorage' | 'provider' | 'accessKey'>
+  Pick<
+    DataFontModel,
+    'name' | 'typeOfStorage' | 'provider' | 'accessKey' | 'csvData' | 'csvName'
+  >
 >;
 
 export type FindAllDataFontsProps = Omit<

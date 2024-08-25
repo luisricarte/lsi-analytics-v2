@@ -29,5 +29,7 @@ export type DataFontModel = BaseModel & {
   typeOfStorage: TypeOfStorage;
   provider: DataFontProvider;
   accessKey?: string;
+  csvData?: string;
+  csvName?: string;
   userId: string;
 };

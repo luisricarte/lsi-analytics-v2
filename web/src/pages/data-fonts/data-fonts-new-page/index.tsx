@@ -1,6 +1,8 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { useMutation } from '@tanstack/react-query';
-import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Papa from 'papaparse';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -39,14 +41,17 @@ import { cn, handleErrorNotify } from '@/utils';
 
 export type FormData = {
   name: string;
-  accessKey: string;
+  accessKey?: string;
   font: { provider: DataFontProvider; typeOfStorage: TypeOfStorage };
+  csvName?: string;
+  csvData?: JSON;
 };
 
 export const DataFontsNewPage: React.FC = () => {
   const [accessKeyIsVisible, setAccessKeyIsVisible] =
     React.useState<boolean>(false);
-
+  const [csvData, setCsvData] = useState<string | undefined>();
+  const [csvName, setCsvName] = useState<string | undefined>('');
   const navigate = useNavigate();
 
   const {
@@ -70,15 +75,58 @@ export const DataFontsNewPage: React.FC = () => {
   });
 
   const onSubmit = (data: FormData) => {
+    let accessKey = data?.accessKey;
+
+    console.log('datafontrpovider', data.font.provider);
+    if (data.font.provider === 'POSTGRESQL') {
+      setCsvData(undefined);
+      setCsvName(undefined);
+    } else {
+      accessKey = '';
+    }
+
+    console.log(typeof csvData);
     mutate({
       body: {
         name: data.name,
-        accessKey: data.accessKey,
+        accessKey,
         typeOfStorage: data.font.typeOfStorage,
         provider: data.font.provider,
+        csvName,
+        csvData,
       },
     });
   };
+
+  const handleUpload = (uploadedData: unknown) => {
+    if (typeof uploadedData === 'object' && uploadedData !== null) {
+      setCsvData(JSON.stringify(uploadedData));
+    } else {
+      console.error('Formato inválido');
+    }
+  };
+
+  const handleUploadCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileCSV = e?.target?.files?.[0];
+    const fileNameCSV = fileCSV?.name;
+
+    if (fileCSV) {
+      Papa.parse(fileCSV, {
+        header: true,
+        dynamicTyping: true,
+        complete: (res) => {
+          setCsvName(fileNameCSV);
+          handleUpload(res.data);
+
+          toast('Arquivo carregado com sucesso', { type: 'success' });
+        },
+        error: () => {
+          toast('Erro ao carregar o CSV');
+        },
+      });
+    }
+  };
+
   return (
     <Layout
       breadcrumb={
@@ -181,12 +229,27 @@ export const DataFontsNewPage: React.FC = () => {
               {selectedProvider?.provider === 'CSV' && (
                 <>
                   <Label>Adicione o arquivo</Label>
-                  <Input type="file"></Input>
+                  <Input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleUploadCSV}
+                    // {...register('csvId', { required: REQUIRED_FIELD })}
+                  />
+
                   <ErrorMessage
                     errors={errors}
                     name="accessKey"
                     render={({ message }) => <FieldError message={message} />}
                   />
+
+                  {csvData && (
+                    <>
+                      <thead>
+                        <tr></tr>
+                      </thead>
+                      <tbody></tbody>
+                    </>
+                  )}
                 </>
               )}
             </div>

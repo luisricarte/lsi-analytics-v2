@@ -1,3 +1,4 @@
+import { JsonValue } from '@prisma/client/runtime/library';
 import { DataFontProvider, TypeOfStorage } from 'src/core/domain/types/common';
 import {
   TextFilterMode,
@@ -12,6 +13,8 @@ export type CreateDataFontProps = {
   typeOfStorage: TypeOfStorage;
   provider: DataFontProvider;
   userId: string;
+  csvName?: string;
+  csvData?: string | JsonValue;
 };
 
 export type DeleteDataFontProps = {
@@ -43,4 +46,6 @@ export abstract class DataFontsRepository {
   public abstract delete(props: DeleteDataFontProps): Promise<void>;
 
   public abstract find(props: FindDataFontProps): Promise<DataFont | null>;
+
+  //criar o upload de arquivo por CSV! evoluir e desenvolver rota
 }

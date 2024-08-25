@@ -1,4 +1,11 @@
-import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { JsonValue } from '@prisma/client/runtime/library';
+import {
+  IsIn,
+  IsJSON,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { DataFontProvider, TypeOfStorage } from 'src/core/domain/types/common';
 
 import { DtoMessages } from 'src/utils/dtos/dto-messages';
@@ -11,6 +18,14 @@ export class CreateDataFontDto {
   @IsString({ message: DtoMessages.isString('Chave de acesso') })
   @IsOptional()
   accessKey?: string;
+
+  @IsJSON()
+  @IsOptional()
+  csvData?: JsonValue;
+
+  @IsString()
+  @IsOptional()
+  csvName?: string;
 
   @IsIn(['DATABASE', 'FILE'], {
     message: DtoMessages.invalid('Tipo de armazenamento'),
