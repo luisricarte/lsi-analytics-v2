@@ -1,6 +1,5 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { useMutation } from '@tanstack/react-query';
-import { Upload } from 'lucide-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -182,7 +181,7 @@ export const DataFontsNewPage: React.FC = () => {
               {selectedProvider?.provider === 'CSV' && (
                 <>
                   <Label>Adicione o arquivo</Label>
-                  <Upload />
+                  <Input type="file"></Input>
                   <ErrorMessage
                     errors={errors}
                     name="accessKey"

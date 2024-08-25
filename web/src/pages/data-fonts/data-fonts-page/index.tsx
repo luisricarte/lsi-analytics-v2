@@ -113,7 +113,7 @@ export const DataFontsPage: React.FC = () => {
               <input
                 type="password"
                 disabled
-                value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                value="xxxxxxxxxxxxxxxxxxxxxxxx"
               />
             )}
             {includes ? (
@@ -276,6 +276,4 @@ export const DataFontsPage: React.FC = () => {
       {render()}
     </Layout>
   );
-
-  return null;
 };

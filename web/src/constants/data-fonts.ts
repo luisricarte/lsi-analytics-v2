@@ -30,7 +30,7 @@ export const TYPE_STORAGE_MAPPER_DB_LABEL = {
 
 export const PROVIDER_MAPPER_DB_IMAGEURL = {
   POSTGRESQL: '/icons/psql.png',
-  CSV: '/icons/psql.png',
+  CSV: '/icons/csv.png',
 };
 
 export const PROVIDER_MAPPER_DB_LABEL = {
