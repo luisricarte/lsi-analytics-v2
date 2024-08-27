@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import * as echarts from 'echarts';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { EChart } from '@/lib/echarts-for-react';
 import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
@@ -14,6 +14,7 @@ interface MapChartViewProps {
 export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
   const configRegister = data[data.length - 1];
   const mapNumber = configRegister.mapType;
+  const [option, setOption] = useState<unknown>({});
 
   const { isLoading } = useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
@@ -22,29 +23,8 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
       if (mapNumber) {
         return axios.get(`/map/geojs-${mapNumber}-mun.json`).then((res) => {
           echarts.registerMap(id, res.data);
-        });
-      }
-      if (configRegister.fileContent) {
-        return echarts.registerMap(id, configRegister?.fileContent);
-      }
-      console.error('O arquivo JSON carregado não está disponível.');
-      return Promise.reject(
-        new Error('O arquivo JSON carregado não está disponível.'),
-      );
-    },
-  });
 
-  return (
-    <>
-      {isLoading ? (
-        <div>carregando...</div>
-      ) : (
-        <EChart
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-          option={{
+          setOption({
             tooltip: {
               trigger: 'item',
             },
@@ -80,7 +60,24 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
                 })),
               },
             ],
+          });
+        });
+      }
+      return echarts.registerMap(id, configRegister?.fileContent);
+    },
+  });
+
+  return (
+    <>
+      {isLoading ? (
+        <div>carregando...</div>
+      ) : (
+        <EChart
+          style={{
+            width: '100%',
+            height: '100%',
           }}
+          option={option}
         />
       )}
     </>

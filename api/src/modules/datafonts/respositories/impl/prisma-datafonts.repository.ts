@@ -71,5 +71,48 @@ export class PrismaDataFontsRepository implements DataFontsRepository {
     return DataFontsMapper.toDomain(dataFont);
   }
 
-  // evoluir para que seja possível adicionar o arquivo a base de dados
+  // public async handleCsvUpload(props: CreateDataFontProps): Promise<DataFont> {
+  //   const { tableName, csvData } = props;
+  //   let newFont;
+
+  //   if (csvData) {
+  //     const parsedData = JSON.parse(csvData);
+  //     const columns = Object.keys(parsedData[0]);
+
+  //     const createTableQuery = `
+  //     CREATE TABLE ${tableName} (
+  //       id SERIAL PRIMARY KEY,
+  //       ${columns.map((column) => `${column} TEXT`).join(',')}
+  //     );
+  //   `;
+
+  //     await this.prisma.$executeRawUnsafe(createTableQuery);
+
+  //     for (const row of parsedData) {
+  //       const columnsString = columns.join(', ');
+  //       const valuesString = columns
+  //         .map((column) => `'${row[column]}'`)
+  //         .join(', ');
+
+  //       const insertQuery = `
+  //       INSERT INTO ${tableName} (${columnsString})
+  //       VALUES (${valuesString});
+  //     `;
+
+  //       await this.prisma.$executeRawUnsafe(insertQuery);
+  //     }
+
+  //     newFont = await this.prisma.dataFont.create({
+  //       data: {
+  //         name: props.name,
+  //         typeOfStorage: props.typeOfStorage,
+  //         provider: props.provider,
+  //         userId: props.userId,
+  //         csvName: tableName,
+  //       },
+  //     });
+  //   }
+
+  //   return DataFontsMapper.toDomain(newFont);
+  // }
 }

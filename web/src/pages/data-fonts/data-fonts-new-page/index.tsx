@@ -66,7 +66,7 @@ export const DataFontsNewPage: React.FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
-    mutationFn: dataFontsService.create,
+    mutationFn: dataFontsService.createDataBaseFont,
     onError: handleErrorNotify,
     onSuccess: () => {
       toast('Fonte de dados criada com sucesso', { type: 'success' });
@@ -160,14 +160,14 @@ export const DataFontsNewPage: React.FC = () => {
                 render={({ message }) => <FieldError message={message} />}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <Label>Selecione o tipo de fonte</Label>
               <Controller
                 control={control}
                 name="font"
                 rules={{ required: REQUIRED_FIELD }}
                 render={({ field: { onChange } }) => (
-                  <div className="grid grid-cols-4 gap-4 rounded-[2px] bg-zinc-50 p-8">
+                  <div className="grid grid-cols-2 gap-4 rounded-[2px] bg-zinc-50 p-8">
                     {AVAILABLE_DATA_FONTS.map((d, index) => {
                       const isSelected =
                         selectedProvider?.provider === d.provider &&
@@ -227,30 +227,15 @@ export const DataFontsNewPage: React.FC = () => {
                 </>
               )}
               {selectedProvider?.provider === 'CSV' && (
-                <>
+                <div style={{ display: 'flex', gap: '16px' }}>
                   <Label>Adicione o arquivo</Label>
                   <Input
                     type="file"
                     accept=".csv"
+                    required
                     onChange={handleUploadCSV}
-                    // {...register('csvId', { required: REQUIRED_FIELD })}
                   />
-
-                  <ErrorMessage
-                    errors={errors}
-                    name="accessKey"
-                    render={({ message }) => <FieldError message={message} />}
-                  />
-
-                  {csvData && (
-                    <>
-                      <thead>
-                        <tr></tr>
-                      </thead>
-                      <tbody></tbody>
-                    </>
-                  )}
-                </>
+                </div>
               )}
             </div>
           </CardContent>

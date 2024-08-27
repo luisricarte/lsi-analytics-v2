@@ -224,7 +224,8 @@ export type ViewModel = {
   type: ViewType;
   contentUpdate: ContentUpdate;
   datafontId: string;
-  sql: string;
+  sql?: string;
+  csvContent?: JSON;
   panelId: string;
   core: CoreType;
   mapType: string;

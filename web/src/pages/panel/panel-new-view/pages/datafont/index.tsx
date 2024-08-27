@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -31,18 +31,21 @@ import { cn } from '@/utils';
 
 import { usePanelNewViewContext } from '../../hooks/usePanelNewViewContext';
 import { usePanelQuery } from '../../hooks/usePanelQuery';
+import { TYPE_STUDIO_LINK_MAPPER } from '../object/constants';
 
 export const PanelNewViewDataFont: React.FC = () => {
   const [checkedDataFont, setCheckedDataFont] = React.useState<string | null>(
     null,
   );
   const [checkError, setCheckError] = React.useState<string | null>(null);
-
+  const [isFile, setIsFile] = React.useState<boolean | null>(null);
+  const [csvContent, setCsvContentLocal] = React.useState<object | null>(null);
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { setViewCreation, canAccessStep } = usePanelNewViewContext();
+  const { setViewCreation, canAccessStep, viewCreation, setCsvContent } =
+    usePanelNewViewContext();
 
   const { data: dataFontsData } = useQuery({
     queryKey: [reactQueryKeys.queries.findAllDataFontsQuery],
@@ -51,19 +54,57 @@ export const PanelNewViewDataFont: React.FC = () => {
 
   const { data, error } = usePanelQuery({ id });
 
+  console.log('datafontsdata', dataFontsData);
+  console.log('viewcreation', viewCreation);
+
+  useEffect(() => {
+    if (checkedDataFont) {
+      dataFontsData?.forEach((dataFontActual) => {
+        if (
+          dataFontActual?.id === checkedDataFont &&
+          dataFontActual.typeOfStorage === 'FILE'
+        ) {
+          setIsFile(true);
+          if (typeof dataFontActual.csvData === 'object') {
+            setCsvContentLocal(dataFontActual.csvData);
+          }
+        } else if (
+          dataFontActual?.id === checkedDataFont &&
+          dataFontActual.typeOfStorage === 'DATABASE'
+        ) {
+          setIsFile(false);
+          setCsvContentLocal(null);
+        }
+      });
+    }
+  }, [checkedDataFont, dataFontsData]);
+
   const handleNext = () => {
     if (data) {
       if (!checkedDataFont) {
         setCheckError('Selecione uma fonte de dados');
         return;
       }
+      if (isFile) {
+        setViewCreation((prevState) => {
+          const newState = { ...prevState };
+          Object.assign(newState, { datafontId: checkedDataFont, csvContent });
+          return newState;
+        });
 
-      setViewCreation((prevState) => {
-        const newState = { ...prevState };
-        Object.assign(newState, { datafontId: checkedDataFont });
-        return newState;
-      });
-      navigate(APP_ROUTES.panel.new.object.replace(':id', data.id));
+        setCsvContent(csvContent);
+        canAccessStep(4, checkedDataFont);
+        navigate(
+          TYPE_STUDIO_LINK_MAPPER[viewCreation.type].replace(':id', data.id),
+        );
+      } else {
+        setViewCreation((prevState) => {
+          const newState = { ...prevState };
+          Object.assign(newState, { datafontId: checkedDataFont });
+          return newState;
+        });
+        navigate(APP_ROUTES.panel.new.object.replace(':id', data.id));
+      }
     }
   };
 

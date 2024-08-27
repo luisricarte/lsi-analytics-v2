@@ -46,6 +46,4 @@ export abstract class DataFontsRepository {
   public abstract delete(props: DeleteDataFontProps): Promise<void>;
 
   public abstract find(props: FindDataFontProps): Promise<DataFont | null>;
-
-  //criar o upload de arquivo por CSV! evoluir e desenvolver rota
 }

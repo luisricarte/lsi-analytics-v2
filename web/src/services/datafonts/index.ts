@@ -27,12 +27,16 @@ export type FindTablesProps = GetRequest<{
   schemaName: string;
 }>;
 
+export type FindTablesCsvProps = GetRequest<{
+  tableName: string;
+}>;
+
 export type FindTablesResponse = { tables: string[] };
 
 export type ExecuteSqlProps = PostRequest<{ datafontId: string; sql: string }>;
 
 class DataFontsService {
-  public async create(props: CreateDataFontProps) {
+  public async createDataBaseFont(props: CreateDataFontProps) {
     const response = await api.post<DataFontModel>(
       '/datafonts',
       props.body,

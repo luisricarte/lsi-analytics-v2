@@ -15,6 +15,7 @@ export const reactQueryKeys = {
     createSessionMutation: 'createSessionMutation',
     createPanelMutation: 'createPanelMutation',
     createDataFontMutation: 'createDataFontMutation',
+    createCsvFontMutation: 'createCsvFontMutation',
     deleteDataFontMutation: 'deleteDataFontMutation',
     executeSqlMutation: 'executeSqlMutation',
     deletePanelMutation: 'deletePanelMutation',

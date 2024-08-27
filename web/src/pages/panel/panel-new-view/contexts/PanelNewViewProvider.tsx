@@ -11,6 +11,8 @@ type PanelNewViewContextType = {
   canAccessStep: (step: number, datafontId: string) => boolean;
   queryData: SQLResult | null;
   setQueryData: React.Dispatch<React.SetStateAction<SQLResult | null>>;
+  csvContent: object | null;
+  setCsvContent: React.Dispatch<React.SetStateAction<object | null>>;
 };
 
 export const PanelNewViewContext = React.createContext(
@@ -27,6 +29,7 @@ export const PanelNewViewProvider: React.FC<PanelNewViewContextProps> = ({
     {} as ViewProps,
   );
   const [queryData, setQueryData] = React.useState<SQLResult | null>(null);
+  const [csvContent, setCsvContent] = React.useState<object | null>(null);
 
   console.log('viewCreation: ', viewCreation);
 
@@ -54,7 +57,7 @@ export const PanelNewViewProvider: React.FC<PanelNewViewContextProps> = ({
           navigate(APP_ROUTES.panel.new.index.replace(':id', datafontId));
           return false;
         case 4:
-          if (viewCreation.sql && queryData) {
+          if ((viewCreation.sql && queryData) || viewCreation.csvContent) {
             return true;
           }
           navigate(APP_ROUTES.panel.new.index.replace(':id', datafontId));
@@ -72,6 +75,7 @@ export const PanelNewViewProvider: React.FC<PanelNewViewContextProps> = ({
       viewCreation.name,
       viewCreation.sql,
       viewCreation.type,
+      viewCreation.csvContent,
     ],
   );
 
@@ -79,11 +83,13 @@ export const PanelNewViewProvider: React.FC<PanelNewViewContextProps> = ({
     () => ({
       viewCreation,
       queryData,
+      csvContent,
       setViewCreation,
       canAccessStep,
       setQueryData,
+      setCsvContent,
     }),
-    [viewCreation, canAccessStep, queryData],
+    [viewCreation, canAccessStep, queryData, csvContent],
   );
   return (
     <PanelNewViewContext.Provider value={value}>
