@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage } from '@hookform/error-message';
 import * as Dialog from '@radix-ui/react-dialog';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import JSZip from 'jszip';
 import { ChevronLeft, ChevronRight, Upload } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import shp from 'shpjs';
 
 import {
   Breadcrumb,
@@ -56,7 +61,7 @@ export const PanelNewViewConfig: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ViewProps['type'] | null>(
     location.state?.view ?? viewCreation.type ?? '',
   );
-
+  const [open, setOpen] = useState<boolean>(false);
   const {
     handleSubmit,
     register,
@@ -103,10 +108,74 @@ export const PanelNewViewConfig: React.FC = () => {
     }
   };
 
-  const handleUploadChangeFile = (
+  const handleUploadChangeFile = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     event.preventDefault();
+    const { files } = event.target;
+
+    if (files) {
+      if (files.length > 1) {
+        const fileArray = Array.from(files);
+        const zip = new JSZip();
+
+        fileArray.forEach((file) => {
+          zip.file(file.name, file);
+        });
+        const zipContent = await zip.generateAsync({ type: 'arraybuffer' });
+
+        const geojson = await shp(zipContent);
+
+        console.log('geojson.features', geojson);
+
+        const transformedFeatures = await geojson.features.map(
+          (feature: any) => ({
+            type: 'Feature',
+            geometry: {
+              type: feature.geometry.type,
+              coordinates: feature.geometry.coordinates,
+            },
+            properties: {
+              id: feature.properties.OBJECTID,
+              name: feature.properties.NOME,
+              description: feature.properties.NOME,
+            },
+          }),
+        );
+
+        const newGeoJson: any = {
+          features: transformedFeatures,
+          type: 'FeatureCollection',
+        };
+
+        setFileContent(newGeoJson);
+      } else {
+        const file = event?.target?.files?.[0];
+        setFileName(file?.name);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target) {
+            const { result } = e.target;
+            if (typeof result === 'string') {
+              console.log(
+                'result prestar atenção em cada um dos objeto',
+                JSON.parse(result),
+              );
+              setFileContent(JSON.parse(result));
+            } else {
+              console.error('O arquivo não é um JSON válido.');
+            }
+          }
+        };
+        if (file) {
+          reader.readAsText(file);
+        }
+      }
+    }
+
+    // console.log('file content', fileContent);
+
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       if (file) {
@@ -116,7 +185,8 @@ export const PanelNewViewConfig: React.FC = () => {
           if (e.target) {
             const { result } = e.target;
             if (typeof result === 'string') {
-              setFileContent(JSON.parse(result));
+              // setFileContent(JSON.parse(result));
+              console.log('');
             } else {
               console.error('O arquivo não é um JSON válido.');
             }
@@ -274,96 +344,76 @@ export const PanelNewViewConfig: React.FC = () => {
                     </Select>
                   )}
                 />
-                <ErrorMessage
-                  errors={errors}
-                  name="mapType"
-                  render={({ message }) => <FieldError message={message} />}
-                />
-                <Controller
-                  name="fileName"
-                  control={control}
-                  render={() => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '16px',
-                      }}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                  }}
+                >
+                  <div>
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="w-auto rounded-md bg-blue-500 px-4 py-2 text-white"
                     >
-                      <Dialog.Root>
-                        <Dialog.Trigger asChild>
-                          <div>
-                            <button className="w-auto rounded-md bg-blue-500 px-4 py-2 text-white">
-                              <div style={{ display: 'flex', gap: '12px' }}>
-                                <span className="text-xs">
-                                  Carregue um Arquivo
-                                </span>
-                                <Upload size={15} />
-                              </div>
-                            </button>
-                            <span
-                              style={{ marginLeft: '12px', color: '#00A300' }}
-                            >
-                              {fileName}
-                            </span>
-                          </div>
-                        </Dialog.Trigger>
-                        <div
-                          style={{ display: 'flex', flexDirection: 'column' }}
-                        >
-                          <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                            .json | .geojson | .shp
-                          </span>
-                        </div>
-                        <Dialog.Portal>
-                          <Dialog.Overlay className="bg-blackA9 fixed inset-0" />
-                          <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-md bg-white p-4 shadow-lg">
-                            <Dialog.Title className="text-lg font-medium text-gray-900">
-                              Carregue um Arquivo
-                            </Dialog.Title>
+                      <div style={{ display: 'flex', gap: '12px' }}>
+                        <span className="text-xs">Carregue um Arquivo</span>
+                        <Upload size={15} />
+                      </div>
+                    </button>
+                    <span style={{ marginLeft: '12px', color: '#00A300' }}>
+                      {fileName}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
+                      .json | .geojson | .shp
+                    </span>
+                  </div>
+                  <Dialog.Root open={open} onOpenChange={setOpen}>
+                    <Dialog.Portal>
+                      <Dialog.Overlay className="bg-blackA9 fixed inset-0" />
+                      <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-md bg-white p-4 shadow-lg">
+                        <Dialog.Title className="text-lg font-medium text-gray-900">
+                          Carregue um Arquivo
+                        </Dialog.Title>
 
-                            <Dialog.Description className="mt-2 text-sm text-gray-500">
-                              Selecione um arquivo para carregar.
-                            </Dialog.Description>
-                            <div className="mt-4">
-                              <input
-                                name={fileName}
-                                id={fileName}
-                                type="file"
-                                onChange={handleUploadChangeFile}
-                                accept=".json, .geojson, .kml, .shp"
-                                className=" text-sm text-gray-500
+                        <Dialog.Description className="mt-2 text-sm text-gray-500">
+                          Selecione um arquivo para carregar.
+                        </Dialog.Description>
+                        <div className="mt-4">
+                          <input
+                            name={fileName}
+                            id={fileName}
+                            type="file"
+                            multiple
+                            onChange={handleUploadChangeFile}
+                            accept=".json, .geojson,.shp,.dbf,.prj,.cpg"
+                            className=" text-sm text-gray-500
                                       file:mr-4 file:rounded-md file:border-0
                                       file:bg-blue-500 file:px-4
                                       file:py-2 file:text-sm
                                       file:font-semibold file:text-white
                                       hover:file:bg-blue-600"
-                              />
+                          />
 
-                              {fileName && (
-                                <p className="mt-2 text-sm text-green-600">
-                                  Arquivo selecionado: {fileName}
-                                </p>
-                              )}
-                            </div>
-                            <div className="mt-4 flex justify-end">
-                              <Dialog.Close asChild>
-                                <button className="rounded-md bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400">
-                                  Cancelar
-                                </button>
-                              </Dialog.Close>
-                            </div>
-                          </Dialog.Content>
-                        </Dialog.Portal>
-                      </Dialog.Root>
-                    </div>
-                  )}
-                />
-                <ErrorMessage
-                  errors={errors}
-                  name="fileName"
-                  render={({ message }) => <FieldError message={message} />}
-                />
+                          {fileName && (
+                            <p className="mt-2 text-sm text-green-600">
+                              Arquivo selecionado: {fileName}
+                            </p>
+                          )}
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                          <Dialog.Close asChild>
+                            <button className="rounded-md bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400">
+                              Cancelar
+                            </button>
+                          </Dialog.Close>
+                        </div>
+                      </Dialog.Content>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                </div>
               </div>
             </>
           )}

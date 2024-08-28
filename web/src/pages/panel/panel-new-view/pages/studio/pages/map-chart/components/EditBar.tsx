@@ -194,7 +194,6 @@ export const EditBar: React.FC = () => {
                     const valor = e.target.value;
                     const splitted = valor.split(',');
                     let allValid = true;
-                    console.log('executei');
                     for (let i = 0; i < splitted.length + 1; i += i + 1) {
                       if (!isValidHex(splitted[i])) {
                         allValid = false;
