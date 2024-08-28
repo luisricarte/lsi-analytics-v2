@@ -46,6 +46,24 @@ export class DataFontsController {
     return DataFontsMapper.toHTTP(createdDataFont);
   }
 
+  @Post('/csv')
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.CREATED)
+  public async createCsvDataFont(
+    @Req() request: Request,
+    @Body() createDataFontDto: CreateDataFontDto,
+  ) {
+    const userId = request.userId;
+    const createdDataFont = await this.dataFontsRepository.createCsvClientTable(
+      {
+        ...createDataFontDto,
+        userId,
+      },
+    );
+
+    return DataFontsMapper.toHTTP(createdDataFont);
+  }
+
   @Get()
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)

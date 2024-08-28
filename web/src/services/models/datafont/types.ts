@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseModel } from '../types';
 
 export type Column =
@@ -29,7 +30,15 @@ export type DataFontModel = BaseModel & {
   typeOfStorage: TypeOfStorage;
   provider: DataFontProvider;
   accessKey?: string;
-  csvData?: string;
-  csvName?: string;
   userId: string;
+};
+
+export type CsvModel = BaseModel & {
+  name: string;
+  typeOfStorage: TypeOfStorage;
+  provider: DataFontProvider;
+  tableName: string;
+  csvData: any[];
+  userId: string;
+  columnTypes: string[];
 };

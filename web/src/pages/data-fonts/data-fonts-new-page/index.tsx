@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage } from '@hookform/error-message';
 import { useMutation } from '@tanstack/react-query';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Papa from 'papaparse';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -43,15 +43,21 @@ export type FormData = {
   name: string;
   accessKey?: string;
   font: { provider: DataFontProvider; typeOfStorage: TypeOfStorage };
-  csvName?: string;
-  csvData?: JSON;
 };
 
 export const DataFontsNewPage: React.FC = () => {
   const [accessKeyIsVisible, setAccessKeyIsVisible] =
     React.useState<boolean>(false);
-  const [csvData, setCsvData] = useState<string | undefined>();
-  const [csvName, setCsvName] = useState<string | undefined>('');
+  const [csvData, setCsvData] = useState<any[]>();
+  const [columnTypes, setColumnTypes] = useState<string[]>([]);
+  const [tableName, setTableName] = useState<string | null>();
+
+  const handleTypeChange = (index: number, value: string) => {
+    const newColumnTypes = [...columnTypes];
+    newColumnTypes[index] = value;
+    setColumnTypes(newColumnTypes);
+  };
+
   const navigate = useNavigate();
 
   const {
@@ -64,6 +70,22 @@ export const DataFontsNewPage: React.FC = () => {
 
   const selectedProvider = watch('font');
 
+  const checkFieldType = (column: string[]) => {
+    let isValid = true;
+
+    column.forEach((e) => {
+      if (e !== 'TEXT' && e !== 'NUMBER' && e !== 'STRING' && e !== 'DECIMAL') {
+        isValid = false;
+      }
+    });
+
+    if (csvData && Object.keys(csvData[0]).length !== column.length) {
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
     mutationFn: dataFontsService.createDataBaseFont,
@@ -74,49 +96,57 @@ export const DataFontsNewPage: React.FC = () => {
     },
   });
 
+  const { mutate: mutateCsv, isPending: isLoading } = useMutation({
+    mutationKey: [reactQueryKeys.mutations.createCsvFontMutation],
+    mutationFn: dataFontsService.createCsvFont,
+    onError: handleErrorNotify,
+    onSuccess: () => {
+      toast('Fonte de dados criada com sucesso', { type: 'success' });
+      navigate(APP_ROUTES.dataFont.index);
+    },
+  });
+
   const onSubmit = (data: FormData) => {
-    let accessKey = data?.accessKey;
+    const accessKey = data?.accessKey;
+    const { provider } = data.font;
 
-    console.log('datafontrpovider', data.font.provider);
-    if (data.font.provider === 'POSTGRESQL') {
-      setCsvData(undefined);
-      setCsvName(undefined);
-    } else {
-      accessKey = '';
-    }
-
-    console.log(typeof csvData);
-    mutate({
-      body: {
-        name: data.name,
-        accessKey,
-        typeOfStorage: data.font.typeOfStorage,
-        provider: data.font.provider,
-        csvName,
-        csvData,
-      },
-    });
-  };
-
-  const handleUpload = (uploadedData: unknown) => {
-    if (typeof uploadedData === 'object' && uploadedData !== null) {
-      setCsvData(JSON.stringify(uploadedData));
-    } else {
-      console.error('Formato inválido');
+    if (provider === 'POSTGRESQL') {
+      mutate({
+        body: {
+          name: data.name,
+          accessKey,
+          typeOfStorage: data.font.typeOfStorage,
+          provider: data.font.provider,
+        },
+      });
+    } else if (
+      tableName &&
+      csvData &&
+      columnTypes &&
+      checkFieldType(columnTypes)
+    ) {
+      mutateCsv({
+        body: {
+          name: data.name,
+          typeOfStorage: data.font.typeOfStorage,
+          provider: data.font.provider,
+          tableName,
+          csvData,
+          columnTypes,
+        },
+      });
     }
   };
 
   const handleUploadCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileCSV = e?.target?.files?.[0];
-    const fileNameCSV = fileCSV?.name;
 
     if (fileCSV) {
       Papa.parse(fileCSV, {
         header: true,
-        dynamicTyping: true,
+        dynamicTyping: false,
         complete: (res) => {
-          setCsvName(fileNameCSV);
-          handleUpload(res.data);
+          setCsvData(res.data as any[]);
 
           toast('Arquivo carregado com sucesso', { type: 'success' });
         },
@@ -228,13 +258,53 @@ export const DataFontsNewPage: React.FC = () => {
               )}
               {selectedProvider?.provider === 'CSV' && (
                 <div style={{ display: 'flex', gap: '16px' }}>
-                  <Label>Adicione o arquivo</Label>
-                  <Input
-                    type="file"
-                    accept=".csv"
-                    required
-                    onChange={handleUploadCSV}
-                  />
+                  <div>
+                    <Label>Adicione o arquivo</Label>
+                    <Input
+                      type="file"
+                      accept=".csv"
+                      required
+                      onChange={handleUploadCSV}
+                    />
+                  </div>
+                  <div>
+                    <Label>Adicione o nome da Tabela</Label>
+                    <Input
+                      type="text"
+                      required
+                      onChange={(e) => setTableName(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              {csvData && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    padding: '16px',
+                    gap: '16px',
+                  }}
+                >
+                  {Object.keys(csvData[0]).map((columnName, index) => (
+                    <div key={index} style={{ display: 'flex', gap: '16px' }}>
+                      <span style={{ width: '160px' }}>
+                        {columnName.toUpperCase()}
+                      </span>
+                      <input
+                        style={{ border: '1px solid black', padding: '4px' }}
+                        type="text"
+                        value={columnTypes[index]}
+                        required
+                        onChange={(e) =>
+                          handleTypeChange(index, e.target.value.toUpperCase())
+                        }
+                        placeholder="Defina o tipo do campo"
+                      />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -243,7 +313,11 @@ export const DataFontsNewPage: React.FC = () => {
             <Button variant="outline" asChild>
               <Link to={APP_ROUTES.dataFont.index}>Voltar</Link>
             </Button>
-            <Button type="submit" loading={isPending} disabled={isPending}>
+            <Button
+              type="submit"
+              loading={isPending || isLoading}
+              disabled={isPending || isLoading}
+            >
               Criar
             </Button>
           </CardFooter>

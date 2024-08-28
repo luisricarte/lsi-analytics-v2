@@ -1,13 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
 import { api } from '../api';
-import { DataFontModel, SQLResult } from '../models/datafont/types';
+import { CsvModel, DataFontModel, SQLResult } from '../models/datafont/types';
 import { DeleteRequest, GetRequest, PostRequest } from '../types';
 
 export type CreateDataFontProps = PostRequest<
+  Pick<DataFontModel, 'name' | 'typeOfStorage' | 'provider' | 'accessKey'>
+>;
+
+export type CreateCsvFontProps = PostRequest<
   Pick<
-    DataFontModel,
-    'name' | 'typeOfStorage' | 'provider' | 'accessKey' | 'csvData' | 'csvName'
+    CsvModel,
+    | 'name'
+    | 'typeOfStorage'
+    | 'provider'
+    | 'csvData'
+    | 'tableName'
+    | 'columnTypes'
   >
 >;
 
@@ -39,6 +46,16 @@ class DataFontsService {
   public async createDataBaseFont(props: CreateDataFontProps) {
     const response = await api.post<DataFontModel>(
       '/datafonts',
+      props.body,
+      props.config,
+    );
+
+    return response.data;
+  }
+
+  public async createCsvFont(props: CreateCsvFontProps) {
+    const response = await api.post<CsvModel>(
+      '/datafonts/csv',
       props.body,
       props.config,
     );

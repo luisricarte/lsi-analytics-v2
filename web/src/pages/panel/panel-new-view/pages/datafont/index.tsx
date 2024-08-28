@@ -54,30 +54,30 @@ export const PanelNewViewDataFont: React.FC = () => {
 
   const { data, error } = usePanelQuery({ id });
 
-  console.log('datafontsdata', dataFontsData);
-  console.log('viewcreation', viewCreation);
+  // console.log('datafontsdata', dataFontsData);
+  // console.log('viewcreation', viewCreation);
 
-  useEffect(() => {
-    if (checkedDataFont) {
-      dataFontsData?.forEach((dataFontActual) => {
-        if (
-          dataFontActual?.id === checkedDataFont &&
-          dataFontActual.typeOfStorage === 'FILE'
-        ) {
-          setIsFile(true);
-          if (typeof dataFontActual.csvData === 'object') {
-            setCsvContentLocal(dataFontActual.csvData);
-          }
-        } else if (
-          dataFontActual?.id === checkedDataFont &&
-          dataFontActual.typeOfStorage === 'DATABASE'
-        ) {
-          setIsFile(false);
-          setCsvContentLocal(null);
-        }
-      });
-    }
-  }, [checkedDataFont, dataFontsData]);
+  // useEffect(() => {
+  //   if (checkedDataFont) {
+  //     dataFontsData?.forEach((dataFontActual) => {
+  //       if (
+  //         dataFontActual?.id === checkedDataFont &&
+  //         dataFontActual.typeOfStorage === 'FILE'
+  //       ) {
+  //         setIsFile(true);
+  //         if (typeof dataFontActual.csvData === 'object') {
+  //           setCsvContentLocal(dataFontActual.csvData);
+  //         }
+  //       } else if (
+  //         dataFontActual?.id === checkedDataFont &&
+  //         dataFontActual.typeOfStorage === 'DATABASE'
+  //       ) {
+  //         setIsFile(false);
+  //         setCsvContentLocal(null);
+  //       }
+  //     });
+  //   }
+  // }, [checkedDataFont, dataFontsData]);
 
   const handleNext = () => {
     if (data) {

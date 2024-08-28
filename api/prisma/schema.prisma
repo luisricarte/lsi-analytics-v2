@@ -58,8 +58,7 @@ model DataFont {
   typeOfStorage   TypeOfStorage
   provider        DataProvider
   accessKey       String?
-  csvName         String?
-  csvData         Json?
+  tableName String? 
   user            User            @relation(fields: [userId], references: [id])
   userId          String
   views           View[]

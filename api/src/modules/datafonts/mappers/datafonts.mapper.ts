@@ -10,8 +10,7 @@ export class DataFontsMapper {
       provider,
       accessKey,
       userId,
-      csvData,
-      csvName,
+      tableName,
       createdAt,
       updatedAt,
     } = dataFont;
@@ -23,8 +22,7 @@ export class DataFontsMapper {
       provider,
       accessKey,
       userId,
-      csvData,
-      csvName,
+      tableName,
       createdAt,
       updatedAt,
     });
@@ -33,15 +31,7 @@ export class DataFontsMapper {
   public static toHTTP(dataFont: DataFont) {
     const {
       id,
-      props: {
-        name,
-        typeOfStorage,
-        provider,
-        accessKey,
-        userId,
-        csvData,
-        csvName,
-      },
+      props: { name, typeOfStorage, provider, accessKey, userId, tableName },
       createdAt,
       updatedAt,
     } = dataFont;
@@ -53,8 +43,7 @@ export class DataFontsMapper {
       provider,
       accessKey,
       userId,
-      csvData,
-      csvName,
+      tableName,
       createdAt,
       updatedAt,
     });

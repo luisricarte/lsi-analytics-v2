@@ -126,8 +126,6 @@ export const PanelNewViewConfig: React.FC = () => {
 
         const geojson = await shp(zipContent);
 
-        console.log('geojson.features', geojson);
-
         const transformedFeatures = await geojson.features.map(
           (feature: any) => ({
             type: 'Feature',
@@ -158,10 +156,6 @@ export const PanelNewViewConfig: React.FC = () => {
           if (e.target) {
             const { result } = e.target;
             if (typeof result === 'string') {
-              console.log(
-                'result prestar atenção em cada um dos objeto',
-                JSON.parse(result),
-              );
               setFileContent(JSON.parse(result));
             } else {
               console.error('O arquivo não é um JSON válido.');
@@ -173,8 +167,6 @@ export const PanelNewViewConfig: React.FC = () => {
         }
       }
     }
-
-    // console.log('file content', fileContent);
 
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];

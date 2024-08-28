@@ -1,7 +1,6 @@
-import { JsonValue } from '@prisma/client/runtime/library';
 import {
+  IsArray,
   IsIn,
-  IsJSON,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -19,13 +18,18 @@ export class CreateDataFontDto {
   @IsOptional()
   accessKey?: string;
 
-  @IsJSON()
+  @IsArray()
   @IsOptional()
-  csvData?: JsonValue;
+  csvData?: any[];
 
   @IsString()
   @IsOptional()
-  csvName?: string;
+  tableName?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  columnTypes?: string[];
 
   @IsIn(['DATABASE', 'FILE'], {
     message: DtoMessages.invalid('Tipo de armazenamento'),
