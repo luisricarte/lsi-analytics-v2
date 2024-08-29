@@ -113,9 +113,9 @@ export const PanelNewViewConfig: React.FC = () => {
   ) => {
     event.preventDefault();
     const { files } = event.target;
-
+    const fileType = event?.target?.files?.[0].type;
     if (files) {
-      if (files.length > 1) {
+      if (fileType === 'application/vnd.shp') {
         const fileArray = Array.from(files);
         const zip = new JSZip();
 
@@ -168,23 +168,10 @@ export const PanelNewViewConfig: React.FC = () => {
       }
     }
 
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files) {
       const file = event.target.files[0];
       if (file) {
         setFileName(file.name);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (e.target) {
-            const { result } = e.target;
-            if (typeof result === 'string') {
-              // setFileContent(JSON.parse(result));
-              console.log('');
-            } else {
-              console.error('O arquivo não é um JSON válido.');
-            }
-          }
-        };
-        reader.readAsText(file);
       }
     }
   };
@@ -359,7 +346,7 @@ export const PanelNewViewConfig: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <span style={{ color: '#BDBDBD', fontSize: '15px' }}>
-                      .json | .geojson | .shp
+                      .json | .geojson | .shp + .dbf
                     </span>
                   </div>
                   <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -380,7 +367,7 @@ export const PanelNewViewConfig: React.FC = () => {
                             type="file"
                             multiple
                             onChange={handleUploadChangeFile}
-                            accept=".json, .geojson,.shp,.dbf,.prj,.cpg"
+                            accept=".json, .geojson,.shp,.dbf"
                             className=" text-sm text-gray-500
                                       file:mr-4 file:rounded-md file:border-0
                                       file:bg-blue-500 file:px-4
