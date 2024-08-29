@@ -79,6 +79,8 @@ export const DataFontsNewPage: React.FC = () => {
       }
     });
 
+    // MELHORAR ESSA LÓGICA AQUI!
+
     if (csvData && Object.keys(csvData[0]).length !== column.length) {
       isValid = false;
     }

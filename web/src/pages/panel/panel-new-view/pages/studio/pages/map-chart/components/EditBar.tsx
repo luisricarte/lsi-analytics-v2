@@ -223,7 +223,7 @@ export const EditBar: React.FC = () => {
                 }}
               >
                 <div style={{ display: 'flex', gap: '12px' }}>
-                  <Label>Do que se trata o mapa?</Label>
+                  <Label>Título do tooltip</Label>
                   <ToolTipSymb message="Aparecerá ao colocar o mouse por cima"></ToolTipSymb>
                 </div>
                 <Input
