@@ -95,7 +95,7 @@ export const EditBar: React.FC<EditBarProps> = ({ data }) => {
               defaultValue={['item-1', 'item-2', 'item-3']}
             >
               <AccordionItem value="item-1">
-                <AccordionTrigger>Gráficos</AccordionTrigger>
+                <AccordionTrigger>Visualizações</AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-2 flex-wrap gap-4 px-4">
                     <ViewSelectButton value={PANEL.VIEW.PIECHART}>
