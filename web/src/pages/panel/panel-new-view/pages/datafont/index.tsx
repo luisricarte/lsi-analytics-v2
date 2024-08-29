@@ -31,7 +31,6 @@ import { cn } from '@/utils';
 
 import { usePanelNewViewContext } from '../../hooks/usePanelNewViewContext';
 import { usePanelQuery } from '../../hooks/usePanelQuery';
-import { TYPE_STUDIO_LINK_MAPPER } from '../object/constants';
 
 export const PanelNewViewDataFont: React.FC = () => {
   const [checkedDataFont, setCheckedDataFont] = React.useState<string | null>(
@@ -43,8 +42,7 @@ export const PanelNewViewDataFont: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { setViewCreation, canAccessStep, viewCreation, setCsvContent } =
-    usePanelNewViewContext();
+  const { setViewCreation, canAccessStep } = usePanelNewViewContext();
 
   const { data: dataFontsData } = useQuery({
     queryKey: [reactQueryKeys.queries.findAllDataFontsQuery],
