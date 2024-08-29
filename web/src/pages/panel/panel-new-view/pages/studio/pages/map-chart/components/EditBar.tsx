@@ -241,15 +241,34 @@ export const EditBar: React.FC = () => {
                 }}
               >
                 <div style={{ display: 'flex', gap: '12px' }}>
-                  <Label>Adicionar legenda ao filtro</Label>
-                  <ToolTipSymb message="Adicione as labels separadas por vírgula. Aparecerá dois valores no topo e abaixo. Estarão Alto e Baixo por padrão"></ToolTipSymb>
+                  <Label>Rótulo superior da legenda</Label>
+                  <ToolTipSymb message="Adicione a legenda superior do filtro" />
                 </div>
                 <Input
                   placeholder="Digite o texto"
                   onChange={(e) => {
                     const valor = e.target.value;
-                    const splitted = valor.split(',');
-                    setLabel(splitted);
+                    setLabel([valor, label[1]]);
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Label>Rótulo inferior da legenda</Label>
+                  <ToolTipSymb message="Adicione a legenda inferior do filtro" />
+                </div>
+                <Input
+                  placeholder="Digite o texto"
+                  onChange={(e) => {
+                    const valor = e.target.value;
+
+                    setLabel([label[0], valor]);
                   }}
                 />
               </div>
