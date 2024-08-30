@@ -348,7 +348,6 @@ export const DataFontsNewPage: React.FC = () => {
                         <span style={{ width: '160px' }}>
                           {columnName.toUpperCase()}
                         </span>
-
                         <Select
                           value={columnTypes[index]}
                           onValueChange={(e) => handleTypeChange(index, e)}
@@ -373,7 +372,6 @@ export const DataFontsNewPage: React.FC = () => {
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                        <span>{columnName in selectedColumns}</span>
                       </div>
                     ))}
                 </div>
