@@ -56,10 +56,10 @@ export type FormData = {
 export const DataFontsNewPage: React.FC = () => {
   const [accessKeyIsVisible, setAccessKeyIsVisible] =
     React.useState<boolean>(false);
-  const [csvData, setCsvData] = useState<any[] | null>();
+  const [csvData, setCsvData] = useState<any[]>();
   const [columnTypes, setColumnTypes] = useState<string[]>([]);
   const [tableName, setTableName] = useState<string | null>();
-
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
   const handleTypeChange = (index: number, value: string) => {
     const newColumnTypes = [...columnTypes];
     newColumnTypes[index] = value;
@@ -80,14 +80,14 @@ export const DataFontsNewPage: React.FC = () => {
 
   React.useEffect(() => {
     if (selectedProvider?.provider !== 'CSV') {
-      setCsvData(null);
+      setCsvData(undefined);
       setColumnTypes([]);
       setTableName(null);
     }
   }, [selectedProvider?.provider]);
 
   const checkFieldType = (column: string[]) =>
-    csvData && Object.keys(csvData[0]).length === column.length;
+    csvData && selectedColumns.length === column.length;
 
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
@@ -109,6 +109,30 @@ export const DataFontsNewPage: React.FC = () => {
     },
   });
 
+  const handleCheck = (value: boolean | string, field: string) => {
+    setSelectedColumns((prevSelectedColumns) =>
+      value
+        ? [...prevSelectedColumns, field]
+        : prevSelectedColumns.filter((col) => col !== field),
+    );
+
+    return !value;
+  };
+
+  const handleFillCsvData = (data: any[]) => {
+    const filteredData = data?.map((obj): object => {
+      const filteredObj: Record<string, any> = {};
+      selectedColumns.forEach((key) => {
+        if (key in obj) {
+          filteredObj[key] = obj[key];
+        }
+      });
+      return filteredObj;
+    });
+
+    return filteredData;
+  };
+
   const onSubmit = (data: FormData) => {
     const accessKey = data?.accessKey;
     const { provider } = data.font;
@@ -128,15 +152,21 @@ export const DataFontsNewPage: React.FC = () => {
       columnTypes &&
       checkFieldType(columnTypes)
     ) {
-      mutateCsv({
-        body: {
-          name: data.name,
-          typeOfStorage: data.font.typeOfStorage,
-          provider: data.font.provider,
-          tableName,
-          csvData,
-          columnTypes,
-        },
+      if (handleFillCsvData(csvData)) {
+        mutateCsv({
+          body: {
+            name: data.name,
+            typeOfStorage: data.font.typeOfStorage,
+            provider: data.font.provider,
+            tableName,
+            csvData: handleFillCsvData(csvData),
+            columnTypes,
+          },
+        });
+      }
+    } else {
+      toast('Não foi possível criar a fonte de dados. Verifique os campos.', {
+        type: 'error',
       });
     }
   };
@@ -310,13 +340,19 @@ export const DataFontsNewPage: React.FC = () => {
                           justifyContent: 'center',
                         }}
                       >
-                        <Checkbox></Checkbox>
+                        <Checkbox
+                          onCheckedChange={(e) => {
+                            handleCheck(e, columnName);
+                          }}
+                        ></Checkbox>
                         <span style={{ width: '160px' }}>
                           {columnName.toUpperCase()}
                         </span>
+
                         <Select
                           value={columnTypes[index]}
                           onValueChange={(e) => handleTypeChange(index, e)}
+                          disabled={!selectedColumns.includes(columnName)}
                         >
                           <SelectTrigger style={{ width: '120px' }}>
                             <SelectValue placeholder="Selecione um mapa" />
@@ -337,6 +373,7 @@ export const DataFontsNewPage: React.FC = () => {
                             </SelectItem>
                           </SelectContent>
                         </Select>
+                        <span>{columnName in selectedColumns}</span>
                       </div>
                     ))}
                 </div>
