@@ -25,9 +25,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/input/PasswordInput';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { APP_ROUTES } from '@/constants/app-routes';
 import { AVAILABLE_DATA_FONTS } from '@/constants/data-fonts';
 import { REQUIRED_FIELD } from '@/constants/messages';
@@ -48,7 +56,7 @@ export type FormData = {
 export const DataFontsNewPage: React.FC = () => {
   const [accessKeyIsVisible, setAccessKeyIsVisible] =
     React.useState<boolean>(false);
-  const [csvData, setCsvData] = useState<any[]>();
+  const [csvData, setCsvData] = useState<any[] | null>();
   const [columnTypes, setColumnTypes] = useState<string[]>([]);
   const [tableName, setTableName] = useState<string | null>();
 
@@ -70,23 +78,16 @@ export const DataFontsNewPage: React.FC = () => {
 
   const selectedProvider = watch('font');
 
-  const checkFieldType = (column: string[]) => {
-    let isValid = true;
-
-    column.forEach((e) => {
-      if (e !== 'TEXT' && e !== 'NUMBER' && e !== 'STRING' && e !== 'DECIMAL') {
-        isValid = false;
-      }
-    });
-
-    // MELHORAR ESSA LÓGICA AQUI!
-
-    if (csvData && Object.keys(csvData[0]).length !== column.length) {
-      isValid = false;
+  React.useEffect(() => {
+    if (selectedProvider?.provider !== 'CSV') {
+      setCsvData(null);
+      setColumnTypes([]);
+      setTableName(null);
     }
+  }, [selectedProvider?.provider]);
 
-    return isValid;
-  };
+  const checkFieldType = (column: string[]) =>
+    csvData && Object.keys(csvData[0]).length !== column.length;
 
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
@@ -142,7 +143,7 @@ export const DataFontsNewPage: React.FC = () => {
 
   const handleUploadCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileCSV = e?.target?.files?.[0];
-
+    setColumnTypes([]);
     if (fileCSV) {
       Papa.parse(fileCSV, {
         header: true,
@@ -259,7 +260,15 @@ export const DataFontsNewPage: React.FC = () => {
                 </>
               )}
               {selectedProvider?.provider === 'CSV' && (
-                <div style={{ display: 'flex', gap: '16px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '16px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                  }}
+                >
                   <div>
                     <Label>Adicione o arquivo</Label>
                     <Input
@@ -270,7 +279,7 @@ export const DataFontsNewPage: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <Label>Adicione o nome da Tabela</Label>
+                    <Label>Adicione o nome da tabela</Label>
                     <Input
                       type="text"
                       required
@@ -279,7 +288,7 @@ export const DataFontsNewPage: React.FC = () => {
                   </div>
                 </div>
               )}
-              {csvData && (
+              {selectedProvider?.provider === 'CSV' && (
                 <div
                   style={{
                     display: 'flex',
@@ -290,23 +299,46 @@ export const DataFontsNewPage: React.FC = () => {
                     gap: '16px',
                   }}
                 >
-                  {Object.keys(csvData[0]).map((columnName, index) => (
-                    <div key={index} style={{ display: 'flex', gap: '16px' }}>
-                      <span style={{ width: '160px' }}>
-                        {columnName.toUpperCase()}
-                      </span>
-                      <input
-                        style={{ border: '1px solid black', padding: '4px' }}
-                        type="text"
-                        value={columnTypes[index]}
-                        required
-                        onChange={(e) =>
-                          handleTypeChange(index, e.target.value.toUpperCase())
-                        }
-                        placeholder="Defina o tipo do campo"
-                      />
-                    </div>
-                  ))}
+                  {csvData &&
+                    Object.keys(csvData[0]).map((columnName, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: 'flex',
+                          gap: '16px',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Checkbox></Checkbox>
+                        <span style={{ width: '160px' }}>
+                          {columnName.toUpperCase()}
+                        </span>
+                        <Select
+                          value={columnTypes[index]}
+                          onValueChange={(e) => handleTypeChange(index, e)}
+                        >
+                          <SelectTrigger style={{ width: '120px' }}>
+                            <SelectValue placeholder="Selecione um mapa" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={'BOOLEAN'}>BOOLEAN</SelectItem>
+                            <SelectItem value={'DATE'}>DATE</SelectItem>
+                            <SelectItem value={'DECIMAL'}>DECIMAL</SelectItem>
+                            <SelectItem value={'INT'}>INT</SelectItem>
+                            <SelectItem value={'JSONB'}>JSON</SelectItem>
+                            <SelectItem value={'TEXT'}>TEXT</SelectItem>
+                            <SelectItem value={'TIMESTAMP'}>
+                              TIMESTAMP
+                            </SelectItem>
+                            <SelectItem value={'UUID'}>UUID</SelectItem>
+                            <SelectItem value={'VARCHAR(255)'}>
+                              VARCHAR
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
                 </div>
               )}
             </div>
