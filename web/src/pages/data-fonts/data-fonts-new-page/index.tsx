@@ -87,7 +87,7 @@ export const DataFontsNewPage: React.FC = () => {
   }, [selectedProvider?.provider]);
 
   const checkFieldType = (column: string[]) =>
-    csvData && Object.keys(csvData[0]).length !== column.length;
+    csvData && Object.keys(csvData[0]).length === column.length;
 
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
