@@ -28,7 +28,10 @@ import { APP_ROUTES } from '@/constants/app-routes';
 import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
-import { WaterfallChartProps, GraphTypeCore } from '@/services/models/panel/types';
+import {
+  WaterfallChartProps,
+  GraphTypeCore,
+} from '@/services/models/panel/types';
 import { addViewIdToLayout } from '@/utils';
 
 import { EWaterfallChartData } from '../contexts/PanelNewViewStudioWaterfallChartProvider';
@@ -48,7 +51,8 @@ export const EditBar: React.FC = () => {
 
   const { setNewViewsPreview, setLayouts } = usePanelEditContext();
 
-  const { setEchartData, echartData } = usePanelNewViewStudioWaterfallChartContext();
+  const { setEchartData, echartData } =
+    usePanelNewViewStudioWaterfallChartContext();
 
   const getEChartsData = React.useCallback(() => {
     if (category && value && queryData) {
@@ -94,10 +98,10 @@ export const EditBar: React.FC = () => {
   if (queryData) {
     return (
       <div className="flex h-full flex-col">
-        <div className="justify-center items-center flex">
+        <div className="flex items-center justify-center">
           <span className="p-4 text-lg font-semibold ">
-           Estúdio da visualização
-          </span>          
+            Estúdio da visualização
+          </span>
         </div>
 
         <SimpleTabs defaultValue="config" className="flex h-full flex-col">

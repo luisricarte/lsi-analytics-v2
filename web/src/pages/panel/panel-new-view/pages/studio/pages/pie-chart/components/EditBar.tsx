@@ -37,18 +37,11 @@ export const EditBar: React.FC = () => {
 
   const { data } = usePanelQuery({ id });
 
-  const { queryData, viewCreation, csvContent } = usePanelNewViewContext();
+  const { queryData, viewCreation } = usePanelNewViewContext();
 
   const { setNewViewsPreview, setLayouts } = usePanelEditContext();
 
   const { setEchartData, echartData } = usePanelNewViewStudioPieChartContext();
-
-  console.log('vloares od csv', csvContent);
-  console.log('data', data);
-  console.log('querydata', queryData);
-  // é exatametne isso qeu eu vou ter que fazer porém tratar os
-  // dados do csv para que eles possam ser utilizados aqui
-  // em todas as visualizações
 
   const getEChartsDataSQL = React.useCallback(() => {
     if (category && value && queryData) {
@@ -67,26 +60,6 @@ export const EditBar: React.FC = () => {
   React.useEffect(() => {
     getEChartsDataSQL();
   }, [category, value, getEChartsDataSQL]);
-
-  // const getEChartsDataFile = React.useCallback(() => {}, []);
-  // continuar daqui
-  // utilizar o react echartstt data file
-  // considere que o rows também é uma coleção de objetos que podem ser utilizados para
-  // desenvolver essa parte
-
-  // React.useEffect(() => {
-  //   if (category && value && csvContent) {
-  //     const graphData = EchartAdapter.queryToData({
-  //       queryResult: queryData,
-  //       core: { labelColumn: category, valueColumn: value } as GraphTypeCore,
-  //       type: viewCreation.type,
-  //     }) as EPieChartData[];
-
-  //     if (graphData) {
-  //       setEchartData(graphData);
-  //     }
-  //   }
-  // }, []);
 
   const handleCreate = () => {
     if (category && value && queryData && data) {

@@ -1,14 +1,27 @@
 import React from 'react';
 
 type SeriesItems = {
-  data: (string | number)[];
+  name?: string;
   type: string;
   stack: string;
+  silent: boolean;
+  itemStyle: {
+    borderColor: string;
+    color: string;
+  };
+  emphasis: {
+    itemStyle: {
+      borderColor: string;
+      color: string;
+    };
+  };
+  data: (string | number)[];
 };
 
 export type EWaterfallChartData = {
   xAxis: {
     data: (string | number)[];
+    type: string;
   };
   yAxis: {
     type: string | null;
@@ -32,7 +45,7 @@ interface PanelNewViewStudioWaterfallChartProviderProps {
 const ECHART_INITIAL_VALUE = {
   yAxis: { type: 'value' },
   xAxis: { type: 'category', data: [] },
-  series: [{ data: [], stack: 'Total', type: 'bars' }],
+  series: [],
 };
 
 export const PanelNewViewStudioWaterfallChartProvider: React.FC<

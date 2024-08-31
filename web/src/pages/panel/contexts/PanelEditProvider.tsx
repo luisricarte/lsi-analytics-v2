@@ -12,6 +12,7 @@ import { EMapChartData } from '../panel-new-view/pages/studio/pages/map-chart/co
 import { NumberViewPresentation } from '../panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
 import { EPieChartData } from '../panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
 import { SelectFilterPresentation } from '../panel-new-view/pages/studio/pages/select-filter/hooks/useSelectFilterStore';
+import { EWaterfallChartData } from '../panel-new-view/pages/studio/pages/waterfall-chart/contexts/PanelNewViewStudioWaterfallChartProvider';
 
 export type Breakpoints = 'LARGE' | 'MEDIUM' | 'SMALL';
 
@@ -31,6 +32,7 @@ export type NewViewPreview = {
     | EAreaChartData
     | EDonutChartData[]
     | EMapChartData[]
+    | EWaterfallChartData
     | NumberViewPresentation
     | SelectFilterPresentation;
   view: ViewProps;
@@ -72,7 +74,6 @@ export const PanelEditProvider: React.FC<PanelProviderProps> = ({
     string | null | undefined
   >(null);
   const [selectedView, setSelectedView] = React.useState<ViewType | null>(null);
-
   const getCreateViews = React.useCallback(
     () =>
       newViewsPreview.map((v) => ({

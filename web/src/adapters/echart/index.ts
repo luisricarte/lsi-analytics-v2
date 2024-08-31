@@ -20,6 +20,7 @@ import {
   WaterfallChartProps,
   MapChartProps,
 } from '@/services/models/panel/types';
+import { calcularValoresTotais, isConvertibleToFloat } from '@/utils';
 
 export class EchartAdapter {
   public static queryToData({
@@ -190,24 +191,61 @@ export class EchartAdapter {
     const finalData: EWaterfallChartData = {
       xAxis: {
         data: [],
+        type: 'category',
       },
+      series: [
+        {
+          data: [],
+          type: 'bar',
+          stack: 'Total',
+          silent: true,
+          emphasis: {
+            itemStyle: {
+              borderColor: 'transparent',
+              color: 'transparent',
+            },
+          },
+          itemStyle: {
+            borderColor: 'transparent',
+            color: 'transparent',
+          },
+        },
+        {
+          data: [],
+          type: 'bar',
+          stack: 'Total',
+          silent: true,
+          emphasis: {
+            itemStyle: {
+              borderColor: 'green',
+              color: 'green',
+            },
+          },
+          itemStyle: {
+            borderColor: 'green',
+            color: 'green',
+          },
+        },
+        {
+          data: [],
+          type: 'bar',
+          stack: 'Total',
+          silent: true,
+          emphasis: {
+            itemStyle: {
+              borderColor: 'red',
+              color: 'red',
+            },
+          },
+          itemStyle: {
+            borderColor: 'red',
+            color: 'red',
+          },
+        },
+      ],
       yAxis: {
         type: 'value',
       },
-      series: core.valueColumns.map(() => ({
-        stack: 'stack',
-        type: 'bar',
-        silent: true,
-        itemStyle: {
-          borderColor: 'transparent',
-          color: 'white',
-        },
-        label: {
-          show: true,
-          position: 'top',
-        },
-        data: [],
-      })),
     };
 
     queryResult.rows.forEach((r) => {
@@ -217,47 +255,33 @@ export class EchartAdapter {
       });
     });
 
-    if (finalData.series.length > 0) {
-      const income: number[] = [];
-      const expenses: number[] = [];
-      const stackData: number[] = [];
+    let total = 0;
+    const positive: (string | number)[] = [];
+    const negative: (string | number)[] = [];
+    const dataTotal = finalData.series[0].data;
+    dataTotal.forEach((element, i) => {
+      const { isConvertible, parsedValue } = isConvertibleToFloat(element);
 
-      finalData.series[0].data.map((value) =>
-        +value > 0
-          ? (income.push(+value), expenses.push(0))
-          : (expenses.push(Math.abs(+value)), income.push(0)),
-      );
+      if (isConvertible && parsedValue) {
+        if (parsedValue >= 0) {
+          positive.push(parsedValue);
+          negative.push('-');
+        } else {
+          positive.push('-');
+          negative.push(Math.abs(parsedValue));
+        }
+        total += parsedValue;
 
-      const incomeObj = {
-        type: 'bar',
-        stack: 'stack',
-        itemStyle: {
-          color: 'red',
-        },
-        data: income,
-      };
-      const expensesObj = {
-        type: 'bar',
-        stack: 'stack',
-        itemStyle: {
-          color: 'green',
-        },
-        data: expenses,
-      };
+        finalData.series[0].data[i] = total;
+      }
+    });
 
-      finalData.series.push(incomeObj);
-      finalData.series.push(expensesObj);
-
-      stackData.push(0);
-      let total = 0;
-      income.forEach((element, index) => {
-        const soma = element - expenses[index];
-        total += soma;
-        stackData.push(total);
-      });
-
-      finalData.series[0].data = stackData;
-    }
+    finalData.series[2].data = negative;
+    finalData.series[1].data = positive;
+    finalData.series[0].data = [
+      0,
+      ...calcularValoresTotais(positive, negative),
+    ];
     return finalData;
   }
 

@@ -285,6 +285,62 @@ export const isValidHex = (hex: string) => {
 
   return (
     (hexRegex.test(hex) && !/[^\s]/.test(hex.replace(hexRegex, ''))) ||
-    hex === ""
+    hex === ''
   );
+};
+
+export const isConvertibleToFloat = (value: string | number) => {
+  let parsed: number | null = null;
+
+  if (typeof value === 'number') {
+    if (!Number.isNaN(value)) {
+      parsed = value;
+      return { isConvertible: true, parsedValue: parsed };
+    }
+  } else if (typeof value === 'string') {
+    parsed = parseFloat(value);
+    if (!Number.isNaN(parsed) && parsed.toString() === value.trim()) {
+      return { isConvertible: true, parsedValue: parsed };
+    }
+  }
+
+  return { isConvertible: false, parsedValue: null };
+};
+
+export const calcularValoresTotais = (
+  valorespositivos: (string | number)[],
+  valoresnegativos: (string | number)[],
+): number[] => {
+  const valoresTotais = [];
+  let total = 0;
+
+  for (let i = 0; i < valorespositivos.length; i += 1) {
+    const positivo = valorespositivos[i];
+    const negativo = valoresnegativos[i];
+
+    if (typeof positivo === 'number') {
+      if (valorespositivos[i + 1] === '-') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const proximoNegativo: any =
+          typeof valoresnegativos[i + 1] === 'number'
+            ? valoresnegativos[i + 1]
+            : 0;
+
+        total += positivo - proximoNegativo;
+        valoresTotais.push(total);
+        i += 1;
+      } else {
+        total += positivo;
+      }
+    } else if (positivo === '-' && typeof negativo === 'number') {
+      total -= negativo;
+    }
+
+    valoresTotais.push(total);
+    if (positivo === '-' && typeof valorespositivos[i + 1] === 'number') {
+      valoresTotais.push(total);
+    }
+  }
+
+  return valoresTotais;
 };

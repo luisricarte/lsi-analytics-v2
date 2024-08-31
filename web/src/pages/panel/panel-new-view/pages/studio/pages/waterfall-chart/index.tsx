@@ -54,14 +54,8 @@ export const PanelViewStudioWaterfallChartPage: React.FC = () => {
             height: 'calc(100vh - 3.5rem)',
           }}
           option={{
-            xAxis: {
-              type: 'category',
-              splitLine: { show: false },
-              data: echartData.xAxis,
-            },
-            yAxis: {
-              type: 'value',
-            },
+            xAxis: echartData.xAxis,
+            yAxis: echartData.yAxis,
             series: echartData.series,
           }}
         />
