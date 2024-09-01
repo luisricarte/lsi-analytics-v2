@@ -281,7 +281,7 @@ model KPIChart {
   id            String   @id @default(nanoid())
   labelColumn   String
   valueColumns  String[]
-  formattedMeta String
+  formattedGoal String
   color         String
   view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
   viewId        String   @unique

@@ -6,4 +6,10 @@ export class CreateKPIChartDto {
 
   @IsString()
   valueColumn: string;
+
+  @IsString()
+  formattedGoal: string;
+
+  @IsString()
+  color: string;
 }
