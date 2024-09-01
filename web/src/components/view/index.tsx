@@ -31,6 +31,7 @@ import { WaterfallChartView } from './WaterfallChartView';
 interface ViewProps {
   id: string;
   data:
+    | EAreaChartData
     | EPieChartData[]
     | EBarChartData
     | EHorizontalBarChartData

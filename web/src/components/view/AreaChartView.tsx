@@ -22,7 +22,13 @@ export const AreaChartView: React.FC<AreaChartViewProps> = ({ data }) => (
       yAxis: {
         type: 'value',
       },
-      series: data.series,
+      series: [
+        {
+          data: data.series[0].data,
+          type: 'line',
+          areaStyle: {},
+        },
+      ],
     }}
   />
 );

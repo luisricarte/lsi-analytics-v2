@@ -242,6 +242,7 @@ export const getViewData = (v: { queryResult: SQLResult; view: ViewModel }) => {
     case PANEL.VIEW.BARCHART:
     case PANEL.VIEW.PIECHART:
     case PANEL.VIEW.LINECHART:
+    case PANEL.VIEW.AREACHART:
       return EchartAdapter.queryToData({
         queryResult: v.queryResult,
         type: v.view.type,
