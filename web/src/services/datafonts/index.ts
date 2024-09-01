@@ -23,6 +23,8 @@ export type FindAllDataFontsProps = Omit<
   'path'
 >;
 
+export type GetFontById = GetRequest<{ datafontId: string }>;
+
 export type DeleteDataFontProps = DeleteRequest<{ id: string }>;
 
 export type FindSchemasProps = GetRequest<{ datafontId: string }>;
@@ -97,6 +99,14 @@ class DataFontsService {
       '/datafonts/sql',
       props.body,
       props.config,
+    );
+
+    return response.data;
+  }
+
+  public async getDataFontById(props: GetFontById) {
+    const response = await api.get<CsvModel>(
+      `/datafonts/${props.path.datafontId}`,
     );
 
     return response.data;

@@ -52,7 +52,6 @@ export const PanelNewViewObject: React.FC = () => {
   const [editorTheme, setEditorTheme] = React.useState<string | undefined>(
     undefined,
   );
-
   const sqlRef = React.useRef<string | undefined>();
   const textSelectionRef = React.useRef<string | undefined>();
 
@@ -84,6 +83,22 @@ export const PanelNewViewObject: React.FC = () => {
       }),
   });
 
+  const { data: fonteData } = useQuery({
+    queryKey: [
+      `${reactQueryKeys.queries.findDataFont}-${viewCreation.datafontId}`,
+    ],
+    queryFn: () => {
+      if (viewCreation.datafontId) {
+        return dataFontsService.getDataFontById({
+          path: { datafontId: viewCreation.datafontId },
+        });
+      }
+      return null;
+    },
+  });
+
+  console.log('fontdata:', fonteData);
+
   const { data: tablesData, isLoading: tablesIsLoading } = useQuery({
     queryKey: [
       reactQueryKeys.queries.findTablesQuery,
@@ -100,14 +115,6 @@ export const PanelNewViewObject: React.FC = () => {
     },
   });
 
-  /* const { data: favoriteQueriesData } = useQuery({
-    queryKey: [
-      reactQueryKeys.queries.findAllFavoriteQueriesQuery,
-      viewCreation.datafontId,
-    ],
-    queryFn: () => favoriteQueriesService.findAll(),
-  }); */
-
   const { mutate: saveFavoriteQueryMutation } = useMutation({
     mutationFn: favoriteQueriesService.create,
     mutationKey: [
@@ -115,14 +122,6 @@ export const PanelNewViewObject: React.FC = () => {
       viewCreation.id,
     ],
   });
-
-  /* const { mutate: deleteFavoriteQueryMutation } = useMutation({
-    mutationFn: favoriteQueriesService.delete,
-    mutationKey: [
-      reactQueryKeys.mutations.deleteFavoriteQueryMutation,
-      viewCreation.id,
-    ],
-  }); */
 
   const onSubmit = (formData: FormData) => {
     if (sqlRef.current) {
@@ -155,14 +154,22 @@ export const PanelNewViewObject: React.FC = () => {
   const { data, error } = usePanelQuery({ id });
 
   const getComboData = () => {
+    if (fonteData?.provider === 'CSV') {
+      return [{ label: 'public', value: 'public' }];
+    }
     if (schemasData) {
       return schemasData.schemas.map((s) => ({ label: s, value: s }));
     }
+
     return [];
   };
 
   const renderTables = () => {
-    if (tablesData && tablesData.tables.length > 0) {
+    if (
+      tablesData &&
+      tablesData.tables.length > 0 &&
+      fonteData?.provider !== 'CSV'
+    ) {
       return (
         <div className="flex flex-col text-sm">
           {tablesData.tables.map((t, index) => (
@@ -182,6 +189,31 @@ export const PanelNewViewObject: React.FC = () => {
               <span>{t}</span>
             </button>
           ))}
+        </div>
+      );
+    }
+    if (
+      tablesData &&
+      tablesData.tables.length > 0 &&
+      fonteData?.provider === 'CSV'
+    ) {
+      return (
+        <div className="flex flex-col text-sm">
+          <button
+            className="flex items-center gap-2"
+            key={`${fonteData.id}`}
+            onClick={() =>
+              executeSql({
+                body: {
+                  sql: `SELECT * FROM "${fonteData.tableName?.toLocaleLowerCase()}" LIMIT 100`,
+                  datafontId: viewCreation.datafontId,
+                },
+              })
+            }
+          >
+            <Sheet className="text-green-500" />
+            <span>{fonteData.tableName?.toLocaleLowerCase()}</span>
+          </button>
         </div>
       );
     }
@@ -506,7 +538,15 @@ export const PanelNewViewObject: React.FC = () => {
             {/* {renderFavoriteQueries()} */}
 
             <span className="text-sm text-foreground">
-              Tabelas {tablesData ? `(${tablesData?.tables.length})` : '(0)'}
+              Tabelas
+              {
+                // eslint-disable-next-line no-nested-ternary
+                fonteData?.provider === 'CSV'
+                  ? '(1)'
+                  : tablesData
+                    ? `(${tablesData?.tables.length})`
+                    : '(0)'
+              }
             </span>
 
             {renderTables()}

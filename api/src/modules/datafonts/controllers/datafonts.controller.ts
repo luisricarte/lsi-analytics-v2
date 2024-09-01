@@ -100,6 +100,19 @@ export class DataFontsController {
     });
   }
 
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  public async getById(@Req() request: Request, @Param() param: IdDto) {
+    const userId = request.userId;
+
+    const datafont = await this.dataFontsRepository.find({
+      userId,
+      dataFontId: param.id,
+    });
+
+    return datafont?.props;
+  }
+
   @Get('/:id/schemas')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)

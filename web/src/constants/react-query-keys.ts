@@ -9,6 +9,7 @@ export const reactQueryKeys = {
     findUserByToken: 'findUserByToken',
     findAllFavoriteQueriesQuery: 'findAllFavoriteQueriesQuery',
     findAllViews: 'findAllViews',
+    findDataFont: 'findDataFont',
   },
   mutations: {
     createUserMutation: 'createUserMutation',

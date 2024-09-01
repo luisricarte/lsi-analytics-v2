@@ -37,8 +37,8 @@ export type CsvModel = BaseModel & {
   name: string;
   typeOfStorage: TypeOfStorage;
   provider: DataFontProvider;
-  tableName: string;
-  csvData: any[];
+  tableName?: string;
+  csvData?: any[];
   userId: string;
-  columnTypes: string[];
+  columnTypes?: string[];
 };
