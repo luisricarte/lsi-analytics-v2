@@ -1,4 +1,7 @@
+import { Plus, Trash2 } from 'lucide-react';
 import React, { useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { HexColorPicker } from 'react-colorful';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { EchartAdapter } from '@/adapters/echart';
@@ -24,7 +27,7 @@ import { usePanelEditContext } from '@/pages/panel/hooks/usePanelEditContext';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
 import { GraphTypeCore, MapChartProps } from '@/services/models/panel/types';
-import { addViewIdToLayout, isValidHex } from '@/utils';
+import { addViewIdToLayout } from '@/utils';
 
 import { EMapChartData } from '../contexts/PanelNewViewStudioMapChartProvider';
 import { usePanelNewViewStudioMapChartContext } from '../hooks/usePanelNewViewStudioMapChartContext';
@@ -32,7 +35,7 @@ import { usePanelNewViewStudioMapChartContext } from '../hooks/usePanelNewViewSt
 export const EditBar: React.FC = () => {
   const [category, setCategory] = React.useState<string | null>(null);
   const [value, setValue] = React.useState<string | null>(null);
-
+  const [color, setColor] = React.useState<string>();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -73,6 +76,52 @@ export const EditBar: React.FC = () => {
   React.useEffect(() => {
     getEChartsData();
   }, [category, value, getEChartsData]);
+
+  const handleAddColor = (addColor: string) => {
+    const newColor = [...colors, addColor];
+    setColors(newColor);
+  };
+
+  const handleRefreshColors = () =>
+    colors.map((elemento, i) => (
+      <div
+        style={{
+          display: 'flex',
+          border: '1px solid #bdbdbd',
+          padding: '4px',
+          borderRadius: '8px',
+          justifyContent: 'space-between',
+        }}
+        key={i}
+      >
+        <div
+          style={{
+            width: '24px',
+            height: '24px',
+            backgroundColor: `${elemento}`,
+            borderRadius: '4px',
+          }}
+        ></div>
+
+        <span style={{ fontSize: '14px' }}>
+          <span style={{ fontSize: '12px', color: '#bdbdbd' }}>hex </span>
+          {elemento}
+        </span>
+
+        <button
+          onClick={() => {
+            if (colors.length > 1) {
+              const newColors = [...colors];
+              newColors.splice(i, 1);
+              setColors(newColors);
+            }
+          }}
+          disabled={colors.length <= 1}
+        >
+          <Trash2 size={18} color="#bdbdbd" />
+        </button>
+      </div>
+    ));
 
   useEffect(() => {
     const values: number[] = [];
@@ -184,36 +233,67 @@ export const EditBar: React.FC = () => {
                   flexDirection: 'column',
                 }}
               >
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <Label>Cores do Mapa</Label>
-                  <ToolTipSymb message="Digite as cores em hexdecimal separado por vírgula e com #"></ToolTipSymb>
+                <div
+                  style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}
+                >
+                  <HexColorPicker
+                    color={color}
+                    onChange={setColor}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                    }}
+                  ></HexColorPicker>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '16px',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Label>Cores do Mapa</Label>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '8px',
+                      }}
+                    >
+                      <Input
+                        value={color}
+                        onChange={() => setColor(color)}
+                        disabled
+                      />
+                      <button
+                        style={{
+                          backgroundColor: `${color}`,
+                          padding: '4px',
+                          borderRadius: '4px',
+                        }}
+                        disabled={colors.length === 4}
+                        onClick={() => {
+                          if (color) {
+                            handleAddColor(color);
+                          }
+                        }}
+                      >
+                        <Plus size={26} color="#ffffff"></Plus>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <Input
-                  placeholder="Digite as cores do seu gráfico"
-                  onChange={(e) => {
-                    const valor = e.target.value;
-                    const splitted = valor.split(',');
-                    let allValid = true;
-                    for (let i = 0; i < splitted.length + 1; i += i + 1) {
-                      if (!isValidHex(splitted[i])) {
-                        allValid = false;
-                      }
-                      if (i === splitted.length - 1 && allValid) {
-                        setColors(splitted);
-                      }
-                    }
-                  }}
-                />
-
-                <span
+                <div
                   style={{
-                    fontWeight: '400',
-                    fontSize: '12px',
-                    color: '#bdbdbd',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
                   }}
                 >
-                  Exemplo: #e0f3f8, #abd9e9, #74add1, #4575b4, #313695
-                </span>
+                  {handleRefreshColors()}
+                </div>
               </div>
               <div
                 style={{
@@ -227,7 +307,7 @@ export const EditBar: React.FC = () => {
                   <ToolTipSymb message="Aparecerá ao colocar o mouse por cima"></ToolTipSymb>
                 </div>
                 <Input
-                  placeholder="Digite o texto"
+                  placeholder="Digite o tooltip"
                   onChange={(e) => {
                     setHoverDescription(e.target.value);
                   }}
@@ -245,7 +325,7 @@ export const EditBar: React.FC = () => {
                   <ToolTipSymb message="Adicione a legenda superior do filtro" />
                 </div>
                 <Input
-                  placeholder="Digite o texto"
+                  placeholder="Digite a legenda superior"
                   onChange={(e) => {
                     const valor = e.target.value;
                     setLabel([valor, label[1]]);
@@ -264,7 +344,7 @@ export const EditBar: React.FC = () => {
                   <ToolTipSymb message="Adicione a legenda inferior do filtro" />
                 </div>
                 <Input
-                  placeholder="Digite o texto"
+                  placeholder="Digite a legenda inferior"
                   onChange={(e) => {
                     const valor = e.target.value;
 

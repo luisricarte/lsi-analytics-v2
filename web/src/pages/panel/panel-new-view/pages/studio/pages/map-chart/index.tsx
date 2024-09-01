@@ -50,7 +50,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
             min: 0,
             max: maxValue || 1,
             inRange: {
-              color: colors || ['#313695'],
+              color: colors,
             },
             text: label || ['Alto', 'Baixo'],
             calculable: true,

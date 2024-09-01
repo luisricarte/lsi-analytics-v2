@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage } from '@hookform/error-message';
 import * as Dialog from '@radix-ui/react-dialog';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import JSZip from 'jszip';
 import { ChevronLeft, ChevronRight, Upload } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import shp from 'shpjs';
 
 import {

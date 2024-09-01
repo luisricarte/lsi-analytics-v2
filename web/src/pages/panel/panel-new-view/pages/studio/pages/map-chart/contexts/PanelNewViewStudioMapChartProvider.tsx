@@ -40,7 +40,6 @@ export const PanelNewViewStudioMapChartProvider: React.FC<
   const [colors, setColors] = React.useState<string[]>([
     '#e0f3f8',
     '#abd9e9',
-    '#74add1',
     '#4575b4',
     '#313695',
   ]);
