@@ -3,6 +3,7 @@ import { Plus, Settings, Trash2 } from 'lucide-react';
 import React from 'react';
 import { Layout as GridLayout } from 'react-grid-layout';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import {
   Breadcrumb,
@@ -95,7 +96,7 @@ export const PanelPage: React.FC<PanelCardProps> = ({
       }
     },
     onError: (e) => {
-      console.log(e);
+      toast(e.message, { type: 'error' });
     },
   });
 

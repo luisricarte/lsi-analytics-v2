@@ -97,8 +97,6 @@ export const PanelNewViewObject: React.FC = () => {
     },
   });
 
-  console.log('fontdata:', fonteData);
-
   const { data: tablesData, isLoading: tablesIsLoading } = useQuery({
     queryKey: [
       reactQueryKeys.queries.findTablesQuery,
