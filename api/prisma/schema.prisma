@@ -58,7 +58,7 @@ model DataFont {
   typeOfStorage   TypeOfStorage
   provider        DataProvider
   accessKey       String?
-  tableName String? 
+  tableName       String?
   user            User            @relation(fields: [userId], references: [id])
   userId          String
   views           View[]
@@ -278,13 +278,15 @@ model WaterfallChart {
 }
 
 model KPIChart {
-  id           String   @id @default(nanoid())
-  labelColumn  String
-  valueColumns String[]
-  view         View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
-  viewId       String   @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(nanoid())
+  labelColumn   String
+  valueColumns  String[]
+  formattedMeta String
+  color         String
+  view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId        String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("KPI_CHART")
 }

@@ -42,7 +42,6 @@ import { CreateWaterfallChartDto } from '../dtos/create-waterfall-chart.dto';
 import { CreateHorizontalBarChartDto } from '../dtos/create-horizontal-bar-chart.dto';
 import { CreateDonutChartDto } from '../dtos/create-donut-chart.dto';
 import { CreateMapChartDto } from '../dtos/create-map-chart.dto';
-// import { UploadDto } from '../dtos/upload-geojson.dto';
 
 @Controller('/panels')
 export class PanelsController {
