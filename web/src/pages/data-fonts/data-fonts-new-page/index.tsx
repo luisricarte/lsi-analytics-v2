@@ -59,12 +59,7 @@ export const DataFontsNewPage: React.FC = () => {
   const [csvData, setCsvData] = useState<any[]>();
   const [columnTypes, setColumnTypes] = useState<string[]>([]);
   const [tableName, setTableName] = useState<string | null>();
-  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
-  const handleTypeChange = (index: number, value: string) => {
-    const newColumnTypes = [...columnTypes];
-    newColumnTypes[index] = value;
-    setColumnTypes(newColumnTypes);
-  };
+  const selectedColumns = new Map<string, string>();
 
   const navigate = useNavigate();
 
@@ -86,9 +81,6 @@ export const DataFontsNewPage: React.FC = () => {
     }
   }, [selectedProvider?.provider]);
 
-  const checkFieldType = (column: string[]) =>
-    csvData && selectedColumns.length === column.length;
-
   const { mutate, isPending } = useMutation({
     mutationKey: [reactQueryKeys.mutations.createDataFontMutation],
     mutationFn: dataFontsService.createDataBaseFont,
@@ -109,25 +101,27 @@ export const DataFontsNewPage: React.FC = () => {
     },
   });
 
-  const handleCheck = (value: boolean | string, field: string) => {
-    setSelectedColumns((prevSelectedColumns) =>
-      value
-        ? [...prevSelectedColumns, field]
-        : prevSelectedColumns.filter((col) => col !== field),
-    );
-
-    return !value;
+  const handleCheck = (isChecked: boolean | string, columnName: string) => {
+    if (isChecked) {
+      selectedColumns.set(columnName, 'TEXT');
+    } else {
+      selectedColumns.delete(columnName);
+    }
   };
 
-  const handleFillCsvData = (data: any[]) => {
-    const filteredData = data?.map((obj): object => {
-      const filteredObj: Record<string, any> = {};
-      selectedColumns.forEach((key) => {
-        if (key in obj) {
-          filteredObj[key] = obj[key];
+  const handleSetColumnTypes = () => Array.from(selectedColumns.values());
+
+  const handleFillCsvData = (data: any[]): any[] => {
+    const filteredData = data.map((row) => {
+      const filteredRow: any = {};
+
+      Object.entries(row).forEach(([key, value]) => {
+        if (selectedColumns.has(key)) {
+          filteredRow[key] = value;
         }
       });
-      return filteredObj;
+
+      return filteredRow;
     });
 
     return filteredData;
@@ -146,28 +140,27 @@ export const DataFontsNewPage: React.FC = () => {
           provider: data.font.provider,
         },
       });
-    } else if (
-      tableName &&
-      csvData &&
-      columnTypes &&
-      checkFieldType(columnTypes)
-    ) {
-      if (handleFillCsvData(csvData)) {
-        mutateCsv({
-          body: {
-            name: data.name,
-            typeOfStorage: data.font.typeOfStorage,
-            provider: data.font.provider,
-            tableName,
-            csvData: handleFillCsvData(csvData),
-            columnTypes,
-          },
-        });
-      }
+    } else if (tableName && csvData && columnTypes) {
+      mutateCsv({
+        body: {
+          name: data.name,
+          typeOfStorage: data.font.typeOfStorage,
+          provider: data.font.provider,
+          tableName,
+          csvData: handleFillCsvData(csvData),
+          columnTypes: handleSetColumnTypes(),
+        },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } else {
-      toast('Não foi possível criar a fonte de dados. Verifique os campos.', {
+      toast('Não foi possível criar a fonte de dados.', {
         type: 'error',
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   };
 
@@ -180,6 +173,7 @@ export const DataFontsNewPage: React.FC = () => {
         dynamicTyping: false,
         complete: (res) => {
           setCsvData(res.data as any[]);
+          setColumnTypes([]);
 
           toast('Arquivo carregado com sucesso', { type: 'success' });
         },
@@ -350,8 +344,11 @@ export const DataFontsNewPage: React.FC = () => {
                         </span>
                         <Select
                           value={columnTypes[index]}
-                          onValueChange={(e) => handleTypeChange(index, e)}
-                          disabled={!selectedColumns.includes(columnName)}
+                          onValueChange={(e) => {
+                            if (selectedColumns?.has(columnName)) {
+                              selectedColumns?.set(columnName, e);
+                            }
+                          }}
                         >
                           <SelectTrigger style={{ width: '120px' }}>
                             <SelectValue placeholder="Selecione um mapa" />
