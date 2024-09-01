@@ -36,6 +36,9 @@ export const EditBar: React.FC = () => {
   const [category, setCategory] = React.useState<string | null>(null);
   const [value, setValue] = React.useState<string | null>(null);
   const [color, setColor] = React.useState<string>();
+  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(
+    null,
+  );
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -82,6 +85,27 @@ export const EditBar: React.FC = () => {
     setColors(newColor);
   };
 
+  const allowDrop = (ev: React.DragEvent<HTMLDivElement>) => {
+    ev.preventDefault();
+  };
+
+  const drag = (ev: React.DragEvent<HTMLDivElement>, index: number) => {
+    setDraggedItemIndex(index);
+  };
+
+  const drop = (ev: React.DragEvent<HTMLDivElement>, index: number) => {
+    ev.preventDefault();
+
+    if (draggedItemIndex === null) return;
+
+    const newColors = [...colors];
+    const [draggedItem] = newColors.splice(draggedItemIndex, 1);
+    newColors.splice(index, 0, draggedItem);
+
+    setColors(newColors);
+    setDraggedItemIndex(null);
+  };
+
   const handleRefreshColors = () =>
     colors.map((elemento, i) => (
       <div
@@ -91,8 +115,21 @@ export const EditBar: React.FC = () => {
           padding: '4px',
           borderRadius: '8px',
           justifyContent: 'space-between',
+          cursor: 'pointer',
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          transition: 'box-shadow 0.3s ease',
         }}
+        draggable
         key={i}
+        onDragStart={(e) => drag(e, i)}
+        onDrop={(e) => drop(e, i)}
+        onDragOver={(e) => allowDrop(e)}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = '0px 4px 12px rgba(0, 0, 0, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+        }}
       >
         <div
           style={{
@@ -252,7 +289,23 @@ export const EditBar: React.FC = () => {
                       justifyContent: 'center',
                     }}
                   >
-                    <Label>Cores do Mapa</Label>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <Label>Cores do Mapa</Label>
+                      <span
+                        style={{
+                          color: colors?.length >= 4 ? '#ff0000' : '#bdbdbd',
+                          fontSize: '12px',
+                        }}
+                      >
+                        (max. 4)
+                      </span>
+                    </div>
+
                     <div
                       style={{
                         display: 'flex',
