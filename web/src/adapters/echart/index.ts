@@ -322,8 +322,6 @@ export class EchartAdapter {
     queryResult: SQLResult,
     core: KPIChartProps & { [key: string]: unknown },
   ): EKPIChartData {
-    console.log('core', core);
-    console.log('queryresul', queryResult);
     const finalData: EKPIChartData = {
       xAxis: {
         data: [],
@@ -348,7 +346,6 @@ export class EchartAdapter {
       });
     });
 
-    console.log('finaldata', finalData);
     return finalData;
   }
 }

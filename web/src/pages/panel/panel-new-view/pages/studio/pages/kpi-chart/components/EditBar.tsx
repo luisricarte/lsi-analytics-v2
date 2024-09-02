@@ -99,8 +99,6 @@ export const EditBar: React.FC = () => {
 
   const getEChartsData = React.useCallback(() => {
     if (category && value && queryData) {
-      console.log('lastresult sou eu', lastResult);
-      console.log('typeof', typeof lastResult);
       const graphData = EchartAdapter.queryToData({
         queryResult: queryData,
         core: {
