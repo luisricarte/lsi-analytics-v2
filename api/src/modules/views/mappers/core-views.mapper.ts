@@ -193,6 +193,19 @@ export class CoreViewsMapper {
           createdAt: waterfallCore.createdAt,
           updatedAt: waterfallCore.updatedAt,
         };
+      case 'KPICHART':
+        const kpiCore = view.props.core as KPIChart;
+        return {
+          id: kpiCore.id,
+          labelColumn: kpiCore.props.labelColumn,
+          valueColumns: kpiCore.props.valueColumns,
+          viewId: kpiCore.props.viewId,
+          color: kpiCore.props.color,
+          formattedGoal: kpiCore.props.formattedGoal,
+          lastResult: kpiCore.props.lastResult,
+          createdAt: kpiCore.createdAt,
+          updatedAt: kpiCore.updatedAt,
+        };
       default:
         throw new ItWasNotPossibleToCreateViewInstanceError();
     }
@@ -332,6 +345,9 @@ export class CoreViewsMapper {
           labelColumn: kpiCore.labelColumn,
           valueColumns: kpiCore.valueColumns,
           viewId: kpiCore.viewId,
+          color: kpiCore.color,
+          formattedGoal: kpiCore.formattedGoal,
+          lastResult: kpiCore.lastResult,
           createdAt: kpiCore.createdAt,
           updatedAt: kpiCore.updatedAt,
         });

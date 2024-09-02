@@ -282,6 +282,7 @@ model KPIChart {
   labelColumn   String
   valueColumns  String[]
   formattedGoal String
+  lastResult    Float
   color         String
   view          View     @relation(fields: [viewId], references: [id], onDelete: Cascade)
   viewId        String   @unique

@@ -7,6 +7,7 @@ import { EAreaChartData } from '../panel-new-view/pages/studio/pages/area-chart/
 import { EBarChartData } from '../panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '../panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '../panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
+import { EKPIChartData } from '../panel-new-view/pages/studio/pages/kpi-chart/contexts/PanelNewViewStudioKPIChartProvider';
 import { ELineChartData } from '../panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { EMapChartData } from '../panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
 import { NumberViewPresentation } from '../panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
@@ -34,6 +35,7 @@ export type NewViewPreview = {
     | EMapChartData[]
     | EWaterfallChartData
     | NumberViewPresentation
+    | EKPIChartData
     | SelectFilterPresentation;
   view: ViewProps;
 };

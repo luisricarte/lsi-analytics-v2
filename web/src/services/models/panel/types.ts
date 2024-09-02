@@ -77,6 +77,9 @@ export type KPIChart = {
   id: string;
   labelColumn: string;
   valueColumns: string[];
+  color: string;
+  formattedGoal: string;
+  lastResult: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -187,6 +190,9 @@ export type WaterfallChartProps = {
 export type KPIChartProps = {
   labelColumn: string;
   valueColumns: string[];
+  color: string;
+  formattedGoal: string;
+  lastResult: number;
 };
 
 export type BarChartProps = {
@@ -212,6 +218,7 @@ export type GraphTypeCore =
   | BarChart
   | LineChart
   | AreaChart
+  | KPIChart
   | WaterfallChart
   | DonutChart
   | MapChart

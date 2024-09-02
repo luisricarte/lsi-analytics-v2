@@ -7,6 +7,7 @@ import { EAreaChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
+import { EKPIChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/kpi-chart/contexts/PanelNewViewStudioKPIChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
 import { NumberViewPresentation } from '@/pages/panel/panel-new-view/pages/studio/pages/number-view/contexts/PanelNewViewStudioNumberViewProvider';
@@ -21,6 +22,7 @@ import { AreaChartView } from './AreaChartView';
 import { BarChartView } from './BarChartView';
 import { DonutChartView } from './DonutChartView';
 import { HorizontalBarChartView } from './HorizontalBarChartView';
+import { KPIChartView } from './KPIChartView';
 import { LineChartView } from './LineChartView';
 import { MapChartView } from './MapChartView';
 import { NumberView } from './NumberView';
@@ -36,6 +38,7 @@ interface ViewProps {
     | EBarChartData
     | EHorizontalBarChartData
     | ELineChartData
+    | EKPIChartData
     | EMapChartData[]
     | EDonutChartData[]
     | EWaterfallChartData
@@ -99,7 +102,11 @@ export const View: React.FC<ViewProps> = ({
       ViewComponent = <DonutChartView data={_data} />;
       break;
     }
-
+    case PANEL.VIEW.KPICHART: {
+      const _data = data as EKPIChartData;
+      ViewComponent = <KPIChartView data={_data} />;
+      break;
+    }
     case PANEL.VIEW.HORIZONTALBARCHART: {
       const _data = data as EHorizontalBarChartData;
       ViewComponent = <HorizontalBarChartView data={_data} />;

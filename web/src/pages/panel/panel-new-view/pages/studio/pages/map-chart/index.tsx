@@ -76,7 +76,7 @@ export const PanelViewStudioMapChartPage: React.FC = () => {
 
         setOption(optionSeries);
       } catch (e) {
-        console.error('Failed to load map data', e);
+        console.error('Erro ao carregar o mapa', e);
       }
     };
 

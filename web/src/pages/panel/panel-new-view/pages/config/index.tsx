@@ -242,8 +242,9 @@ export const PanelNewViewConfig: React.FC = () => {
                         Gráfico de cascata
                       </SelectItem>
                       <SelectItem value={PANEL.VIEW.MAPCHART}>
-                        Gráfico de mapa
+                        Mapa coroplético
                       </SelectItem>
+                      <SelectItem value={PANEL.VIEW.KPICHART}>KPI</SelectItem>
                       <SelectItem value={PANEL.VIEW.NUMBERVIEW}>
                         Visualização de número
                       </SelectItem>

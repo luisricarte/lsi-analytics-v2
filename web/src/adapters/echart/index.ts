@@ -2,6 +2,7 @@ import { EAreaChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/
 import { EBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/bar-chart/contexts/PanelNewViewStudioBarChartProvider';
 import { EDonutChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/donut-chart/contexts/PanelNewViewStudioDonutChartProvider';
 import { EHorizontalBarChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/horizontal-bar-chart/contexts/PanelNewViewStudioHorizontalBarChartProvider';
+import { EKPIChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/kpi-chart/contexts/PanelNewViewStudioKPIChartProvider';
 import { ELineChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/line-chart/contexts/PanelNewViewStudioLineChartProvider';
 import { EMapChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/map-chart/contexts/PanelNewViewStudioMapChartProvider';
 import { EPieChartData } from '@/pages/panel/panel-new-view/pages/studio/pages/pie-chart/contexts/PanelNewViewStudioPieChartProvider';
@@ -19,6 +20,7 @@ import {
   AreaChartProps,
   WaterfallChartProps,
   MapChartProps,
+  KPIChartProps,
 } from '@/services/models/panel/types';
 import { calcularValoresTotais, isConvertibleToFloat } from '@/utils';
 
@@ -70,6 +72,10 @@ export class EchartAdapter {
       case PANEL.VIEW.AREACHART: {
         const _core = core as AreaChartProps & { [key: string]: unknown };
         return this.areaChartQueryToData(queryResult, _core);
+      }
+      case PANEL.VIEW.KPICHART: {
+        const _core = core as KPIChartProps & { [key: string]: unknown };
+        return this.kpiChartQueryToData(queryResult, _core);
       }
       default:
         return null;
@@ -310,5 +316,39 @@ export class EchartAdapter {
     mappedData.push(mapData);
 
     return mappedData;
+  }
+
+  private static kpiChartQueryToData(
+    queryResult: SQLResult,
+    core: KPIChartProps & { [key: string]: unknown },
+  ): EKPIChartData {
+    console.log('core', core);
+    console.log('queryresul', queryResult);
+    const finalData: EKPIChartData = {
+      xAxis: {
+        data: [],
+      },
+
+      formattedGoal: core.formattedGoal,
+      lastResult: core.lastResult,
+      series: core.valueColumns.map(() => ({
+        data: [],
+        type: 'line',
+        areaStyle: {
+          color: core.color,
+        },
+        color: core.color,
+      })),
+    };
+
+    queryResult.rows.forEach((r) => {
+      finalData.xAxis.data.push(r[core.labelColumn]);
+      core.valueColumns.forEach((v, index) => {
+        finalData.series[index].data.push(r[v]);
+      });
+    });
+
+    console.log('finaldata', finalData);
+    return finalData;
   }
 }

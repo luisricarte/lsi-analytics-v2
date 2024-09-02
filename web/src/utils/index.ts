@@ -345,3 +345,14 @@ export const calcularValoresTotais = (
 
   return valoresTotais;
 };
+
+export const formatMoney = (value: number): string => {
+  const formattedMoney = value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return formattedMoney;
+};
