@@ -74,13 +74,23 @@ export const MapChartView: React.FC<MapChartViewProps> = ({ data, id }) => {
       {isLoading ? (
         <div>carregando...</div>
       ) : (
-        <EChart
+        <div
           style={{
-            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             height: '100%',
+            width: '100%',
           }}
-          option={option}
-        />
+        >
+          <EChart
+            style={{
+              width: '120%',
+              height: '100%',
+            }}
+            option={option}
+          />
+        </div>
       )}
     </>
   );

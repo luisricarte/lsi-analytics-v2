@@ -23,7 +23,6 @@ export const DonutChartView: React.FC<DonutChartViewProps> = ({ data }) => (
       },
       series: [
         {
-          name: 'Access From',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
@@ -32,8 +31,8 @@ export const DonutChartView: React.FC<DonutChartViewProps> = ({ data }) => (
             label: {
               show: true,
               fontSize: 16,
-              fontWeight: 'bold'
-            }
+              fontWeight: 'bold',
+            },
           },
         },
       ],

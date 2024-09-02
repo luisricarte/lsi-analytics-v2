@@ -63,7 +63,6 @@ export const PanelViewStudioDonutChartPage: React.FC = () => {
             },
             series: [
               {
-                name: 'Access From',
                 type: 'pie',
                 radius: ['40%', '70%'],
                 avoidLabelOverlap: false,
@@ -72,8 +71,8 @@ export const PanelViewStudioDonutChartPage: React.FC = () => {
                   label: {
                     show: true,
                     fontSize: 40,
-                    fontWeight: 'bold'
-                  }
+                    fontWeight: 'bold',
+                  },
                 },
               },
             ],

@@ -288,6 +288,7 @@ export class EchartAdapter {
       0,
       ...calcularValoresTotais(positive, negative),
     ];
+
     return finalData;
   }
 

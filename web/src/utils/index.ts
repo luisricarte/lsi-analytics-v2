@@ -292,7 +292,6 @@ export const isValidHex = (hex: string) => {
 
 export const isConvertibleToFloat = (value: string | number) => {
   let parsed: number | null = null;
-
   if (typeof value === 'number') {
     if (!Number.isNaN(value)) {
       parsed = value;
@@ -300,7 +299,7 @@ export const isConvertibleToFloat = (value: string | number) => {
     }
   } else if (typeof value === 'string') {
     parsed = parseFloat(value);
-    if (!Number.isNaN(parsed) && parsed.toString() === value.trim()) {
+    if (!Number.isNaN(parsed)) {
       return { isConvertible: true, parsedValue: parsed };
     }
   }
