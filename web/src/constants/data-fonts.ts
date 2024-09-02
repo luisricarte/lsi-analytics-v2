@@ -16,8 +16,8 @@ export const AVAILABLE_DATA_FONTS: {
     typeOfStorage: 'DATABASE',
   },
   {
-    label: 'CSV',
-    imageURL: '/icons/csv.png',
+    label: 'CSV | XLSX',
+    imageURL: '/icons/sheets.png',
     provider: 'CSV',
     typeOfStorage: 'FILE',
   },
@@ -30,10 +30,10 @@ export const TYPE_STORAGE_MAPPER_DB_LABEL = {
 
 export const PROVIDER_MAPPER_DB_IMAGEURL = {
   POSTGRESQL: '/icons/psql.png',
-  CSV: '/icons/csv.png',
+  CSV: '/icons/sheets.png',
 };
 
 export const PROVIDER_MAPPER_DB_LABEL = {
   POSTGRESQL: 'PostgreSQL',
-  CSV: 'CSV',
+  CSV: 'CSV | XLSX',
 };
