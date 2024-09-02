@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorMessage } from '@hookform/error-message';
 import { useMutation } from '@tanstack/react-query';
@@ -6,6 +7,7 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import * as XLSX from 'xlsx';
 
 import {
   Breadcrumb,
@@ -62,7 +64,7 @@ export const DataFontsNewPage: React.FC = () => {
   const selectedColumns = new Map<string, string>();
 
   const navigate = useNavigate();
-
+  console.log('column types', columnTypes);
   const {
     handleSubmit,
     register,
@@ -104,6 +106,7 @@ export const DataFontsNewPage: React.FC = () => {
   const handleCheck = (isChecked: boolean | string, columnName: string) => {
     if (isChecked) {
       selectedColumns.set(columnName, 'TEXT');
+      console.log(selectedColumns);
     } else {
       selectedColumns.delete(columnName);
     }
@@ -141,6 +144,8 @@ export const DataFontsNewPage: React.FC = () => {
         },
       });
     } else if (tableName && csvData && columnTypes) {
+      console.log('csvdata handle fill', handleFillCsvData(csvData));
+      console.log('set column types', handleSetColumnTypes());
       mutateCsv({
         body: {
           name: data.name,
@@ -151,36 +156,69 @@ export const DataFontsNewPage: React.FC = () => {
           columnTypes: handleSetColumnTypes(),
         },
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
     } else {
       toast('Não foi possível criar a fonte de dados.', {
         type: 'error',
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
     }
   };
 
   const handleUploadCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileCSV = e?.target?.files?.[0];
+    const file = e?.target?.files?.[0];
     setColumnTypes([]);
-    if (fileCSV) {
-      Papa.parse(fileCSV, {
-        header: true,
-        dynamicTyping: false,
-        complete: (res) => {
-          setCsvData(res.data as any[]);
-          setColumnTypes([]);
+    if (file) {
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      if (fileExtension === 'csv') {
+        Papa.parse(file, {
+          header: true,
+          dynamicTyping: false,
+          complete: (res) => {
+            setCsvData(res.data as any[]);
+            setColumnTypes([]);
 
-          toast('Arquivo carregado com sucesso', { type: 'success' });
-        },
-        error: () => {
-          toast('Erro ao carregar o CSV');
-        },
-      });
+            toast('Arquivo carregado com sucesso', { type: 'success' });
+          },
+          error: () => {
+            toast('Erro ao carregar o CSV');
+          },
+        });
+      } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const data = event.target?.result;
+          const workbook = XLSX.read(data, { type: 'binary' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json<any[]>(sheet, {
+            header: 1,
+          });
+
+          const headers = jsonData[0] as string[];
+          const rows = jsonData.slice(1).map((row) =>
+            headers.reduce(
+              (acc, header, i) => {
+                acc[header] = row[i] !== undefined ? row[i] : null;
+                return acc;
+              },
+              {} as Record<string, any>,
+            ),
+          );
+
+          setCsvData(rows);
+          toast('XLSX carregado com sucesso', { type: 'success' });
+        };
+        reader.readAsBinaryString(file);
+      } else {
+        toast('Formato de arquivo não suportado. Use CSV ou XLSX.', {
+          type: 'error',
+        });
+      }
     }
   };
 
@@ -297,7 +335,7 @@ export const DataFontsNewPage: React.FC = () => {
                     <Label>Adicione o arquivo</Label>
                     <Input
                       type="file"
-                      accept=".csv"
+                      // accept=".csv,.xslx,.xsl"
                       required
                       onChange={handleUploadCSV}
                     />
@@ -338,6 +376,7 @@ export const DataFontsNewPage: React.FC = () => {
                           onCheckedChange={(e) => {
                             handleCheck(e, columnName);
                           }}
+                          // disabled={selectedColumns.}
                         ></Checkbox>
                         <span style={{ width: '160px' }}>
                           {columnName.toUpperCase()}
