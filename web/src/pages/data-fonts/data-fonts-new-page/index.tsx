@@ -287,7 +287,12 @@ export const DataFontsNewPage: React.FC = () => {
                           <div className="rounded-full bg-zinc-50 p-4">
                             <img src={d.imageURL} className="w-16" />
                           </div>
-                          <span className="text-sm font-semibold">
+                          <span
+                            className={cn(
+                              'text-sm font-semibold ',
+                              isSelected && 'text-white',
+                            )}
+                          >
                             {d.label}
                           </span>
                           {isSelected && (

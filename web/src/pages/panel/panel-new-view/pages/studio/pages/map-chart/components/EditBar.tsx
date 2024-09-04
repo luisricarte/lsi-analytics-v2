@@ -214,21 +214,24 @@ export const EditBar: React.FC = () => {
 
   if (queryData) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col ">
         <div className="flex items-center justify-center">
           <span className="p-4 text-lg font-semibold ">
             Estúdio da visualização
           </span>
         </div>
 
-        <SimpleTabs defaultValue="config" className="flex h-full flex-col">
+        <SimpleTabs
+          defaultValue="config"
+          className="flex h-full flex-col overflow-y-scroll"
+        >
           <SimpleTabsList>
             <SimpleTabsTrigger value="config">Configurações</SimpleTabsTrigger>
           </SimpleTabsList>
           <SimpleTabsContent value="config" asChild>
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex flex-col gap-4  p-4">
               <div>
-                <Label>Selecione o campo dos estados</Label>
+                <Label>Selecione o campo dos territórios</Label>
                 <Select onValueChange={setCategory}>
                   <SelectTrigger>
                     <SelectValue placeholder="Categoria" />
@@ -289,22 +292,7 @@ export const EditBar: React.FC = () => {
                       justifyContent: 'center',
                     }}
                   >
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <Label>Cores do Mapa</Label>
-                      <span
-                        style={{
-                          color: colors?.length >= 4 ? '#ff0000' : '#bdbdbd',
-                          fontSize: '12px',
-                        }}
-                      >
-                        (max. 4)
-                      </span>
-                    </div>
+                    <Label>Cores do Mapa</Label>
 
                     <div
                       style={{
@@ -317,8 +305,7 @@ export const EditBar: React.FC = () => {
                     >
                       <Input
                         value={color}
-                        onChange={() => setColor(color)}
-                        disabled
+                        onChange={(e) => setColor(e.target.value)}
                       />
                       <button
                         style={{
@@ -326,7 +313,6 @@ export const EditBar: React.FC = () => {
                           padding: '4px',
                           borderRadius: '4px',
                         }}
-                        disabled={colors.length === 4}
                         onClick={() => {
                           if (color) {
                             handleAddColor(color);

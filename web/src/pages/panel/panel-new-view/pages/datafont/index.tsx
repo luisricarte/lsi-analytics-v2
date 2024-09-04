@@ -138,7 +138,9 @@ export const PanelNewViewDataFont: React.FC = () => {
                       <span className="font-semibold">{d.name}</span>
                       <Typography level="muted">
                         {TYPE_STORAGE_MAPPER_DB_LABEL[d.typeOfStorage]},{' '}
-                        {PROVIDER_MAPPER_DB_LABEL[d.provider]}
+                        <span style={{ color: '#000000' }}>
+                          {PROVIDER_MAPPER_DB_LABEL[d.provider]}
+                        </span>
                       </Typography>
                     </div>
                   </div>
