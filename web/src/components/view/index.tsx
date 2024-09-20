@@ -62,8 +62,6 @@ export const View: React.FC<ViewProps> = ({
 }) => {
   const reloadInterface = () => {
     window.location.reload();
-
-    // TODO recarregar posições dos gráficos
   };
 
   const { mutate } = useDeleteViewMutation({

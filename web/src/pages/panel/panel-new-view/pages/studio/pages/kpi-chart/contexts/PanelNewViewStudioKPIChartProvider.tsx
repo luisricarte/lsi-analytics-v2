@@ -14,7 +14,6 @@ export type EKPIChartData = {
     };
     color: string;
   }[];
-  // isMoney: boolean;
   lastResult: number;
 };
 
@@ -25,8 +24,6 @@ type PanelNewViewStudioKPIChartContextType = {
   setColor: React.Dispatch<React.SetStateAction<string>>;
   formattedGoal: string;
   setFormattedGoal: React.Dispatch<React.SetStateAction<string>>;
-  // isMoney: boolean;
-  // setIsMoney: React.Dispatch<React.SetStateAction<boolean>>;
   lastResult: number;
   setLastResult: React.Dispatch<React.SetStateAction<number>>;
 };

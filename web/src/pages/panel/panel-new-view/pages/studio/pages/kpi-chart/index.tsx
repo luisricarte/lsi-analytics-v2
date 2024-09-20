@@ -13,9 +13,6 @@ import { APP_ROUTES } from '@/constants/app-routes';
 import { EChart } from '@/lib/echarts-for-react';
 import { usePanelNewViewContext } from '@/pages/panel/panel-new-view/hooks/usePanelNewViewContext';
 import { usePanelQuery } from '@/pages/panel/panel-new-view/hooks/usePanelQuery';
-// import { formatMoney } from '@/utils';
-
-// import { formatMoney } from '@/utils';
 
 import { EditBar } from './components/EditBar';
 import { usePanelNewViewStudioKPIChartContext } from './hooks/usePanelNewViewStudioKPIChartContext';
@@ -49,14 +46,6 @@ export const PanelViewStudioKPIChartPage: React.FC = () => {
     }
     return null;
   };
-
-  // React.useEffect(() => {
-  //   if (isMoney) {
-  //     if (typeof lastValue !== 'string') {
-  //       setLastValue(formatMoney(parseFloat(lastValue.toString())));
-  //     }
-  //   }
-  // }, [isMoney, lastValue, setLastValue]);
 
   React.useEffect(() => {
     if (lastResult && color && echartData) {

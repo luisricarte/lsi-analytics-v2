@@ -61,10 +61,11 @@ export const DataFontsNewPage: React.FC = () => {
   const [csvData, setCsvData] = useState<any[]>();
   const [columnTypes, setColumnTypes] = useState<string[]>([]);
   const [tableName, setTableName] = useState<string | null>();
+
   const selectedColumns = new Map<string, string>();
 
   const navigate = useNavigate();
-  console.log('column types', columnTypes);
+
   const {
     handleSubmit,
     register,
@@ -156,16 +157,10 @@ export const DataFontsNewPage: React.FC = () => {
           columnTypes: handleSetColumnTypes(),
         },
       });
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 2000);
     } else {
       toast('Não foi possível criar a fonte de dados.', {
         type: 'error',
       });
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 2000);
     }
   };
 
@@ -338,12 +333,7 @@ export const DataFontsNewPage: React.FC = () => {
                 >
                   <div>
                     <Label>Adicione o arquivo</Label>
-                    <Input
-                      type="file"
-                      // accept=".csv,.xslx,.xsl"
-                      required
-                      onChange={handleUploadCSV}
-                    />
+                    <Input type="file" required onChange={handleUploadCSV} />
                   </div>
                   <div>
                     <Label>Adicione o nome da tabela</Label>
@@ -381,7 +371,6 @@ export const DataFontsNewPage: React.FC = () => {
                           onCheckedChange={(e) => {
                             handleCheck(e, columnName);
                           }}
-                          // disabled={selectedColumns.}
                         ></Checkbox>
                         <span style={{ width: '160px' }}>
                           {columnName.toUpperCase()}
@@ -392,6 +381,7 @@ export const DataFontsNewPage: React.FC = () => {
                             if (selectedColumns?.has(columnName)) {
                               selectedColumns?.set(columnName, e);
                             }
+                            console.log('interno', selectedColumns);
                           }}
                         >
                           <SelectTrigger style={{ width: '120px' }}>

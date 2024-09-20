@@ -531,10 +531,6 @@ export const PanelNewViewObject: React.FC = () => {
                 value={schemaName}
               />
             </div>
-
-            {/* Funcionalidade despriorizada */}
-            {/* {renderFavoriteQueries()} */}
-
             <span className="text-sm text-foreground">
               Tabelas
               {
